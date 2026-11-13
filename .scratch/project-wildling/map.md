@@ -21,6 +21,8 @@ A complete game-design + technical spec for **Project Wildling**, an original 2D
 
 <!-- one line per resolved ticket: [title](issues/NN-slug.md): gist -->
 
+- [What do Google Play and the Apple App Store require for a free hobby game?](issues/04-store-requirements.md): Play $25 + 12-tester/14-day closed test; Apple $99/yr + Mac/Xcode; API 36, AAB, 16 KB pages; privacy policy required; no bundled analytics; watch Families-policy risk from cute art.
+
 ## Not yet specified
 
 - **Story & world:** setting, tone, protagonist, rival(s), antagonist faction, how the story paces against progression. Hangs on the core loop & pillars.
@@ -30,7 +32,7 @@ A complete game-design + technical spec for **Project Wildling**, an original 2D
 - **World structure & maps:** towns, routes, dungeons, tile-map authoring workflow, encounter zones. Hangs on art direction and engine.
 - **Audio & music:** sourcing ($0 budget), style, SFX list.
 - **Save, settings & accessibility:** beyond the architecture skeleton: text speed, battle animations toggle, colour-blind support, localisation.
-- **Quality & release:** testing strategy for agent-built code, build pipeline for Android + iOS, store listings, beta distribution.
+- **Quality & release:** testing strategy for agent-built code, build pipeline for Android + iOS (Mac/Xcode, AAB, 16 KB pages), store listings (avoid child-directed look unless targeting Families), privacy-policy hosting, recruiting ≥12 Play closed testers early, trader-status declaration.
 
 ## Out of scope
 
