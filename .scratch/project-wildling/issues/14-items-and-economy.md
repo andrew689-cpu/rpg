@@ -19,3 +19,5 @@ Already fixed:
 - Ticket 08: Lures are the capture tool, with tiers plus Habitat-specific types; a failed Lure is used up.
 
 Must respect "Respect the Player's Time" (no grinding needed for money) and the out-of-scope ruling: no monetisation. Items are data.
+
+Added from ticket 12 (How does Restoration change an Area?): each Restoration stage may add **shop stock** in its Area, so shop growth can be keyed to stages as well as Bosses. Restoration itself never rewards money or items.

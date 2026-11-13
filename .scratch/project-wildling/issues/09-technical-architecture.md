@@ -14,3 +14,9 @@ Added from tickets 10 and 11:
 - Render is 180 pixels wide internally, with integer scaling and the height extended to fill the screen.
 - Battle animations are code effects on still sprites, with an off setting.
 - Art is swapped through data: tiles, 16×16 map sprites, and 64×64 front and back battle sprites, all within a locked 53-colour palette.
+
+Added from ticket 12 (How does Restoration change an Area?):
+- Area data holds `native_species[]` and `stages[]`. Each stage has a trigger (`story_flag` or `mendings_required: K`), `mendings[]`, a spawn table, a tile layer and focal point, and Habitat-patch, NPC, path, shop, weather and music changes, plus an optional payoff Creature.
+- Mending kinds are a closed list in code (`register_natives`, `defeat_trainers`, `defeat_challenge`, `find_site`); new Areas need no code.
+- The save stores raw facts (registrations per Area, trainers beaten, sites found, story flags), the highest stage reached per Area, and a pending-presentation queue. On load the stage is the higher of stored and computed, so a content patch never moves it backwards.
+- A content linter must check that every Mending for stage N is completable at stage N−1, and that only stage 1 opens critical-path routes.

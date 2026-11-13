@@ -22,6 +22,30 @@ _Avoid_: corruption, purification, cleanse
 One step of an Area's Restoration; the first comes from the story or a boss, later ones from optional local actions.
 _Avoid_: tier, phase, level
 
+**Blighted**:
+The state an Area starts in before its first Restoration stage: muted, quiet and broken but hopeful.
+_Avoid_: corrupted, dead, ruined
+
+**Mending**:
+One optional local action that counts toward an Area's next Restoration stage, such as registering a native species, beating the local trainers or challenge, or finding a hidden site. Placeholder name.
+_Avoid_: deed, quest, task, objective
+
+**Native species**:
+One of the few species an Area lists as belonging there, which counts as registered for that Area when caught inside it.
+_Avoid_: local species, regional species
+
+**Area challenge**:
+An Area's one optional, stronger set encounter, visible from the start and never on the critical path.
+_Avoid_: mini-boss, trial, side boss
+
+**Hidden site**:
+An interactable spot in an Area, found by exploring, whose discovery is a Mending.
+_Avoid_: secret, collectible, landmark
+
+**Focal point**:
+The place in an Area (a spring, a shrine) from which Restoration visibly spreads outward.
+_Avoid_: center, origin, heart
+
 **Habitat**:
 The kind of terrain, time of day and weather a Creature belongs to, which decides where and when it can be found.
 _Avoid_: biome, spawn zone
