@@ -40,6 +40,28 @@ _Avoid_: friendship, affection, happiness, loyalty
 A Creature's visible passive ability, set by the Habitat, Time of day and weather where it was caught; it is never rolled at random.
 _Avoid_: ability, nature, personality, IV
 
+### Collecting
+
+**Lure**:
+The item a player offers a wild Creature, which it may accept and choose to join them. Placeholder name until naming is decided.
+_Avoid_: ball, capture device, trap
+
+**Party**:
+The up-to-6 Creatures travelling with the player and available in battle.
+_Avoid_: squad, roster
+
+**Sanctuary**:
+The place where every Creature not in the Party lives, reachable from any Rest point. Placeholder name.
+_Avoid_: PC, box, storage, bank
+
+**Collection log**:
+The per-species record of what the player has seen, caught and discovered (where it lives, its Traits, its evolution branches). Placeholder name.
+_Avoid_: dex, Pokédex, bestiary
+
+**Starter**:
+The first Creature the player picks, from three offered at the start of the game.
+_Avoid_: partner, first pick
+
 ### Progression
 
 **Boss**:
@@ -79,3 +101,11 @@ _Avoid_: physical move
 **Focus move**:
 A move whose damage pits the user's Focus against the target's Will.
 _Avoid_: special move, magic move
+
+**Rarity tier**:
+How often a species spawns in a given place: Common, Uncommon, Rare or Very rare.
+_Avoid_: spawn rate, encounter rate
+
+**Habitat patch**:
+A marked stretch of ground inside an Area (tall grass, shallows, a cave floor) where wild Creatures of matching Habitats wander.
+_Avoid_: grass, encounter zone, spawn point

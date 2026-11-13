@@ -15,3 +15,5 @@ Specify Restoration (see `GLOSSARY.md` and the answer to ticket 05, "What is the
 - How Restoration is expressed as data, so new Areas and regions need no code.
 
 Must be forward-only and must never block the critical path.
+
+Added from ticket 08 (How do catching, the party, and storage work?): each **Restoration stage has its own spawn table** (species, Rarity tier, level range, conditions), and wild Creatures are visible on the map, so restoring an Area visibly changes who wanders it. **Released Creatures never count toward Restoration.** The Collection log records Caught per species, so define exactly what "registering an Area's native species" means (caught anywhere, or caught in that Area?).
