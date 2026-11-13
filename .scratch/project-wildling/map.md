@@ -15,7 +15,7 @@ A complete game-design + technical spec for **Project Wildling**, an original 2D
 - **Art budget:** $0 for now (CC0 packs, self-drawn, generated placeholders). Art must be swappable without code changes. Revisit budget later.
 - **Vocabulary:** see `GLOSSARY.md` at the repo root. "Creature" and "Project Wildling" are placeholders until naming is decided.
 - **Skills every session should consult:** `grilling` + `domain-modeling` for grilling tickets; `prototype` for prototype tickets; `research` for research tickets; `codebase-design` for architecture tickets.
-- **Tracker:** local markdown (see `docs/agents/issue-tracker.md`). Tickets live in `issues/`; research findings live on local `research/<name>` branches (no remote yet).
+- **Tracker:** local markdown (see `docs/agents/issue-tracker.md`). Tickets live in `issues/`; research findings live on `research/<name>` branches, pushed to `origin` (github.com/andrew689-cpu/rpg) and never merged.
 
 ## Decisions so far
 
