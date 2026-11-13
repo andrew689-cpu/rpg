@@ -1,0 +1,771 @@
+<title>Wildling Pixel Bench</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<!--
+  PROTOTYPE — throwaway. Ticket 10 (art direction) for Project Wildling.
+  Question: tile size, sprite sizes, render resolution + scaling, palette and font, judged on mock overworld + battle screens.
+  Edit src.html, then run `node prototypes/art-direction/build.mjs` to regenerate the self-contained index.html.
+  Open index.html in any browser (Google Fonts need a network connection; everything else is inlined).
+  All art is CC0 (see LICENCES.md). Not production code.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@400;500&family=Pixelify+Sans:wght@400;600&family=Silkscreen&family=Tiny5&display=swap">
+<style>
+@font-face { font-family: "PublicPixel"; src: url(__ASSET_PublicPixel.woff2__) format("woff2"); font-display: block; }
+
+/* Layout: a workbench. Two phone screens up top, Restoration bar between, option groups below, decisions at the end. */
+:root {
+  --bg: #e6e9e1;
+  --surface: #f6f7f2;
+  --ink: #1d221e;
+  --muted: #59625a;
+  --line: #c9cfc3;
+  --accent: #2f7044;
+  --accent-ink: #ffffff;
+  --blight: #74557f;
+  --warn: #9a5a12;
+  --bezel: #1b1d1f;
+  --font-display: "Pixelify Sans", "Atkinson Hyperlegible", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141716; --surface: #1d2120; --ink: #e5e9e2; --muted: #9ba49c; --line: #343b37;
+    --accent: #7cc48e; --accent-ink: #0f1a13; --blight: #bc98c9; --warn: #e3a35a; --bezel: #000000;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141716; --surface: #1d2120; --ink: #e5e9e2; --muted: #9ba49c; --line: #343b37;
+  --accent: #7cc48e; --accent-ink: #0f1a13; --blight: #bc98c9; --warn: #e3a35a; --bezel: #000000;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 110px;
+}
+.wrap { max-width: 1240px; margin: 0 auto; display: grid; gap: 28px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-wrap: balance; margin: 0; line-height: 1.15; }
+h1 { font-size: clamp(26px, 4vw, 38px); }
+h2 { font-size: 22px; }
+h3 { font-size: 15px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-family: var(--font-body); font-weight: 700; }
+p { margin: 0; max-width: 68ch; }
+.eyebrow { font-family: var(--font-data); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.tag { display: inline-block; font-family: var(--font-data); font-size: 11px; padding: 2px 7px; border: 1px solid var(--line); border-radius: 3px; color: var(--muted); }
+header { display: grid; gap: 10px; }
+header p { color: var(--muted); }
+
+/* Restoration bar */
+.restore { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; padding: 14px 16px; border: 1px solid var(--line); background: var(--surface); border-radius: 6px; }
+.restore .label { display: grid; gap: 2px; min-width: 0; flex: 1 1 220px; }
+.restore .label strong { font-family: var(--font-display); font-size: 18px; }
+.restore .label span { color: var(--muted); font-size: 13px; }
+
+/* Screens */
+.bench { display: grid; grid-template-columns: 1fr; gap: 24px; }
+@media (min-width: 1180px) { .bench.land { grid-template-columns: 1fr 1fr; } }
+.bench.port { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+figure { margin: 0; display: grid; gap: 10px; min-width: 0; align-content: start; }
+figcaption { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.frame { position: relative; background: var(--bezel); border-radius: 22px; padding: 10px; max-width: 100%; justify-self: start; box-shadow: 0 1px 0 var(--line); }
+.frame canvas { display: block; border-radius: 12px; background: #000; max-width: 100%; }
+.island { position: absolute; background: #000; border-radius: 99px; pointer-events: none; outline: 1px solid #222; }
+.readout { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px 14px; margin: 0; font-family: var(--font-data); font-size: 12px; font-variant-numeric: tabular-nums; }
+.readout div { display: grid; gap: 0; min-width: 0; border-top: 1px solid var(--line); padding-top: 4px; }
+.readout dt { color: var(--muted); font-size: 11px; }
+.readout dd { margin: 0; }
+.readout .warn dd { color: var(--warn); font-weight: 500; }
+.note { font-size: 13px; color: var(--muted); }
+
+/* Controls */
+.controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px; }
+.group { border: 1px solid var(--line); border-radius: 6px; padding: 14px; display: grid; gap: 12px; align-content: start; background: var(--surface); }
+.ctl { display: grid; gap: 5px; }
+.ctl > label, .ctl > .ctl-name { font-size: 13px; font-weight: 700; }
+.ctl .hint { font-size: 12px; color: var(--muted); }
+.seg { display: flex; flex-wrap: wrap; gap: 4px; }
+.seg button, .btn {
+  font: inherit; font-size: 13px; padding: 6px 10px; border-radius: 4px; border: 1px solid var(--line);
+  background: var(--bg); color: var(--ink); cursor: pointer; min-height: 34px;
+}
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.seg.blight button[aria-pressed="true"][data-v="0"] { background: var(--blight); border-color: var(--blight); color: var(--accent-ink); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+select { font: inherit; font-size: 13px; padding: 6px 8px; border-radius: 4px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); max-width: 100%; min-height: 34px; }
+
+/* Decisions */
+.decisions ol { margin: 0; padding-left: 1.4em; display: grid; gap: 14px; max-width: 80ch; }
+.decisions li strong { font-weight: 700; }
+.decisions .rec { color: var(--accent); font-weight: 700; }
+.credits { font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
+.credits ul { margin: 0; padding-left: 1.2em; }
+a { color: var(--accent); }
+
+/* Floating preset bar (prototype chrome, not part of the design under test) */
+.switcher {
+  position: fixed; left: 50%; transform: translateX(-50%);
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  display: flex; align-items: center; gap: 4px; padding: 5px; border-radius: 99px;
+  background: #101211; color: #f2f4ef; box-shadow: 0 6px 24px rgba(0,0,0,.35); z-index: 40;
+  font-family: var(--font-data); font-size: 13px; max-width: calc(100vw - 24px);
+}
+.switcher button { background: transparent; color: inherit; border: 0; font: inherit; cursor: pointer; width: 38px; height: 38px; border-radius: 99px; font-size: 18px; }
+.switcher button:hover { background: #2a2e2c; }
+.switcher .cur { padding: 0 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.switcher .full { width: auto; padding: 0 12px; font-size: 13px; background: #2f7044; white-space: nowrap; flex: none; }
+
+/* Full-screen phone mode */
+.fs { position: fixed; inset: 0; background: #000; z-index: 100; }
+.fs canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: manipulation; }
+.fs .fs-bar { position: absolute; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); opacity: .85; display: flex; gap: 6px; }
+.fs .fs-bar button { font: 13px var(--font-data); background: rgba(16,18,17,.8); color: #f2f4ef; border: 1px solid #444; border-radius: 99px; padding: 8px 12px; }
+.fs .fs-info { position: absolute; left: 50%; transform: translateX(-50%); top: calc(40px + env(safe-area-inset-top, 0px)); white-space: nowrap; font: 11px var(--font-data); color: #cfd5cc; background: rgba(16,18,17,.75); padding: 4px 8px; border-radius: 4px; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Project Wildling · ticket 10 · throwaway prototype</div>
+    <h1>What should Wildling's pixel art look like?</h1>
+    <p>Two mock screens, drawn the way a phone would draw them: a small internal canvas, scaled up by whole pixels. Flip the options below, or use the presets in the bar at the bottom. On your phone, tap <b>Full screen</b> to see true pixel size, then rotate the phone.</p>
+    <p class="note">World art: Ninja Adventure (CC0). Battle Creatures: <i>50+ Monsters Pack 2D</i> (CC0) as placeholders only. Names, moves and UI are invented for this mock.</p>
+  </header>
+
+  <section class="restore" aria-label="Restoration">
+    <div class="label"><strong>Restoration of Ashmere Meadow</strong><span id="stage-note">The same Area at each Restoration stage. Healing spreads out from the spring.</span></div>
+    <div class="seg blight" id="seg-stage"></div>
+    <button class="btn" id="play-stage" type="button">Play stages</button>
+  </section>
+
+  <main class="bench land" id="bench">
+    <figure>
+      <figcaption><h2>Overworld</h2><span class="tag" id="cap-ow"></span></figcaption>
+      <div class="frame" id="frame-ow"><canvas id="cv-ow"></canvas></div>
+      <dl class="readout" id="ro-ow"></dl>
+    </figure>
+    <figure>
+      <figcaption><h2>Battle</h2><span class="tag" id="cap-bt"></span></figcaption>
+      <div class="frame" id="frame-bt"><canvas id="cv-bt"></canvas></div>
+      <dl class="readout" id="ro-bt"></dl>
+    </figure>
+  </main>
+  <p class="note" id="size-note"></p>
+
+  <section class="controls" id="controls" aria-label="Options"></section>
+
+  <section class="decisions">
+    <div style="display:grid;gap:12px">
+      <h2>Decisions this screen should settle</h2>
+      <p class="note">Each has a suggested answer to react to. Answer in the planning session; the ticket stays open until then.</p>
+      <ol id="decisions"></ol>
+    </div>
+  </section>
+
+  <section class="credits">
+    <h3>Art and fonts in this mock</h3>
+    <ul>
+      <li>Tiles, hero and 16px overworld Creatures: <a href="https://pixel-boy.itch.io/ninja-adventure-asset-pack" target="_blank" rel="noopener">Ninja Adventure Asset Pack</a> by Pixel-boy and AAA. CC0.</li>
+      <li>Battle Creatures #21, #24, #44, #48: <a href="https://opengameart.org/content/50-monsters-pack-2d" target="_blank" rel="noopener">50+ Monsters Pack 2D</a> by isaiah658. CC0.</li>
+      <li>Fonts: <a href="https://ggbot.itch.io/public-pixel-font" target="_blank" rel="noopener">Public Pixel</a> by GGBotNet (CC0); Tiny5, Silkscreen and Pixelify Sans from Google Fonts (SIL Open Font Licence).</li>
+      <li>Wildling 32 palette, UI panels and all names: made for this prototype.</li>
+    </ul>
+  </section>
+</div>
+
+<div class="switcher" role="toolbar" aria-label="Presets">
+  <button type="button" id="prev" aria-label="Previous preset">‹</button>
+  <span class="cur" id="cur"></span>
+  <button type="button" id="next" aria-label="Next preset">›</button>
+  <button type="button" class="full" id="open-fs">Full screen</button>
+</div>
+
+<div class="fs" id="fs" hidden>
+  <canvas id="cv-fs"></canvas>
+  <div class="fs-bar"><button type="button" id="fs-swap">Battle</button><button type="button" id="fs-stage">Stage</button><button type="button" id="fs-close">Close</button></div>
+  <div class="fs-info" id="fs-info"></div>
+</div>
+
+<script>
+"use strict";
+// ---------- data ----------
+const ASSET = {
+  floor: "__ASSET_TilesetFloor.png__", nature: "__ASSET_TilesetNature.png__", aband: "__ASSET_TilesetVillageAbandoned.png__",
+  house: "__ASSET_TilesetHouse.png__", water: "__ASSET_TilesetWater.png__", boy: "__ASSET_Boy.png__", palette: "__ASSET_Palette.png__",
+  owOwl: "__ASSET_OwOwl.png__", owRacoon: "__ASSET_OwRacoon.png__", owLizard: "__ASSET_OwLizard.png__", owSnail: "__ASSET_OwSnail.png__",
+  m24f: "__ASSET_m24f.png__", m24b: "__ASSET_m24b.png__", m48f: "__ASSET_m48f.png__", m48b: "__ASSET_m48b.png__",
+  m44f: "__ASSET_m44f.png__", m44b: "__ASSET_m44b.png__", m21f: "__ASSET_m21f.png__", m21b: "__ASSET_m21b.png__",
+};
+const DEVICES = [
+  { id: "iphone15", name: "iPhone 15 / 16 (6.1\")", w: 393, h: 852, dpr: 3, ppi: 460, island: true },
+  { id: "promax", name: "iPhone 16 Pro Max (6.9\")", w: 440, h: 956, dpr: 3, ppi: 460, island: true },
+  { id: "se", name: "iPhone SE (4.7\")", w: 375, h: 667, dpr: 2, ppi: 326 },
+  { id: "pixel8", name: "Pixel 8 (6.2\")", w: 412, h: 915, dpr: 2.625, ppi: 428, hole: true },
+  { id: "budget", name: "Budget Android, 720p (6.5\")", w: 360, h: 800, dpr: 2, ppi: 270, hole: true },
+];
+const RES = { land: [[320, 180], [384, 216], [480, 270], [640, 360]], port: [[180, 320], [216, 384], [270, 480], [360, 640]] };
+const FONTS = {
+  tiny5: { fam: "Tiny5", px: 8, label: "Tiny5", lic: "OFL" },
+  publicpixel: { fam: "PublicPixel", px: 8, label: "Public Pixel", lic: "CC0" },
+  silkscreen: { fam: "Silkscreen", px: 8, label: "Silkscreen", lic: "OFL" },
+  pixelify: { fam: "Pixelify Sans", px: 13, label: "Pixelify Sans", lic: "OFL" },
+};
+const W32 = ["#1a1622","#3b3346","#5e5466","#8b8191","#c2b8bd","#f4efe6","#3f2a22","#6b4430","#9c6640","#c98f5a","#e9c08e",
+  "#1f3b2d","#2f6b3a","#4f9a3f","#8cc152","#c8e07a","#1b2e4f","#2c5d8a","#4a98c4","#8fd0e0","#5a1e26","#a8323a","#e0573a",
+  "#f39a3d","#f7d35a","#2e1f3d","#5b3a6b","#8f5f8f","#d68fb0","#6e6150","#a1937a","#7a8a6a"];
+const CREATURES = {
+  rustail:  { name: "Rustail", lv: 14, f: "m48f", b: "m48b", ow: "owRacoon", hp: [34, 41],
+              moves: [["Coal Nip", "Cinder", 1], ["Scrap Toss", "Plain", 2], ["Sidestep", "Plain", 0], ["Kindle", "Cinder", 3]] },
+  duskwing: { name: "Duskwing", lv: 12, f: "m24f", b: "m24b", ow: "owOwl", hp: [29, 36],
+              moves: [["Hush Dive", "Dusk", 2], ["Pinion Cut", "Plain", 1], ["Night Veil", "Dusk", 1], ["Lantern Eyes", "Dusk", 3]] },
+  mossback: { name: "Mossback", lv: 16, f: "m44f", b: "m44b", ow: "owLizard", hp: [52, 55],
+              moves: [["Root Snare", "Grove", 2], ["Tail Thump", "Plain", 1], ["Moss Mend", "Grove", 2], ["Burrow Bash", "Stone", 3]] },
+  shellwick:{ name: "Shellwick", lv: 9, f: "m21f", b: "m21b", ow: "owSnail", hp: [22, 30],
+              moves: [["Shell Roll", "Stone", 1], ["Slow Ooze", "Tide", 2], ["Hunker", "Plain", 0], ["Pebble Spit", "Stone", 2]] },
+};
+const TYPE_COL = { Cinder: "#e0573a", Dusk: "#8f5f8f", Grove: "#4f9a3f", Stone: "#a1937a", Plain: "#c2b8bd", Tide: "#4a98c4" };
+const PAIRS = [["rustail", "duskwing", "Rustail vs Duskwing"], ["mossback", "shellwick", "Mossback vs Shellwick"], ["duskwing", "rustail", "Duskwing vs Rustail"]];
+const STAGE_TEXT = [
+  "Ash chokes the spring. Only Shellwicks crawl here now.",
+  "Green creeps back around the spring.",
+  "The pond runs clear again. Duskwings return at dusk.",
+  "Ashmere Meadow is restored, and the old hut is rebuilt.",
+];
+const STAGE_NOTE = [
+  "Blighted: dead ground, murky pond, bare trees, ruined hut. Only a blight-tolerant Creature roams.",
+  "Stage 1: the ground nearest the spring heals; a new Creature appears.",
+  "Stage 2: the pond clears and the trees leaf out; the encounter table grows.",
+  "Restored: the hut is rebuilt and flowers spread across the whole Area.",
+];
+
+const PRESETS = [
+  { id: "suggested", name: "A · Suggested", o: { tile: 16, orient: "land", res: 0, scale: "expand", char: 1, walk: 4, ow: "hand16", front: 64, back: 64, palette: "ninja", font: "publicpixel" } },
+  { id: "roomy", name: "B · Roomy 16", o: { tile: 16, orient: "land", res: 1, scale: "expand", char: 1, walk: 4, ow: "hand16", front: 64, back: 96, palette: "w32", font: "tiny5" } },
+  { id: "chunky", name: "C · Chunky 32", o: { tile: 32, orient: "land", res: 2, scale: "expand", char: 1, walk: 4, ow: "s32", front: 96, back: 128, palette: "free", font: "pixelify" } },
+  { id: "portrait", name: "D · Portrait 16", o: { tile: 16, orient: "port", res: 0, scale: "expand", char: 1, walk: 4, ow: "hand16", front: 64, back: 96, palette: "ninja", font: "silkscreen" } },
+];
+
+const S = Object.assign({ device: "iphone15", pair: 0, stage: 0, touch: "on", zoom: "real" }, PRESETS[0].o);
+let presetIdx = 0;
+
+const CONTROLS = [
+  { group: "Screen", items: [
+    { key: "device", label: "Phone", type: "select", opts: () => DEVICES.map(d => [d.id, d.name]) },
+    { key: "orient", label: "Orientation", type: "seg", opts: () => [["land", "Landscape"], ["port", "Portrait"]] },
+    { key: "res", label: "Internal resolution", type: "seg", num: true, opts: () => RES[S.orient].map((r, i) => [i, r[0] + "×" + r[1]]),
+      hint: "The canvas the game draws into before scaling." },
+    { key: "scale", label: "Scaling", type: "seg", opts: () => [["expand", "Whole pixels, show more world"], ["letterbox", "Whole pixels, black bars"], ["fractional", "Stretch to fit"]],
+      hint: "Stretch to fit makes pixels uneven sizes. Whole-pixel modes keep every pixel square." },
+    { key: "touch", label: "Thumb controls", type: "seg", opts: () => [["on", "Show"], ["off", "Hide"]], hint: "14 mm stick and button, drawn at real size." },
+    { key: "zoom", label: "Preview size", type: "seg", opts: () => [["real", "About real size"], ["fit", "Fit width"]] },
+  ]},
+  { group: "World", items: [
+    { key: "tile", label: "Tile size", type: "seg", num: true, opts: () => [[16, "16×16"], [32, "32×32 look"]],
+      hint: "32×32 look doubles the 16px art. It shows how much world fits on screen; real 32px art would be more detailed." },
+    { key: "char", label: "Hero sprite", type: "seg", num: true, opts: () => [[1, "1 tile (native)"], [1.5, "1.5 tiles"], [2, "2 tiles"]],
+      hint: "1.5 and 2 are stretched stand-ins for taller drawn sprites." },
+    { key: "walk", label: "Walk cycle", type: "seg", num: true, opts: () => [[2, "2 frames"], [4, "4 frames"]] },
+    { key: "ow", label: "Wild Creatures on the map", type: "seg", opts: () => [["hand16", "16px drawn"], ["s16", "16px shrunk"], ["s24", "24px shrunk"], ["s32", "32px shrunk"]],
+      hint: "Shrunk = auto-scaled from the 64px battle sprite, to show why a separate overworld sprite may be needed." },
+  ]},
+  { group: "Battle", items: [
+    { key: "front", label: "Front sprite (opponent)", type: "seg", num: true, opts: () => [[48, "48"], [64, "64"], [96, "96"], [128, "128"]] },
+    { key: "back", label: "Back sprite (yours)", type: "seg", num: true, opts: () => [[48, "48"], [64, "64"], [96, "96"], [128, "128"]],
+      hint: "Source art is 64px. 48 is shrunk, 96 and 128 are enlarged stand-ins." },
+    { key: "pair", label: "Creatures", type: "select", num: true, opts: () => PAIRS.map((p, i) => [i, p[2]]) },
+  ]},
+  { group: "Look", items: [
+    { key: "palette", label: "Palette", type: "seg", opts: () => [["free", "Free (as drawn)"], ["ninja", "Ninja Adventure"], ["w32", "Wildling 32"]],
+      hint: "Every pixel on screen is snapped to the chosen palette." },
+    { key: "font", label: "Pixel font", type: "seg", opts: () => Object.entries(FONTS).map(([k, f]) => [k, f.label + " · " + f.lic]) },
+  ]},
+];
+
+const DECISIONS = [
+  ["Tile size", "16×16.", "Ninja Adventure, the CC0 world set, is drawn at 16px. A 32px world means redrawing every tile, and the 32×32 look shows half as much map."],
+  ["Orientation", "Landscape, both screens.", "The battle layout and the map read better wide, and it matches the handheld games this audience remembers. Portrait buys one-handed play but shows a narrow strip of world. This is the biggest call here."],
+  ["Internal resolution and scaling", "320×180 base, whole-pixel scaling, show more world (no black bars).", "Every phone in the list lands near 12 tiles tall (×6 on iPhone 15, ×4 on 720p Android) and pixels stay square. In Godot: viewport stretch, aspect expand, integer scale mode. 384×216 shrinks text below 1.4 mm on a 6.1\" phone."],
+  ["Hero sprite size and animation", "16×16, one tile, 4-frame walk.", "This is Ninja Adventure's native size, so 50+ characters come for free. The 2-frame walk looks stiff at this speed."],
+  ["Battle sprite sizes", "Draw front and back sprites on a 64×64 canvas and show both at 64, with no extra scaling.", "One canvas size keeps the drawing work down, and 64 is what the placeholder pack uses. Showing 64px art at 96 or 128 makes its pixels bigger than the world's pixels, which looks inconsistent; depth comes from placement instead. A bigger back sprite would have to be drawn at that size, which costs more art."],
+  ["Overworld Creatures", "Each Creature also gets a hand-drawn 16×16 map sprite with 4 directions.", "Auto-shrinking the 64px art to 16 turns it to mush, and 32px Creatures dwarf the hero. This adds about one extra small sprite sheet per Creature to the art budget."],
+  ["Palette", "Lock Ninja Adventure's own 53-colour palette as the master palette for everything drawn from now on, adding colours only on purpose.", "The world art already uses it, so the map doesn't change. The 50+ Monsters placeholders don't, and you can see them shift when you snap to it. A fixed palette is the cheapest way to keep self-drawn Creatures matching the world. Wildling 32 shows what a tighter, custom palette would do."],
+  ["Font", "Public Pixel (CC0) for dialogue; consider Tiny5 (OFL) for dense battle labels.", "Public Pixel is CC0, covers 98 languages and reads well at ×6, but at 8px per letter it is wide: long move names nearly fill the button. Silkscreen has no lowercase."],
+  ["What Restoration looks like", "Tile swaps per Restoration stage, spreading out from a focal point (the spring), using Ninja Adventure's built-in dead and abandoned variants.", "No new art is needed for the first pass. The boundary between healed and blighted ground is a hard tile edge here; real transition tiles would have to be drawn. Does the blighted state feel broken but hopeful (right for 13+), or too grim or too drab?"],
+];
+
+// ---------- helpers ----------
+const $ = id => document.getElementById(id);
+const IMG = {};
+let NINJA_PAL = [];
+const hexRgb = h => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+const W32_RGB = W32.map(hexRgb);
+const hash = (x, y) => { const s = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return s - Math.floor(s); };
+const mk = (w, h) => { const c = document.createElement("canvas"); c.width = Math.max(1, w); c.height = Math.max(1, h); return c; };
+const ctx = c => { const g = c.getContext("2d", { willReadFrequently: true }); g.imageSmoothingEnabled = false; return g; };
+const dist2 = (a, r, g, b) => { const rm = (a[0] + r) / 2, dr = a[0] - r, dg = a[1] - g, db = a[2] - b; return (2 + rm / 256) * dr * dr + 4 * dg * dg + (2 + (255 - rm) / 256) * db * db; };
+function nearest(pal, r, g, b) { let best = 0, bd = Infinity; for (let i = 0; i < pal.length; i++) { const d = dist2(pal[i], r, g, b); if (d < bd) { bd = d; best = i; } } return pal[best]; }
+
+function loadAll() {
+  return Promise.all(Object.entries(ASSET).map(([k, src]) => new Promise((res, rej) => { const im = new Image(); im.onload = () => { IMG[k] = im; res(); }; im.onerror = rej; im.src = src; })));
+}
+
+// Sprite resizing (cached). Downscale: area-average then snap back to the sprite's own colours.
+const sizedCache = new Map();
+function sized(key, size) {
+  const ck = key + "@" + size; if (sizedCache.has(ck)) return sizedCache.get(ck);
+  const im = IMG[key]; const c = mk(size, size); const g = ctx(c);
+  if (size >= im.width) { g.drawImage(im, 0, 0, size, size); }
+  else {
+    const src = mk(im.width, im.height), sg = ctx(src); sg.drawImage(im, 0, 0);
+    const sd = sg.getImageData(0, 0, im.width, im.height).data; const pal = new Map();
+    for (let i = 0; i < sd.length; i += 4) if (sd[i + 3] > 128) pal.set((sd[i] << 16) | (sd[i + 1] << 8) | sd[i + 2], [sd[i], sd[i + 1], sd[i + 2]]);
+    const palA = [...pal.values()];
+    g.imageSmoothingEnabled = true; g.imageSmoothingQuality = "high"; g.drawImage(im, 0, 0, size, size);
+    const id = g.getImageData(0, 0, size, size), d = id.data;
+    for (let i = 0; i < d.length; i += 4) {
+      if (d[i + 3] < 110) { d[i + 3] = 0; continue; }
+      const a = d[i + 3] / 255; const p = nearest(palA, d[i] / a, d[i + 1] / a, d[i + 2] / a);
+      d[i] = p[0]; d[i + 1] = p[1]; d[i + 2] = p[2]; d[i + 3] = 255;
+    }
+    g.putImageData(id, 0, 0);
+  }
+  // opaque bounds for foot alignment
+  const d = g.getImageData(0, 0, size, size).data; let top = size, bot = 0, l = size, r = 0;
+  for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) if (d[(y * size + x) * 4 + 3] > 0) { top = Math.min(top, y); bot = Math.max(bot, y); l = Math.min(l, x); r = Math.max(r, x); }
+  const out = { c, top, bot, l, r }; sizedCache.set(ck, out); return out;
+}
+
+// Pixel text: drawn with the real font, then alpha thresholded so no anti-aliasing survives.
+const textCache = new Map(); const metricCache = new Map();
+function fspec() { const f = FONTS[S.font]; return f.px + 'px "' + f.fam + '"'; }
+function metrics() {
+  const f = FONTS[S.font]; if (metricCache.has(S.font)) return metricCache.get(S.font);
+  const c = mk(64, f.px * 3), g = ctx(c); g.font = fspec(); g.textBaseline = "top"; g.fillStyle = "#fff"; g.fillText("HgyÉ", 2, f.px);
+  const d = g.getImageData(0, 0, c.width, c.height).data; let capTop = c.height, bot = 0, hTop = c.height;
+  // cap top from "H" only (first ~8px columns), bottom from everything
+  for (let y = 0; y < c.height; y++) for (let x = 0; x < c.width; x++) { if (d[(y * c.width + x) * 4 + 3] > 110) { bot = Math.max(bot, y); if (x < 2 + f.px) capTop = Math.min(capTop, y); } }
+  const capH = Math.max(1, (() => { let b = 0; for (let y = 0; y < c.height; y++) for (let x = 2; x < 2 + Math.ceil(f.px * .6); x++) if (d[(y * c.width + x) * 4 + 3] > 110) b = Math.max(b, y); return b - capTop + 1; })());
+  const m = { off: capTop - f.px, capH, lh: bot - capTop + 2 }; metricCache.set(S.font, m); return m;
+}
+function textW(str) { const g = ctx(mk(1, 1)); g.font = fspec(); return Math.ceil(g.measureText(str).width); }
+function text(g, str, x, y, col) {
+  const k = S.font + "|" + col + "|" + str; let t = textCache.get(k);
+  if (!t) {
+    const f = FONTS[S.font]; const w = textW(str) + 4; const c = mk(w, f.px * 3), tg = ctx(c);
+    tg.font = fspec(); tg.textBaseline = "top"; tg.fillStyle = col; tg.fillText(str, 0, f.px);
+    const id = tg.getImageData(0, 0, c.width, c.height), d = id.data; const [r, gg, b] = hexRgb(col);
+    for (let i = 0; i < d.length; i += 4) { if (d[i + 3] > 110) { d[i] = r; d[i + 1] = gg; d[i + 2] = b; d[i + 3] = 255; } else d[i + 3] = 0; }
+    tg.putImageData(id, 0, 0); t = { c, w: w - 4 }; textCache.set(k, t);
+  }
+  const m = metrics(); g.drawImage(t.c, Math.round(x), Math.round(y) - m.off - FONTS[S.font].px);
+  return t.w;
+}
+function wrap(str, maxW) { const words = str.split(" "); const lines = []; let cur = ""; for (const w of words) { const t = cur ? cur + " " + w : w; if (textW(t) > maxW && cur) { lines.push(cur); cur = w; } else cur = t; } if (cur) lines.push(cur); return lines; }
+
+// ---------- map ----------
+const MW = 48, MH = 44, SPRING = [31, 15.5];
+const M = { dirt: [], block: [], tall: [], trees: [], deco: [] };
+function rectFill(arr, x0, y0, x1, y1, v = true) { for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) arr[y * MW + x] = v; }
+function buildMap() {
+  M.dirt = new Array(MW * MH).fill(false); M.block = new Array(MW * MH).fill(false); M.tall = new Array(MW * MH).fill(false);
+  rectFill(M.dirt, 11, 12, 20, 15); rectFill(M.dirt, 15, 12, 16, 27); rectFill(M.dirt, 0, 26, MW - 1, 27);
+  rectFill(M.dirt, 26, 20, 27, 25); rectFill(M.dirt, 20, 20, 27, 21);
+  rectFill(M.tall, 5, 17, 11, 22); rectFill(M.tall, 22, 29, 30, 33); rectFill(M.tall, 34, 19, 39, 23);
+  rectFill(M.block, 10, 7, 21, 16); rectFill(M.block, 26, 11, 35, 19); rectFill(M.block, 13, 12, 28, 28);
+  for (let i = 0; i < M.dirt.length; i++) if (M.dirt[i] || M.tall[i]) M.block[i] = true;
+  M.trees = [];
+  const can = (x, y, w, h) => { for (let yy = y - h + 1; yy <= y; yy++) for (let xx = x; xx < x + w; xx++) { if (xx < 0 || yy < 0 || xx >= MW || yy >= MH || M.block[yy * MW + xx]) return false; } return true; };
+  const put = (x, y, w, h, big) => { if (!can(x, y, w, h)) return; M.trees.push({ x, y, big, v: Math.floor(hash(x, y) * 3) }); for (let yy = y - h + 1; yy <= y; yy++) for (let xx = x; xx < x + w; xx++) M.block[yy * MW + xx] = true; };
+  for (let y = 3; y < MH; y += 3) for (let x = 0; x < MW; x += 3) {
+    const edge = x < 7 || x > MW - 9 || y < 9 || y > MH - 8; const jx = Math.floor(hash(x, y) * 2), jy = Math.floor(hash(y, x) * 2);
+    if (edge && hash(x * 3, y * 7) > 0.15) put(x + jx, y + jy, (hash(x, y * 5) > 0.75 ? 4 : 2), (hash(x, y * 5) > 0.75 ? 3 : 2), hash(x, y * 5) > 0.75);
+    else if (!edge && hash(x * 5, y * 2) > 0.8) put(x + jx, y + jy, 2, 2, false);
+  }
+  M.deco = [];
+  for (let i = 0; i < 260; i++) { const x = Math.floor(hash(i, 3.3) * MW), y = Math.floor(hash(7.7, i) * MH); if (!M.block[y * MW + x]) { M.deco.push({ x, y, v: Math.floor(hash(i, i) * 4) }); M.block[y * MW + x] = true; } }
+}
+function need(x, y) { const d = Math.hypot(x + .5 - SPRING[0], y + .5 - SPRING[1]) + (hash(x, y) - .5) * 3; return d < 9 ? 1 : d < 17 ? 2 : 3; }
+const healed = (x, y) => S.stage >= need(x, y);
+
+const LOOP = [[16, 14], [16, 27], [27, 27], [27, 21], [21, 21], [21, 14], [16, 14]];
+function hero(t) {
+  const segs = []; let L = 0; for (let i = 0; i < LOOP.length - 1; i++) { const a = LOOP[i], b = LOOP[i + 1], l = Math.hypot(b[0] - a[0], b[1] - a[1]); segs.push([a, b, l]); L += l; }
+  let s = (t * 3.5) % L; for (const [a, b, l] of segs) { if (s <= l) { const f = s / l; const dx = b[0] - a[0], dy = b[1] - a[1]; const dir = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 3 : 2) : (dy > 0 ? 0 : 1); return { x: a[0] + dx * f, y: a[1] + dy * f, dir }; } s -= l; }
+  return { x: LOOP[0][0], y: LOOP[0][1], dir: 0 };
+}
+const WILD = [
+  { k: "shellwick", cx: 8.5, cy: 20, rx: 2.2, ry: 1.4, ph: 0, show: s => s <= 1 },
+  { k: "rustail", cx: 26, cy: 31, rx: 3, ry: 1.5, ph: 2, show: s => s >= 1 },
+  { k: "duskwing", cx: 36.5, cy: 21, rx: 2, ry: 1.2, ph: 4, show: s => s >= 2 },
+  { k: "mossback", cx: 23, cy: 17.5, rx: 1.5, ry: 1, ph: 1, show: s => s >= 3 },
+];
+
+// ---------- scene: overworld ----------
+function drawOverworld(g, W, H, t) {
+  const Z = S.tile / 16, TS = 16 * Z, F = IMG.floor, N = IMG.nature, WA = IMG.water;
+  const h = hero(t); const worldW = MW * TS, worldH = MH * TS;
+  let cx = Math.round(h.x * TS - W / 2), cy = Math.round(h.y * TS - H / 2);
+  cx = worldW <= W ? Math.round((worldW - W) / 2) : Math.max(0, Math.min(worldW - W, cx));
+  cy = worldH <= H ? Math.round((worldH - H) / 2) : Math.max(0, Math.min(worldH - H, cy));
+  g.fillStyle = "#1a1622"; g.fillRect(0, 0, W, H);
+  const tile = (img, sc, sr, x, y) => g.drawImage(img, sc * 16, sr * 16, 16, 16, x * TS - cx, y * TS - cy, TS, TS);
+  const x0 = Math.max(0, Math.floor(cx / TS)), y0 = Math.max(0, Math.floor(cy / TS)), x1 = Math.min(MW - 1, Math.floor((cx + W) / TS)), y1 = Math.min(MH - 1, Math.floor((cy + H) / TS));
+  const D = (x, y) => x < 0 || y < 0 || x >= MW || y >= MH ? (y === 26 || y === 27) : M.dirt[y * MW + x];
+  const pond = [28, 13, 33, 17], pondOk = S.stage >= 2;
+  for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) {
+    const ok = healed(x, y), hv = hash(x, y);
+    if (x >= pond[0] && x <= pond[2] && y >= pond[1] && y <= pond[3]) {
+      const c = x === pond[0] ? 0 : x === pond[2] ? 2 : 1, r = y === pond[1] ? 0 : y === pond[3] ? 2 : 1;
+      tile(WA, (pondOk ? 0 : 13) + c, 6 + r, x, y); continue;
+    }
+    if (D(x, y)) {
+      const n = D(x, y - 1), s = D(x, y + 1), w = D(x - 1, y), e = D(x + 1, y);
+      let c, r;
+      if (!n && !s) { r = 3; c = !w && !e ? 3 : !w ? 0 : !e ? 2 : 1; }
+      else if (!w && !e) { c = 3; r = !n ? 0 : !s ? 2 : 1; }
+      else { c = !w ? 0 : !e ? 2 : 1; r = !n ? 0 : !s ? 2 : 1; }
+      tile(F, (ok ? 0 : 11) + c, (ok ? 7 : 14) + r, x, y); continue;
+    }
+    const v = hv < .72 ? 0 : 1 + Math.floor((hv - .72) / .28 * 4);
+    tile(F, (ok ? 0 : 11) + v, ok ? 12 : 19, x, y);
+    if (M.tall[y * MW + x]) { if (ok) g.drawImage(N, 112, 176, 16, 16, x * TS - cx, y * TS - cy, TS, TS); else g.drawImage(N, 208, 176, 16, 16, x * TS - cx, y * TS - cy, TS, TS); }
+  }
+  if (pondOk && 31 >= x0 && 31 <= x1) g.drawImage(WA, 176, 48, 16, 16, 30 * TS - cx, 15 * TS - cy, TS, TS); // lily pad
+  // decorations
+  for (const d of M.deco) {
+    if (d.x < x0 - 1 || d.x > x1 + 1 || d.y < y0 - 1 || d.y > y1 + 1) continue; const ok = healed(d.x, d.y);
+    let sx, sy;
+    if (!ok) { if (d.v > 1) continue; [sx, sy] = [[192, 176], [208, 192]][d.v]; }
+    else if (S.stage >= 3) { [sx, sy] = [[0, 176], [16, 176], [48, 176], [96, 176]][d.v]; }
+    else { if (d.v > 1) continue; [sx, sy] = [[0, 160], [32, 160]][d.v]; }
+    g.drawImage(N, sx, sy, 16, 16, d.x * TS - cx, d.y * TS - cy, TS, TS);
+  }
+  // y-sorted objects
+  const objs = [];
+  for (const tr of M.trees) {
+    const ok = healed(tr.x, tr.y), w = tr.big ? 4 : 2, hh = tr.big ? 3 : 2;
+    let src; if (tr.big) src = ok ? [64, 32, 64, 48] : [0, 80, 64, 48]; else src = ok ? (tr.v === 1 ? [32, 0, 32, 32] : [0, 0, 32, 32]) : [64, 0, 32, 32];
+    objs.push({ y: (tr.y + 1) * TS, draw: () => g.drawImage(N, src[0], src[1], src[2], src[3], tr.x * TS - cx, (tr.y + 1) * TS - src[3] * Z - cy, src[2] * Z, src[3] * Z) });
+  }
+  const restored = S.stage >= 3;
+  objs.push({ y: 12 * TS, draw: () => { if (restored) g.drawImage(IMG.house, 64, 0, 64, 48, 13 * TS - cx, 9 * TS - cy, 64 * Z, 48 * Z); else g.drawImage(IMG.aband, 0, 0, 64, 48, 13 * TS - cx, 9 * TS - cy, 64 * Z, 48 * Z); } });
+  if (!restored) { objs.push({ y: 13 * TS, draw: () => { g.drawImage(IMG.aband, 64, 64, 16, 16, 11 * TS - cx, 12 * TS - cy, TS, TS); g.drawImage(IMG.aband, 80, 64, 16, 16, 18 * TS - cx, 11 * TS - cy, TS, TS); } }); }
+  else { objs.push({ y: 13 * TS, draw: () => { for (const [x, y] of [[11, 11], [12, 11], [17, 11], [18, 11]]) g.drawImage(N, x % 2 ? 0 : 48, 176, 16, 16, x * TS - cx, y * TS - cy, TS, TS); } }); }
+  // wild Creatures
+  const step = Math.floor(t * 8);
+  for (const w of WILD) {
+    if (!w.show(S.stage)) continue;
+    const a = t * 0.5 + w.ph, px = w.cx + Math.sin(a) * w.rx, py = w.cy + Math.sin(a * 2) * w.ry * .5;
+    const vx = Math.cos(a) * w.rx, vy = Math.cos(a * 2) * w.ry;
+    const dir = Math.abs(vx) > Math.abs(vy) ? (vx > 0 ? 3 : 2) : (vy > 0 ? 0 : 1);
+    const C = CREATURES[w.k];
+    objs.push({ y: py * TS, draw: () => {
+      const fx = Math.round(px * TS - cx), fy = Math.round(py * TS - cy);
+      g.fillStyle = "rgba(26,22,34,.35)"; g.beginPath(); g.ellipse(fx, fy, 6 * Z, 2 * Z, 0, 0, Math.PI * 2); g.fill();
+      if (S.ow === "hand16") g.drawImage(IMG[C.ow], dir * 16, (step % 4) * 16, 16, 16, fx - 8 * Z, fy - 15 * Z, 16 * Z, 16 * Z);
+      else { const sz = +S.ow.slice(1) * Z; const sp = sized(C.f, sz); const bob = step % 4 < 2 ? 0 : Z; g.drawImage(sp.c, fx - sz / 2, fy - sp.bot - 1 - bob); }
+    }});
+  }
+  // hero
+  objs.push({ y: h.y * TS, draw: () => {
+    const fx = Math.round(h.x * TS - cx), fy = Math.round(h.y * TS - cy); const sz = Math.round(16 * Z * S.char);
+    const frames = S.walk === 4 ? [0, 1, 2, 3] : [1, 3]; const fr = frames[Math.floor(t * (S.walk === 4 ? 8 : 4)) % frames.length];
+    g.fillStyle = "rgba(26,22,34,.35)"; g.beginPath(); g.ellipse(fx, fy, 6 * Z * S.char, 2 * Z * S.char, 0, 0, Math.PI * 2); g.fill();
+    g.drawImage(IMG.boy, h.dir * 16, fr * 16, 16, 16, fx - Math.round(sz / 2), fy - sz + Z, sz, sz);
+  }});
+  objs.sort((a, b) => a.y - b.y).forEach(o => o.draw());
+
+  // HUD: Area chip with Restoration pips, time of day
+  const m = metrics(), pad = 4;
+  const title = "Ashmere Meadow"; const tw = textW(title);
+  const chipW = tw + 3 * 6 + pad * 3, chipH = m.lh + pad * 2;
+  panel(g, 4, 4, chipW, chipH); text(g, title, 4 + pad, 4 + pad, "#f4efe6");
+  for (let i = 0; i < 3; i++) { const px = 4 + pad * 2 + tw + i * 6, py = 4 + Math.round(chipH / 2) - 2; g.fillStyle = i < S.stage ? "#8cc152" : "#5e5466"; g.fillRect(px, py, 4, 4); }
+  const tod = "Morning", tdw = textW(tod); panel(g, W - tdw - pad * 2 - 4, 4, tdw + pad * 2, chipH); text(g, tod, W - tdw - pad - 4, 4 + pad, "#f7d35a");
+  // dialogue
+  const lines = wrap(STAGE_TEXT[S.stage], W - 8 - pad * 4); const boxH = lines.length * m.lh + pad * 2 + 2;
+  panel(g, 4, H - boxH - 4, W - 8, boxH); lines.forEach((l, i) => text(g, l, 4 + pad * 2, H - boxH - 4 + pad + 1 + i * m.lh, "#f4efe6"));
+  return { boxH, heroPx: Math.round(16 * Z * S.char), tilesX: W / TS, tilesY: H / TS };
+}
+function panel(g, x, y, w, h) { g.fillStyle = "#1a1622"; g.fillRect(x, y, w, h); g.fillStyle = "#3b3346"; g.fillRect(x + 1, y + 1, w - 2, h - 2); g.fillStyle = "#1a1622"; g.fillRect(x + 2, y + 2, w - 4, h - 4); }
+
+// ---------- scene: battle ----------
+function drawBattle(g, W, H, t) {
+  const port = H > W, m = metrics(), lh = m.lh, Z = S.tile / 16, TS = 16 * Z;
+  const [yk, fk] = PAIRS[S.pair]; const you = CREATURES[yk], foe = CREATURES[fk];
+  const blk = lh + 11; const stripH = port ? 4 + blk * 2 + 4 : lh * 2 + 14;
+  let sx = 0, sy = stripH, sw = W, sh, cmd;
+  const bh = lh + 9, sbh = lh + 7;
+  if (port) { const ph = 4 + (lh + 6) + 2 * (bh + 3) + (sbh + 3) + 4; sh = H - stripH - ph; cmd = { x: 0, y: H - ph, w: W, h: ph }; }
+  else { const cw = Math.max(96, Math.min(150, Math.round(W * .32))); sw = W - cw; sh = H - stripH; cmd = { x: sw, y: stripH, w: cw, h: sh }; }
+  // backdrop from the Area itself (follows Restoration)
+  const groundOk = S.stage >= 1, leafy = S.stage >= 2;
+  g.save(); g.beginPath(); g.rect(sx, sy, sw, sh); g.clip();
+  const horizon = sy + Math.round(sh * (port ? .3 : .4));
+  g.fillStyle = leafy ? "#8fd0e0" : "#8b8191"; g.fillRect(sx, sy, sw, horizon - sy);
+  g.fillStyle = leafy ? "#c8e07a" : "#c2b8bd"; for (let x = sx; x < sx + sw; x += 2) g.fillRect(x + ((x / 2) % 2), horizon - 10, 1, 1);
+  for (let y = horizon; y < sy + sh; y += TS) for (let x = sx; x < sx + sw; x += TS) { const hv = hash(x / TS, y / TS), v = hv < .7 ? 0 : 1 + Math.floor((hv - .7) / .3 * 4); g.drawImage(IMG.floor, ((groundOk ? 0 : 11) + v) * 16, (groundOk ? 12 : 19) * 16, 16, 16, x, y, TS, TS); }
+  const trSrc = leafy ? [0, 0, 32, 32] : [64, 0, 32, 32];
+  for (let i = -1; i * 24 * Z < sw + 32 * Z; i++) g.drawImage(IMG.nature, trSrc[0], trSrc[1], 32, 32, sx + i * 24 * Z + (i % 2) * 6 * Z, horizon - 30 * Z + (i % 2 ? 3 * Z : 0), 32 * Z, 32 * Z);
+  // sprites
+  const bob = Math.floor(t * 2) % 2;
+  const fS = sized(foe.f, S.front), bS = sized(you.b, S.back);
+  const fFeet = horizon + Math.round((sy + sh - horizon) * (port ? .32 : .3)), fCx = sx + Math.round(sw * (port ? .66 : .68));
+  const bFeet = sy + sh - 2, bCx = sx + Math.round(sw * (port ? .3 : .27));
+  g.fillStyle = "rgba(26,22,34,.35)";
+  g.beginPath(); g.ellipse(fCx, fFeet, (fS.r - fS.l) * .45, Math.max(2, S.front / 14), 0, 0, Math.PI * 2); g.fill();
+  const fRect = { x: fCx - S.front / 2 + 0, y: fFeet - fS.bot - bob, w: S.front, h: S.front };
+  g.drawImage(fS.c, Math.round(fRect.x), Math.round(fRect.y));
+  const bRect = { x: bCx - S.back / 2, y: bFeet - bS.bot - (1 - bob), w: S.back, h: S.back };
+  g.drawImage(bS.c, Math.round(bRect.x), Math.round(bRect.y));
+  // message line
+  const msg = foe.name + " watches from the grass."; const mw = Math.min(sw - 8, textW(msg) + 10);
+  panel(g, sx + 4, sy + 4, mw, lh + 7); text(g, msg, sx + 9, sy + 8, "#f4efe6");
+  g.restore();
+  // top strip
+  g.fillStyle = "#1a1622"; g.fillRect(0, 0, W, stripH); g.fillStyle = "#3b3346"; g.fillRect(0, stripH - 1, W, 1);
+  const bar = (x, y, w, v, max, col) => { g.fillStyle = "#3b3346"; g.fillRect(x, y, w, 4); g.fillStyle = col; g.fillRect(x + 1, y + 1, Math.round((w - 2) * v / max), 2); };
+  const half = port ? W - 8 : Math.round(W / 2) - 8;
+  // you
+  let y1 = 4; let x = 4 + text(g, you.name, 4, y1, "#f4efe6") + 4; text(g, "Lv" + you.lv, x, y1, "#c2b8bd");
+  const yb = y1 + lh + 4; const bw = Math.min(70, half - 50);
+  bar(4, yb, bw, you.hp[0], you.hp[1], "#8cc152"); text(g, you.hp[0] + "/" + you.hp[1], 4 + bw + 4, yb + 2 - Math.round(m.capH / 2), "#c2b8bd");
+  const ex = port ? W - 4 - 5 * 6 : 4 + bw + 4 + textW("00/00") + 6; for (let i = 0; i < 5; i++) { g.fillStyle = i < 3 ? "#f7d35a" : "#5e5466"; g.fillRect(ex + i * 6, port ? y1 + 1 : yb, 4, 4); }
+  // foe
+  const fy = port ? 4 + blk + 4 : 4; const fx0 = port ? 4 : Math.round(W / 2) + 4;
+  x = fx0 + text(g, foe.name, fx0, fy, "#f4efe6") + 4; x += text(g, "Lv" + foe.lv, x, fy, "#c2b8bd") + 6;
+  const catchTxt = "Catch 34%"; const ctw = textW(catchTxt);
+  const chipX = port ? W - ctw - 10 : W - ctw - 10; g.fillStyle = "#2c5d8a"; g.fillRect(chipX, fy - 2, ctw + 6, lh + 2); text(g, catchTxt, chipX + 3, fy, "#f4efe6");
+  const fyb = fy + lh + 4; bar(fx0, fyb, Math.min(70, half - 50), foe.hp[0], foe.hp[1], "#8cc152");
+  // command panel
+  g.fillStyle = "#1a1622"; g.fillRect(cmd.x, cmd.y, cmd.w, cmd.h); g.fillStyle = "#3b3346"; port ? g.fillRect(cmd.x, cmd.y, cmd.w, 1) : g.fillRect(cmd.x, cmd.y, 1, cmd.h);
+  const moveBtn = (bx, by, bw2, mv) => {
+    g.fillStyle = "#3b3346"; g.fillRect(bx, by, bw2, bh); g.fillStyle = "#2e2a38"; g.fillRect(bx + 1, by + 1, bw2 - 2, bh - 2);
+    g.fillStyle = TYPE_COL[mv[1]]; g.fillRect(bx + 1, by + 1, 3, bh - 2);
+    const nw = textW(mv[0]); const room = bw2 - 8 - mv[2] * 4 - 4; text(g, mv[0], bx + 7, by + Math.round((bh - m.capH) / 2) - (lh - m.capH > 3 ? 1 : 0), nw > room ? "#f39a3d" : "#f4efe6");
+    for (let i = 0; i < mv[2]; i++) { g.fillStyle = "#f7d35a"; g.fillRect(bx + bw2 - 5 - i * 4, by + Math.round(bh / 2) - 1, 2, 3); }
+    return nw > room;
+  };
+  let overflow = 0; const acts = ["Catch", "Swap", "Bag", "Run"];
+  const smallBtn = (bx, by, bw2, label) => { g.fillStyle = "#3b3346"; g.fillRect(bx, by, bw2, sbh); g.fillStyle = "#1a1622"; g.fillRect(bx + 1, by + 1, bw2 - 2, sbh - 2); const w2 = textW(label); text(g, label, bx + Math.round((bw2 - w2) / 2), by + Math.round((sbh - m.capH) / 2), "#c2b8bd"); if (w2 > bw2 - 2) overflow++; };
+  if (port) {
+    const tip = you.name + " has 3 energy."; text(g, tip, 6, cmd.y + 5, "#c2b8bd");
+    const gy = cmd.y + 4 + lh + 6, cw2 = Math.floor((W - 12) / 2);
+    you.moves.forEach((mv, i) => { if (moveBtn(4 + (i % 2) * (cw2 + 4), gy + Math.floor(i / 2) * (bh + 3), cw2, mv)) overflow++; });
+    const ay = gy + 2 * (bh + 3), aw = Math.floor((W - 8 - 9) / 4); acts.forEach((a, i) => smallBtn(4 + i * (aw + 3), ay, aw, a));
+  } else {
+    const bx = cmd.x + 4, bw2 = cmd.w - 8; you.moves.forEach((mv, i) => { if (moveBtn(bx, cmd.y + 4 + i * (bh + 3), bw2, mv)) overflow++; });
+    const ay = cmd.y + 4 + 4 * (bh + 3) + 2, aw = Math.floor((bw2 - 3) / 2);
+    acts.forEach((a, i) => smallBtn(bx + (i % 2) * (aw + 3), ay + Math.floor(i / 2) * (sbh + 3), aw, a));
+    const used = ay + 2 * (sbh + 3); if (used > H) overflow += 10;
+  }
+  // overlap checks
+  const inter = (a, b) => Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) * Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y));
+  const bTop = bRect.y + bS.top; const fTop = fRect.y + fS.top;
+  return {
+    clipBack: Math.max(0, stripH - bTop), clipFront: Math.max(0, stripH + lh + 11 - fTop),
+    overlap: inter({ x: bRect.x + bS.l, y: bRect.y + bS.top, w: bS.r - bS.l, h: bS.bot - bS.top }, { x: fRect.x + fS.l, y: fRect.y + fS.top, w: fS.r - fS.l, h: fS.bot - fS.top }) > 0,
+    overflow, sceneH: sh,
+  };
+}
+
+// ---------- palette ----------
+const qCaches = {};
+function quantize(g, W, H) {
+  const pal = S.palette === "ninja" ? NINJA_PAL : S.palette === "w32" ? W32_RGB : null;
+  const id = g.getImageData(0, 0, W, H), d = id.data, seen = new Set();
+  if (pal) {
+    const cache = qCaches[S.palette] || (qCaches[S.palette] = new Map());
+    for (let i = 0; i < d.length; i += 4) { const k = (d[i] << 16) | (d[i + 1] << 8) | d[i + 2]; let v = cache.get(k); if (v === undefined) { const p = nearest(pal, d[i], d[i + 1], d[i + 2]); v = (p[0] << 16) | (p[1] << 8) | p[2]; cache.set(k, v); } d[i] = v >> 16; d[i + 1] = (v >> 8) & 255; d[i + 2] = v & 255; seen.add(v); }
+    g.putImageData(id, 0, 0);
+  } else for (let i = 0; i < d.length; i += 4) seen.add((d[i] << 16) | (d[i + 1] << 8) | d[i + 2]);
+  return seen.size;
+}
+
+// ---------- view geometry ----------
+function view(Pw, Ph, orient) {
+  const [W0, H0] = RES[orient][S.res];
+  if (S.scale === "fractional") { const k = Math.min(Pw / W0, Ph / H0); return { k, W: W0, H: H0, dw: Math.round(W0 * k), dh: Math.round(H0 * k) }; }
+  const k = Math.max(1, Math.floor(Math.min(Pw / W0, Ph / H0)));
+  if (S.scale === "letterbox") return { k, W: W0, H: H0, dw: W0 * k, dh: H0 * k };
+  const W = Math.floor(Pw / k), H = Math.floor(Ph / k); return { k, W, H, dw: W * k, dh: H * k };
+}
+function devicePx(dev) { const a = Math.round(dev.w * dev.dpr), b = Math.round(dev.h * dev.dpr); return S.orient === "land" ? [b, a] : [a, b]; }
+
+// Render one scene into a device-sized buffer (what the phone's screen shows).
+const OFF = { ow: mk(1, 1), bt: mk(1, 1) }, DEV = { ow: mk(1, 1), bt: mk(1, 1) };
+function renderTo(kind, Pw, Ph, orient, t, dpr, ppi) {
+  const v = view(Pw, Ph, orient); const off = OFF[kind]; if (off.width !== v.W || off.height !== v.H) { off.width = v.W; off.height = v.H; }
+  const g = ctx(off); g.clearRect(0, 0, v.W, v.H);
+  const info = kind === "ow" ? drawOverworld(g, v.W, v.H, t) : drawBattle(g, v.W, v.H, t);
+  info.colours = quantize(g, v.W, v.H);
+  const dev = DEV[kind]; if (dev.width !== Pw || dev.height !== Ph) { dev.width = Pw; dev.height = Ph; }
+  const dg = ctx(dev); dg.fillStyle = "#000"; dg.fillRect(0, 0, Pw, Ph);
+  const ox = Math.floor((Pw - v.dw) / 2), oy = Math.floor((Ph - v.dh) / 2);
+  dg.drawImage(off, 0, 0, v.W, v.H, ox, oy, v.dw, v.dh);
+  if (S.touch === "on" && ppi) {
+    const r = Math.round(7 / 25.4 * ppi); dg.lineWidth = Math.max(2, Math.round(ppi / 160));
+    dg.strokeStyle = "rgba(255,255,255,.55)"; dg.fillStyle = "rgba(255,255,255,.14)";
+    const m = Math.round(9 / 25.4 * ppi);
+    const by = Ph - m - r;
+    if (kind === "ow") { dg.beginPath(); dg.arc(m + r + Math.max(0, ox), by, r, 0, 7); dg.fill(); dg.stroke(); dg.beginPath(); dg.arc(m + r + Math.max(0, ox), by, r * .4, 0, 7); dg.fillStyle = "rgba(255,255,255,.35)"; dg.fill();
+      dg.fillStyle = "rgba(255,255,255,.14)"; dg.beginPath(); dg.arc(Pw - m - r * .7 - Math.max(0, ox), by, r * .7, 0, 7); dg.fill(); dg.stroke(); }
+  }
+  return { v, info, ox, oy };
+}
+
+// ---------- page wiring ----------
+function dev() { return DEVICES.find(d => d.id === S.device); }
+function frameSize(kind) {
+  const d = dev(); const [Pw, Ph] = devicePx(d);
+  const mmW = Pw / d.ppi * 25.4; const bench = $("bench"); const avail = Math.max(200, (S.orient === "land" && window.innerWidth >= 1180 ? bench.clientWidth / 2 - 12 : bench.clientWidth) - 20);
+  let cw = S.zoom === "real" ? mmW * 96 / 25.4 : avail; if (S.orient === "port" && S.zoom === "fit") cw = Math.min(avail, 360);
+  cw = Math.min(cw, avail); return { cw: Math.round(cw), ch: Math.round(cw * Ph / Pw), Pw, Ph, real: Math.abs(cw - mmW * 96 / 25.4) < 2 };
+}
+const mm = (px, k, ppi) => (px * k / ppi * 25.4).toFixed(1) + " mm";
+function readout(el, items) { el.innerHTML = items.map(([k, v, warn]) => `<div class="${warn ? "warn" : ""}"><dt>${k}</dt><dd>${v}</dd></div>`).join(""); }
+
+let lastRO = "";
+function renderPreviews(t) {
+  const d = dev(); const lr = window.devicePixelRatio || 1;
+  for (const kind of ["ow", "bt"]) {
+    const fs = frameSize(kind); const cv = $("cv-" + kind);
+    const bw = Math.round(fs.cw * lr), bh = Math.round(fs.ch * lr);
+    if (cv.width !== bw || cv.height !== bh) { cv.width = bw; cv.height = bh; cv.style.width = fs.cw + "px"; cv.style.height = fs.ch + "px"; }
+    const r = renderTo(kind, fs.Pw, fs.Ph, S.orient, t, d.dpr, d.ppi);
+    const g = cv.getContext("2d"); g.imageSmoothingEnabled = true; g.imageSmoothingQuality = "high"; g.drawImage(DEV[kind], 0, 0, bw, bh);
+    const isl = $("frame-" + kind).querySelector(".island");
+    if (isl) {
+      const s = fs.cw / fs.Pw * d.dpr; // css px per device point
+      if (d.island) { const L = 126 * s, T = 37 * s; if (S.orient === "land") Object.assign(isl.style, { width: T + "px", height: L + "px", left: (10 + 11 * s) + "px", top: (10 + (fs.ch - L) / 2) + "px", borderRadius: "99px" }); else Object.assign(isl.style, { width: L + "px", height: T + "px", top: (10 + 11 * s) + "px", left: (10 + (fs.cw - L) / 2) + "px", borderRadius: "99px" }); }
+      else if (d.hole) { const D = 12 * s; if (S.orient === "land") Object.assign(isl.style, { width: D + "px", height: D + "px", left: (10 + 12 * s) + "px", top: (10 + (fs.ch - D) / 2) + "px" }); else Object.assign(isl.style, { width: D + "px", height: D + "px", top: (10 + 12 * s) + "px", left: (10 + (fs.cw - D) / 2) + "px" }); }
+      isl.hidden = !(d.island || d.hole);
+    }
+    // readouts (only rebuilt when they change)
+    const v = r.v, k = v.k, bars = [Math.round((fs.Pw - v.dw) / 2), Math.round((fs.Ph - v.dh) / 2)];
+    const fm = metrics(); let items;
+    const base = [
+      ["Canvas drawn", `${v.W}×${v.H} px`],
+      ["Scale on this phone", (Number.isInteger(k) ? "×" + k : "×" + k.toFixed(2) + " uneven pixels"), !Number.isInteger(k)],
+      ["Black bars", bars[0] || bars[1] ? `${bars[0]} px sides, ${bars[1]} px top/bottom` : "none", bars[0] > 2 * k || bars[1] > 2 * k],
+    ];
+    if (kind === "ow") items = base.concat([
+      ["World visible", `${r.info.tilesX.toFixed(1)} × ${r.info.tilesY.toFixed(1)} tiles`],
+      ["Hero on glass", `${r.info.heroPx}px → ${mm(r.info.heroPx, k, d.ppi)}`],
+      ["Text cap height", `${fm.capH}px → ${mm(fm.capH, k, d.ppi)}`, fm.capH * k / d.ppi * 25.4 < 1.4],
+      ["Colours on screen", `${r.info.colours}${S.palette === "free" ? "" : " (snapped)"}`],
+    ]);
+    else items = base.concat([
+      ["Opponent (front)", `${S.front}px → ${mm(S.front, k, d.ppi)}`],
+      ["Yours (back)", `${S.back}px → ${mm(S.back, k, d.ppi)}`],
+      ["Fit", r.info.clipBack > 0 ? `back sprite runs ${Math.round(r.info.clipBack)}px under the top bar` : r.info.overlap ? "sprites overlap each other" : r.info.clipFront > 0 ? "front sprite crowds the message" : "both sprites fit", r.info.clipBack > 0 || r.info.overlap || r.info.clipFront > 0],
+      ["Labels", r.info.overflow ? `${r.info.overflow} label${r.info.overflow > 1 ? "s" : ""} too long (orange)` : "all fit", r.info.overflow > 0],
+      ["Colours on screen", `${r.info.colours}${S.palette === "free" ? "" : " (snapped)"}`],
+    ]);
+    const key = kind + JSON.stringify(items);
+    if (renderPreviews["ro" + kind] !== key) { renderPreviews["ro" + kind] = key; readout($("ro-" + kind), items); }
+    $("cap-" + kind).textContent = `${RES[S.orient][S.res].join("×")} · ${S.scale === "expand" ? "show more" : S.scale === "letterbox" ? "bars" : "stretched"}`;
+  }
+  const fs = frameSize("ow");
+  $("size-note").textContent = (fs.real ? `Frames are drawn at about the phone's physical size (${dev().name}), assuming a typical desktop screen. ` : `Frames are scaled to fit this window. `) + `For exact pixels, open this page on a phone and tap Full screen.`;
+}
+
+// Full-screen on the viewer's own phone
+let fsKind = "ow";
+function renderFS(t) {
+  const cv = $("cv-fs"); const dpr = window.devicePixelRatio || 1; const Pw = Math.round(innerWidth * dpr), Ph = Math.round(innerHeight * dpr);
+  if (cv.width !== Pw || cv.height !== Ph) { cv.width = Pw; cv.height = Ph; }
+  const orient = Pw > Ph ? "land" : "port"; const ppiGuess = 160 * dpr * 0.98;
+  const r = renderTo(fsKind, Pw, Ph, orient, t, dpr, ppiGuess);
+  const g = cv.getContext("2d"); g.imageSmoothingEnabled = false; g.drawImage(DEV[fsKind], 0, 0);
+  $("fs-info").textContent = `${orient === "land" ? "Landscape" : "Portrait"} · canvas ${r.v.W}×${r.v.H} · ×${Number.isInteger(r.v.k) ? r.v.k : r.v.k.toFixed(2)} · screen ${Pw}×${Ph} · rotate to switch · tap for buttons`;
+}
+
+function setOpt(key, val) {
+  S[key] = val;
+  if (key === "orient") { /* keep same res index */ }
+  if (key === "font") { metricCache.clear(); }
+  presetIdx = -1; syncControls(); updateBar();
+}
+function applyPreset(i) { presetIdx = (i + PRESETS.length) % PRESETS.length; Object.assign(S, PRESETS[presetIdx].o); metricCache.clear(); syncControls(); updateBar(); try { history.replaceState(null, "", "#" + PRESETS[presetIdx].id); } catch (e) {} }
+function updateBar() { $("cur").textContent = presetIdx >= 0 ? PRESETS[presetIdx].name : "Custom"; }
+
+function buildControls() {
+  const host = $("controls"); host.innerHTML = "";
+  for (const grp of CONTROLS) {
+    const box = document.createElement("div"); box.className = "group"; box.innerHTML = `<h3>${grp.group}</h3>`;
+    for (const it of grp.items) {
+      const w = document.createElement("div"); w.className = "ctl"; w.dataset.key = it.key;
+      if (it.type === "select") { w.innerHTML = `<label for="opt-${it.key}">${it.label}</label><select id="opt-${it.key}"></select>`; }
+      else w.innerHTML = `<span class="ctl-name" id="lbl-${it.key}">${it.label}</span><div class="seg" role="group" aria-labelledby="lbl-${it.key}" id="opt-${it.key}"></div>`;
+      if (it.hint) w.insertAdjacentHTML("beforeend", `<span class="hint">${it.hint}</span>`);
+      box.appendChild(w);
+    }
+    host.appendChild(box);
+  }
+  syncControls();
+}
+function syncControls() {
+  for (const grp of CONTROLS) for (const it of grp.items) {
+    const el = $("opt-" + it.key); const opts = it.opts();
+    if (it.type === "select") {
+      if (el.options.length !== opts.length) el.innerHTML = opts.map(([v, l]) => `<option value="${v}">${l}</option>`).join("");
+      el.value = String(S[it.key]); el.onchange = () => setOpt(it.key, it.num ? +el.value : el.value);
+    } else {
+      el.innerHTML = opts.map(([v, l]) => `<button type="button" id="opt-${it.key}-${String(v).replace(".", "_")}" data-v="${v}" aria-pressed="${String(S[it.key]) === String(v)}">${l}</button>`).join("");
+      el.querySelectorAll("button").forEach(b => b.onclick = () => setOpt(it.key, it.num ? +b.dataset.v : b.dataset.v));
+    }
+  }
+  const st = $("seg-stage"); st.innerHTML = ["Blighted", "Stage 1", "Stage 2", "Restored"].map((l, i) => `<button type="button" id="stage-${i}" data-v="${i}" aria-pressed="${S.stage === i}">${l}</button>`).join("");
+  st.querySelectorAll("button").forEach(b => b.onclick = () => { stopPlay(); S.stage = +b.dataset.v; syncControls(); });
+  $("stage-note").textContent = STAGE_NOTE[S.stage];
+  $("bench").className = "bench " + S.orient;
+  for (const kind of ["ow", "bt"]) { const f = $("frame-" + kind); if (!f.querySelector(".island")) { const i = document.createElement("div"); i.className = "island"; f.appendChild(i); } }
+}
+let playTimer = null;
+function stopPlay() { if (playTimer) { clearInterval(playTimer); playTimer = null; $("play-stage").textContent = "Play stages"; } }
+$("play-stage").onclick = () => { if (playTimer) return stopPlay(); $("play-stage").textContent = "Stop"; playTimer = setInterval(() => { S.stage = (S.stage + 1) % 4; syncControls(); }, 1600); };
+
+$("prev").onclick = () => applyPreset((presetIdx < 0 ? 0 : presetIdx) - 1);
+$("next").onclick = () => applyPreset((presetIdx < 0 ? -1 : presetIdx) + 1);
+document.addEventListener("keydown", e => { const a = document.activeElement; if (a && (a.tagName === "INPUT" || a.tagName === "TEXTAREA" || a.tagName === "SELECT" || a.isContentEditable)) return; if (e.key === "ArrowLeft") $("prev").click(); if (e.key === "ArrowRight") $("next").click(); if (e.key === "Escape" && !$("fs").hidden) $("fs-close").click(); });
+let infoTimer = null;
+function flashInfo() { $("fs-info").hidden = false; document.querySelector(".fs-bar").hidden = false; clearTimeout(infoTimer); infoTimer = setTimeout(() => { $("fs-info").hidden = true; document.querySelector(".fs-bar").hidden = true; }, 5000); }
+$("cv-fs").addEventListener("click", flashInfo);
+window.addEventListener("resize", () => { if (!$("fs").hidden) flashInfo(); });
+$("open-fs").onclick = () => { $("fs").hidden = false; flashInfo(); fsKind = "ow"; $("fs-swap").textContent = "Battle"; try { const p = document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); if (p && p.catch) p.catch(() => {}); } catch (e) {} };
+$("fs-close").onclick = () => { $("fs").hidden = true; try { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); } catch (e) {} };
+$("fs-swap").onclick = () => { flashInfo(); fsKind = fsKind === "ow" ? "bt" : "ow"; $("fs-swap").textContent = fsKind === "ow" ? "Battle" : "Overworld"; };
+$("fs-stage").onclick = () => { flashInfo(); S.stage = (S.stage + 1) % 4; syncControls(); };
+
+$("decisions").innerHTML = DECISIONS.map(([q, rec, why]) => `<li><strong>${q}.</strong> Suggested: <span class="rec">${rec}</span> ${why}</li>`).join("");
+
+// ---------- boot ----------
+(async () => {
+  await loadAll();
+  const pc = mk(IMG.palette.width, IMG.palette.height), pg = ctx(pc); pg.drawImage(IMG.palette, 0, 0);
+  const pd = pg.getImageData(0, 0, pc.width, pc.height).data, ps = new Map();
+  for (let i = 0; i < pd.length; i += 4) if (pd[i + 3] > 128) ps.set((pd[i] << 16) | (pd[i + 1] << 8) | pd[i + 2], [pd[i], pd[i + 1], pd[i + 2]]);
+  NINJA_PAL = [...ps.values()];
+  CONTROLS[3].items[0].opts = () => [["free", "Free (as drawn)"], ["ninja", `Ninja Adventure (${NINJA_PAL.length})`], ["w32", "Wildling 32"]];
+  try { await Promise.all(Object.values(FONTS).map(f => document.fonts.load(f.px + 'px "' + f.fam + '"'))); } catch (e) {}
+  buildMap();
+  buildControls();
+  const h = (location.hash || "").slice(1); const pi = PRESETS.findIndex(p => p.id === h); applyPreset(pi >= 0 ? pi : 0);
+  // local testing only: ?stage=3&fs=bt
+  try { const q = new URLSearchParams(location.search); if (q.has("stage")) { S.stage = +q.get("stage"); syncControls(); } if (q.has("fs")) { $("fs").hidden = false; fsKind = q.get("fs"); $("fs-info").hidden = true; document.querySelector(".fs-bar").hidden = true; } } catch (e) {}
+  window.addEventListener("hashchange", () => { const i = PRESETS.findIndex(p => p.id === location.hash.slice(1)); if (i >= 0 && i !== presetIdx) applyPreset(i); });
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let last = 0; const t0 = performance.now();
+  const loop = now => {
+    if (now - last > 110) { last = now; const t = reduce ? 0 : Math.max(0, now - t0) / 1000; if ($("fs").hidden) renderPreviews(t); else renderFS(t); }
+    requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(loop);
+})();
+</script>
