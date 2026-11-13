@@ -22,9 +22,9 @@ A complete game-design + technical spec for **Project Wildling**, an original 2D
 <!-- one line per resolved ticket: [title](issues/NN-slug.md): gist -->
 
 - [What do Google Play and the Apple App Store require for a free hobby game?](issues/04-store-requirements.md): Play $25 + 12-tester/14-day closed test; Apple $99/yr + Mac/Xcode; API 36, AAB, 16 KB pages; privacy policy required; no bundled analytics; watch Families-policy risk from cute art.
-
 - [Which 2D engine fits an agent-built pixel-art game for Android + iOS?](issues/01-engine-choice.md): Godot 4.7.x stable with typed GDScript (Defold is the runner-up; Unity and libGDX rejected). CI must not trust Godot's headless exit code.
 - [Where can original or licensable pixel art come from, and at what cost?](issues/02-art-sources.md): use only CC0, OGA-BY or commercial licences (CC-BY conflicts with the App Store). Ninja Adventure (CC0, 16×16) for the world; placeholder Creatures from *50+ Monsters Pack 2D*; final Creatures self-drawn. Keep a licence ledger.
+- [What stat, damage and type-chart systems do creature-collector games use?](issues/03-battle-mechanics-reference.md): a menu of genre mechanics with signature mechanics flagged to avoid. Mobile levers: visible randomness, 8–12 types, one energy bar, shown capture %, XP that helps lower levels catch up.
 
 ## Not yet specified
 
