@@ -36,8 +36,46 @@ _Avoid_: real time, day/night cycle
 The visible record of how a Creature has been raised, which steers its evolution branch and the extra moves it learns.
 _Avoid_: friendship, affection, happiness, loyalty
 
+**Trait**:
+A Creature's visible passive ability, set by the Habitat, Time of day and weather where it was caught; it is never rolled at random.
+_Avoid_: ability, nature, personality, IV
+
 ### Progression
 
 **Boss**:
 One of the ~8 major challenges on the critical path; beating one advances the story and a big Restoration stage.
 _Avoid_: gym leader, champion, trial captain
+
+**Rest point**:
+A camp, inn or town spot where the team heals for free, the in-game clock can be skipped, and the player returns after losing.
+_Avoid_: Pokémon Center, save point, checkpoint
+
+### Battle
+
+**Energy**:
+A Creature's single pool for paying move costs; it regains a fixed amount each turn and refills after battle.
+_Avoid_: PP, stamina, mana, SP
+
+**Basic move**:
+The free move every Creature always has, so it can always act even with no Energy.
+_Avoid_: Struggle, default attack
+
+**Type**:
+One of 10 elemental affinities that a Creature (one or two) and every move have, deciding damage multipliers.
+_Avoid_: element, attribute, affinity
+
+**Status**:
+A temporary condition with a visible turn countdown; a Creature has at most one, and all clear after battle.
+_Avoid_: ailment, condition, debuff
+
+**Set encounter**:
+A battle whose format and opponents are fixed in the game's data, such as a trainer, Boss or 2v2 fight, as opposed to a random wild encounter.
+_Avoid_: scripted battle, event battle
+
+**Power move**:
+A move whose damage pits the user's Power against the target's Guard.
+_Avoid_: physical move
+
+**Focus move**:
+A move whose damage pits the user's Focus against the target's Will.
+_Avoid_: special move, magic move

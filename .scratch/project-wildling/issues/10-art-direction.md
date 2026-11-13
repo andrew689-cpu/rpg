@@ -1,7 +1,7 @@
 # What should Project Wildling's pixel art look like?
 
 Type: prototype
-Status: open
+Status: claimed
 Blocked by: 01, 02
 
 ## Question

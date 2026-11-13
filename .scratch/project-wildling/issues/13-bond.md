@@ -15,3 +15,5 @@ Specify Bond (see `GLOSSARY.md` and the answer to ticket 05, "What is the core g
 - How it is expressed as data per Creature species.
 
 Must be visible, never hidden stat growth, and must not copy Coromon's Potential grades.
+
+Added from ticket 07 (How does a battle work?): decide whether and how Bond lets a Creature **swap its Trait** to another of its species' Traits. Bond-unlocked moves join the learned list and use the normal loadout (4 equipped plus the Basic move).

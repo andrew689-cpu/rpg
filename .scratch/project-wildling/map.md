@@ -26,6 +26,7 @@ A complete game-design + technical spec for **Project Wildling**, an original 2D
 - [Where can original or licensable pixel art come from, and at what cost?](issues/02-art-sources.md): use only CC0, OGA-BY or commercial licences (CC-BY conflicts with the App Store). Ninja Adventure (CC0, 16×16) for the world; placeholder Creatures from *50+ Monsters Pack 2D*; final Creatures self-drawn. Keep a licence ledger.
 - [What stat, damage and type-chart systems do creature-collector games use?](issues/03-battle-mechanics-reference.md): a menu of genre mechanics with signature mechanics flagged to avoid. Mobile levers: visible randomness, 8–12 types, one energy bar, shown capture %, XP that helps lower levels catch up.
 - [What is the core game loop, and what makes Project Wildling different?](issues/05-core-loop-and-pillars.md): for 13+ nostalgic players; Restoration hook (a broken region healed Area by Area, forward-only), backed by Habitat/time of day and visible Bond-shaped growth; 5 ranked pillars; 5–15 min sessions; string-of-pearls Boss order; light postgame.
+- [How does a battle work?](issues/07-battle-system.md): 1v1, plus 2v2 in set encounters; 10 Types, no immunities, dual types capped 2×/0.5×; 7 stats (Power/Guard vs Focus/Will); Traits set by where and when caught; one Energy bar + free Basic move; ratio damage with a preview, no random crits; 6 Statuses with countdowns; 3 AI tiers; whole-party XP scaled by level gap; Pokémon-style money loss on defeat, capped at 50%.
 
 ## Not yet specified
 
@@ -33,7 +34,7 @@ A complete game-design + technical spec for **Project Wildling**, an original 2D
 - **Creature roster & evolution:** how many types, how Creatures are designed and named, rarity/distribution across Areas. Every Creature needs a Habitat and Time of day; many need two Bond-selected evolution branches. Hangs on battle, catching and Bond design.
 - **Creature art production:** no free source covers ~100 Creatures in one style. Who draws them, in what order, and how placeholders get replaced (commissioning would cost about $6k–$12k). Hangs on art direction and the roster.
 - **Progression & bosses:** the ~8 Bosses, level curve, gating of Areas, postgame rematches. Shape is fixed as a string of pearls (choose 2–3 Bosses at a time, no level scaling), and each Boss drives a big Restoration stage. Hangs on battle and Restoration.
-- **Items & economy:** currency, shops, healing, capture tools, held items. Hangs on battle and catching.
+- **Items & economy:** currency, shops, healing, capture tools, held items. Battle has fixed: an item uses up the Creature's turn; Rest points heal for free; losing costs 8 × highest party level × (Bosses beaten + 1), capped at 50% of money carried. Hangs on catching.
 - **World structure & maps:** towns, routes, dungeons, tile-map authoring workflow, encounter zones. Hangs on art direction and engine.
 - **Audio & music:** sourcing ($0 budget), style, SFX list.
 - **Save, settings & accessibility:** beyond the architecture skeleton: text speed, battle animations toggle, colour-blind support, localisation.
