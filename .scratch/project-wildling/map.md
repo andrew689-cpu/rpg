@@ -24,17 +24,19 @@ A complete game-design + technical spec for **Project Wildling**, an original 2D
 - [What do Google Play and the Apple App Store require for a free hobby game?](issues/04-store-requirements.md): Play $25 + 12-tester/14-day closed test; Apple $99/yr + Mac/Xcode; API 36, AAB, 16 KB pages; privacy policy required; no bundled analytics; watch Families-policy risk from cute art.
 
 - [Which 2D engine fits an agent-built pixel-art game for Android + iOS?](issues/01-engine-choice.md): Godot 4.7.x stable with typed GDScript (Defold is the runner-up; Unity and libGDX rejected). CI must not trust Godot's headless exit code.
+- [Where can original or licensable pixel art come from, and at what cost?](issues/02-art-sources.md): use only CC0, OGA-BY or commercial licences (CC-BY conflicts with the App Store). Ninja Adventure (CC0, 16×16) for the world; placeholder Creatures from *50+ Monsters Pack 2D*; final Creatures self-drawn. Keep a licence ledger.
 
 ## Not yet specified
 
 - **Story & world:** setting, tone, protagonist, rival(s), antagonist faction, how the story paces against progression. Hangs on the core loop & pillars.
 - **Creature roster & evolution:** how many types, how Creatures are designed and named, evolution rules, rarity/distribution across routes. Hangs on battle and catching design.
+- **Creature art production:** no free source covers ~100 Creatures in one style. Who draws them, in what order, and how placeholders get replaced (commissioning would cost about $6k–$12k). Hangs on art direction and the roster.
 - **Progression & bosses:** the ~8 boss challenges, level curve, gating of areas, postgame. Hangs on core loop and battle.
 - **Items & economy:** currency, shops, healing, capture tools, held items. Hangs on battle and catching.
 - **World structure & maps:** towns, routes, dungeons, tile-map authoring workflow, encounter zones. Hangs on art direction and engine.
 - **Audio & music:** sourcing ($0 budget), style, SFX list.
 - **Save, settings & accessibility:** beyond the architecture skeleton: text speed, battle animations toggle, colour-blind support, localisation.
-- **Quality & release:** testing strategy for agent-built code, build pipeline for Android + iOS (Mac/Xcode, AAB, 16 KB pages), store listings (avoid child-directed look unless targeting Families), privacy-policy hosting, recruiting ≥12 Play closed testers early, trader-status declaration.
+- **Quality & release:** testing strategy for agent-built code, build pipeline for Android + iOS (Mac/Xcode, AAB, 16 KB pages), licence ledger for every asset, store listings (avoid child-directed look unless targeting Families), privacy-policy hosting, recruiting ≥12 Play closed testers early, trader-status declaration.
 
 ## Out of scope
 
