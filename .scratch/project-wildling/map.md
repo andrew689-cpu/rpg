@@ -23,6 +23,8 @@ A complete game-design + technical spec for **Project Wildling**, an original 2D
 
 - [What do Google Play and the Apple App Store require for a free hobby game?](issues/04-store-requirements.md): Play $25 + 12-tester/14-day closed test; Apple $99/yr + Mac/Xcode; API 36, AAB, 16 KB pages; privacy policy required; no bundled analytics; watch Families-policy risk from cute art.
 
+- [Which 2D engine fits an agent-built pixel-art game for Android + iOS?](issues/01-engine-choice.md): Godot 4.7.x stable with typed GDScript (Defold is the runner-up; Unity and libGDX rejected). CI must not trust Godot's headless exit code.
+
 ## Not yet specified
 
 - **Story & world:** setting, tone, protagonist, rival(s), antagonist faction, how the story paces against progression. Hangs on the core loop & pillars.
