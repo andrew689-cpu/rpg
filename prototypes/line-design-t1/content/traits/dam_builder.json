@@ -1,0 +1,8 @@
+{
+  "id": "dam_builder",
+  "effect": {
+    "kind": "start_stage",
+    "stat": "guard",
+    "stages": 1
+  }
+}

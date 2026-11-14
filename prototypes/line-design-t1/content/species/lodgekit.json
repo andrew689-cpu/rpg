@@ -1,0 +1,46 @@
+{
+  "id": "lodgekit",
+  "line": "lodgekit",
+  "log_no": 9,
+  "stage": "base",
+  "types": [
+    "tide"
+  ],
+  "archetype": "bulwark",
+  "stats": {
+    "hp": 54,
+    "power": 39,
+    "guard": 66,
+    "focus": 39,
+    "will": 66,
+    "speed": 36
+  },
+  "energy": 80,
+  "catch_pct": 12,
+  "behaviour": "curious",
+  "extra_moves": [
+    {
+      "level": 11,
+      "move": "tide.support.2"
+    }
+  ],
+  "traits": {
+    "rain": "rain_swell",
+    "dusk": "tail_slap",
+    "default": "dam_builder"
+  },
+  "evolution": {
+    "level": 16,
+    "into": "dambrook"
+  },
+  "bond_moves": [
+    {
+      "rank": 1,
+      "move": "grove.weak.focus"
+    },
+    {
+      "rank": 2,
+      "move": "tide.mid.focus"
+    }
+  ]
+}

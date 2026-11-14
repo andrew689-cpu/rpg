@@ -1,0 +1,12 @@
+{
+  "id": "hedge_coat",
+  "effect": {
+    "kind": "resist_type",
+    "type": "flame",
+    "magnitude": [
+      15,
+      20,
+      25
+    ]
+  }
+}

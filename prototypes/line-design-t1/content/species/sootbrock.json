@@ -1,0 +1,60 @@
+{
+  "id": "sootbrock",
+  "line": "brockle",
+  "log_no": 2,
+  "stage": "middle",
+  "types": [
+    "flame"
+  ],
+  "archetype": "bruiser",
+  "stats": {
+    "hp": 88,
+    "power": 88,
+    "guard": 64,
+    "focus": 40,
+    "will": 56,
+    "speed": 64
+  },
+  "energy": 70,
+  "catch_pct": 25,
+  "behaviour": "wander",
+  "extra_moves": [
+    {
+      "level": 18,
+      "move": "flame.mid.power"
+    }
+  ],
+  "traits": {
+    "rain": "damp_proof",
+    "dusk": "ember_dusk",
+    "default": "stoked"
+  },
+  "evolution": {
+    "level": 34,
+    "branch": {
+      "axis": "style",
+      "ends": [
+        "power",
+        "focus"
+      ],
+      "into": [
+        "forgeback",
+        "smokesage"
+      ]
+    }
+  },
+  "bond_moves": [
+    {
+      "rank": 1,
+      "move": "wild.weak.focus"
+    },
+    {
+      "rank": 2,
+      "move": "stone.mid.power"
+    },
+    {
+      "rank": 3,
+      "move": "bond_only.flame.1"
+    }
+  ]
+}

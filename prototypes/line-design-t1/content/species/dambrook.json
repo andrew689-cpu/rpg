@@ -1,0 +1,60 @@
+{
+  "id": "dambrook",
+  "line": "lodgekit",
+  "log_no": 10,
+  "stage": "middle",
+  "types": [
+    "tide"
+  ],
+  "archetype": "bulwark",
+  "stats": {
+    "hp": 72,
+    "power": 52,
+    "guard": 88,
+    "focus": 52,
+    "will": 88,
+    "speed": 48
+  },
+  "energy": 90,
+  "catch_pct": 25,
+  "behaviour": "curious",
+  "extra_moves": [
+    {
+      "level": 22,
+      "move": "grove.mid.focus"
+    }
+  ],
+  "traits": {
+    "rain": "rain_swell",
+    "dusk": "tail_slap",
+    "default": "dam_builder"
+  },
+  "evolution": {
+    "level": 34,
+    "branch": {
+      "axis": "habitat",
+      "ends": [
+        "wetland",
+        "coast"
+      ],
+      "into": [
+        "mossdam",
+        "spraytail"
+      ]
+    }
+  },
+  "bond_moves": [
+    {
+      "rank": 1,
+      "move": "gale.weak.power"
+    },
+    {
+      "rank": 2,
+      "move": "stone.mid.power"
+    },
+    {
+      "rank": 3,
+      "move": "bond_only.tide.1"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "id": "hazelpip",
+  "trio": "t1",
+  "habitat": "woodland",
+  "times": [
+    "evening",
+    "night"
+  ],
+  "species": [
+    "hazelpip",
+    "hedgemote",
+    "rootdelve",
+    "frostdoze"
+  ],
+  "trait_slots": [
+    {
+      "slot": "cold",
+      "condition": {
+        "weather": [
+          "fog",
+          "snow"
+        ]
+      }
+    },
+    {
+      "slot": "night",
+      "condition": {
+        "time": [
+          "night"
+        ]
+      }
+    },
+    {
+      "slot": "default"
+    }
+  ],
+  "level_up": [
+    {
+      "level": 1,
+      "move": "grove.weak.focus"
+    },
+    {
+      "level": 5,
+      "move": "grove.weak.power"
+    },
+    {
+      "level": 9,
+      "move": "stone.weak.focus"
+    },
+    {
+      "level": 13,
+      "move": "grove.mid.focus"
+    },
+    {
+      "level": 20,
+      "move": "grove.support.1"
+    },
+    {
+      "level": 26,
+      "move": "grove.strong.focus"
+    },
+    {
+      "level": 30,
+      "move": "frost.mid.focus"
+    },
+    {
+      "level": 37,
+      "move": "grove.finisher.focus"
+    },
+    {
+      "level": 44,
+      "move": "grove.strong.power"
+    },
+    {
+      "level": 52,
+      "move": "grove.all_foes"
+    }
+  ],
+  "spawns": [
+    {
+      "area": "route_4",
+      "stages": [
+        1,
+        2,
+        3
+      ],
+      "form": "hazelpip",
+      "tier": "rare",
+      "levels": [
+        12,
+        15
+      ],
+      "habitat": "woodland",
+      "times": [
+        "evening",
+        "night"
+      ]
+    }
+  ]
+}

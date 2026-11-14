@@ -1,0 +1,11 @@
+{
+  "id": "snug_burrow",
+  "effect": {
+    "kind": "turn_heal",
+    "magnitude": [
+      3,
+      4,
+      6
+    ]
+  }
+}

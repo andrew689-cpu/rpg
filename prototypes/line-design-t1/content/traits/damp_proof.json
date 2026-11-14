@@ -1,0 +1,12 @@
+{
+  "id": "damp_proof",
+  "effect": {
+    "kind": "resist_type",
+    "type": "tide",
+    "magnitude": [
+      15,
+      20,
+      25
+    ]
+  }
+}

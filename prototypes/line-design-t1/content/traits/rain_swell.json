@@ -1,0 +1,17 @@
+{
+  "id": "rain_swell",
+  "effect": {
+    "kind": "type_damage",
+    "type": "tide",
+    "magnitude": [
+      15,
+      22,
+      30
+    ],
+    "when": {
+      "weather": [
+        "rain"
+      ]
+    }
+  }
+}

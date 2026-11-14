@@ -1,0 +1,51 @@
+{
+  "id": "mossdam",
+  "line": "lodgekit",
+  "log_no": 11,
+  "stage": "final",
+  "types": [
+    "tide",
+    "grove"
+  ],
+  "archetype": "bulwark",
+  "stats": {
+    "hp": 90,
+    "power": 65,
+    "guard": 110,
+    "focus": 65,
+    "will": 110,
+    "speed": 60
+  },
+  "energy": 100,
+  "catch_pct": 12,
+  "behaviour": "curious",
+  "extra_moves": [
+    {
+      "level": 36,
+      "move": "grove.strong.focus"
+    }
+  ],
+  "traits": {
+    "rain": "rain_swell",
+    "dusk": "tail_slap",
+    "default": "dam_builder"
+  },
+  "bond_moves": [
+    {
+      "rank": 2,
+      "move": "grove.mid.power"
+    },
+    {
+      "rank": 3,
+      "move": "bond_only.grove.2"
+    },
+    {
+      "rank": 4,
+      "move": "grove.finisher.focus"
+    },
+    {
+      "rank": 5,
+      "move": "signature.lodgekit"
+    }
+  ]
+}

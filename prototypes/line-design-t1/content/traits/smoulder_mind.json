@@ -1,0 +1,12 @@
+{
+  "id": "smoulder_mind",
+  "effect": {
+    "kind": "category_damage",
+    "category": "focus",
+    "magnitude": [
+      8,
+      12,
+      15
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "hazelpip",
+  "line": "hazelpip",
+  "log_no": 5,
+  "stage": "base",
+  "types": [
+    "grove"
+  ],
+  "archetype": "balanced",
+  "stats": {
+    "hp": 51,
+    "power": 51,
+    "guard": 51,
+    "focus": 51,
+    "will": 48,
+    "speed": 48
+  },
+  "energy": 80,
+  "catch_pct": 12,
+  "behaviour": "shy",
+  "extra_moves": [
+    {
+      "level": 3,
+      "move": "grove.support.2"
+    }
+  ],
+  "traits": {
+    "cold": "snug_burrow",
+    "night": "night_forager",
+    "default": "hedge_coat"
+  },
+  "evolution": {
+    "level": 16,
+    "into": "hedgemote"
+  },
+  "bond_moves": [
+    {
+      "rank": 1,
+      "move": "stone.weak.power"
+    },
+    {
+      "rank": 2,
+      "move": "grove.mid.power"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "id": "smokesage",
+  "line": "brockle",
+  "log_no": 4,
+  "stage": "final",
+  "types": [
+    "flame",
+    "lumen"
+  ],
+  "archetype": "caster",
+  "stats": {
+    "hp": 75,
+    "power": 50,
+    "guard": 70,
+    "focus": 125,
+    "will": 90,
+    "speed": 90
+  },
+  "energy": 130,
+  "catch_pct": 12,
+  "behaviour": "wander",
+  "extra_moves": [
+    {
+      "level": 36,
+      "move": "flame.finisher.focus"
+    },
+    {
+      "level": 38,
+      "move": "lumen.mid.focus"
+    }
+  ],
+  "traits": {
+    "rain": "damp_proof",
+    "dusk": "ember_dusk",
+    "default": "smoulder_mind"
+  },
+  "bond_moves": [
+    {
+      "rank": 2,
+      "move": "shade.mid.focus"
+    },
+    {
+      "rank": 3,
+      "move": "bond_only.lumen.1"
+    },
+    {
+      "rank": 4,
+      "move": "shade.finisher.focus"
+    },
+    {
+      "rank": 5,
+      "move": "signature.brockle"
+    }
+  ]
+}

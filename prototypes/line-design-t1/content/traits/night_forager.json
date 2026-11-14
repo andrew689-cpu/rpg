@@ -1,0 +1,11 @@
+{
+  "id": "night_forager",
+  "effect": {
+    "kind": "energy_regen",
+    "magnitude": [
+      5,
+      8,
+      10
+    ]
+  }
+}

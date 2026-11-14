@@ -1,0 +1,12 @@
+{
+  "id": "ember_dusk",
+  "effect": {
+    "kind": "low_hp_boost",
+    "threshold": "1/3",
+    "magnitude": [
+      15,
+      20,
+      25
+    ]
+  }
+}

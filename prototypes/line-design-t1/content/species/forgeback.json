@@ -1,0 +1,51 @@
+{
+  "id": "forgeback",
+  "line": "brockle",
+  "log_no": 3,
+  "stage": "final",
+  "types": [
+    "flame",
+    "stone"
+  ],
+  "archetype": "bruiser",
+  "stats": {
+    "hp": 110,
+    "power": 110,
+    "guard": 80,
+    "focus": 50,
+    "will": 70,
+    "speed": 80
+  },
+  "energy": 80,
+  "catch_pct": 12,
+  "behaviour": "wander",
+  "extra_moves": [
+    {
+      "level": 36,
+      "move": "wild.strong.power"
+    }
+  ],
+  "traits": {
+    "rain": "damp_proof",
+    "dusk": "ember_dusk",
+    "default": "stoked"
+  },
+  "bond_moves": [
+    {
+      "rank": 2,
+      "move": "wild.mid.power"
+    },
+    {
+      "rank": 3,
+      "move": "bond_only.stone.1"
+    },
+    {
+      "rank": 4,
+      "move": "wild.finisher.power"
+    },
+    {
+      "rank": 5,
+      "move": "signature.brockle"
+    }
+  ]
+}

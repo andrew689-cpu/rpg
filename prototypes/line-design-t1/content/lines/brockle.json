@@ -1,0 +1,99 @@
+{
+  "id": "brockle",
+  "trio": "t1",
+  "habitat": "meadow",
+  "times": [
+    "day",
+    "evening"
+  ],
+  "species": [
+    "brockle",
+    "sootbrock",
+    "forgeback",
+    "smokesage"
+  ],
+  "trait_slots": [
+    {
+      "slot": "rain",
+      "condition": {
+        "weather": [
+          "rain"
+        ]
+      }
+    },
+    {
+      "slot": "dusk",
+      "condition": {
+        "time": [
+          "evening"
+        ]
+      }
+    },
+    {
+      "slot": "default"
+    }
+  ],
+  "level_up": [
+    {
+      "level": 1,
+      "move": "flame.weak.power"
+    },
+    {
+      "level": 5,
+      "move": "flame.weak.focus"
+    },
+    {
+      "level": 9,
+      "move": "stone.weak.power"
+    },
+    {
+      "level": 13,
+      "move": "flame.mid.focus"
+    },
+    {
+      "level": 20,
+      "move": "flame.support.1"
+    },
+    {
+      "level": 26,
+      "move": "flame.strong.power"
+    },
+    {
+      "level": 30,
+      "move": "wild.mid.focus"
+    },
+    {
+      "level": 37,
+      "move": "flame.finisher.power"
+    },
+    {
+      "level": 44,
+      "move": "flame.strong.focus"
+    },
+    {
+      "level": 52,
+      "move": "flame.all_foes"
+    }
+  ],
+  "spawns": [
+    {
+      "area": "route_3",
+      "stages": [
+        1,
+        2,
+        3
+      ],
+      "form": "brockle",
+      "tier": "rare",
+      "levels": [
+        12,
+        15
+      ],
+      "habitat": "meadow",
+      "times": [
+        "day",
+        "evening"
+      ]
+    }
+  ]
+}

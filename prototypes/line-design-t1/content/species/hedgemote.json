@@ -1,0 +1,60 @@
+{
+  "id": "hedgemote",
+  "line": "hazelpip",
+  "log_no": 6,
+  "stage": "middle",
+  "types": [
+    "grove"
+  ],
+  "archetype": "warden",
+  "stats": {
+    "hp": 72,
+    "power": 40,
+    "guard": 68,
+    "focus": 60,
+    "will": 96,
+    "speed": 64
+  },
+  "energy": 115,
+  "catch_pct": 25,
+  "behaviour": "shy",
+  "extra_moves": [
+    {
+      "level": 17,
+      "move": "frost.weak.focus"
+    }
+  ],
+  "traits": {
+    "cold": "snug_burrow",
+    "night": "night_forager",
+    "default": "hedge_coat"
+  },
+  "evolution": {
+    "level": 34,
+    "branch": {
+      "axis": "type",
+      "ends": [
+        "stone",
+        "frost"
+      ],
+      "into": [
+        "rootdelve",
+        "frostdoze"
+      ]
+    }
+  },
+  "bond_moves": [
+    {
+      "rank": 1,
+      "move": "frost.weak.power"
+    },
+    {
+      "rank": 2,
+      "move": "stone.mid.focus"
+    },
+    {
+      "rank": 3,
+      "move": "bond_only.grove.1"
+    }
+  ]
+}

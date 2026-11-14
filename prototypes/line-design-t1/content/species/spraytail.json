@@ -1,0 +1,52 @@
+{
+  "id": "spraytail",
+  "line": "lodgekit",
+  "log_no": 12,
+  "stage": "final",
+  "types": [
+    "tide",
+    "gale"
+  ],
+  "archetype": "skirmisher",
+  "stats": {
+    "hp": 70,
+    "power": 110,
+    "guard": 65,
+    "focus": 65,
+    "will": 65,
+    "speed": 125
+  },
+  "energy": 100,
+  "catch_pct": 12,
+  "behaviour": "curious",
+  "habitat": "coast",
+  "extra_moves": [
+    {
+      "level": 36,
+      "move": "gale.strong.power"
+    }
+  ],
+  "traits": {
+    "rain": "rain_swell",
+    "dusk": "tail_slap",
+    "default": "sea_legs"
+  },
+  "bond_moves": [
+    {
+      "rank": 2,
+      "move": "gale.mid.focus"
+    },
+    {
+      "rank": 3,
+      "move": "bond_only.gale.1"
+    },
+    {
+      "rank": 4,
+      "move": "gale.finisher.power"
+    },
+    {
+      "rank": 5,
+      "move": "signature.lodgekit"
+    }
+  ]
+}

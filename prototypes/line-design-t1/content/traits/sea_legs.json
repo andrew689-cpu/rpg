@@ -1,0 +1,8 @@
+{
+  "id": "sea_legs",
+  "effect": {
+    "kind": "start_stage",
+    "stat": "speed",
+    "stages": 1
+  }
+}

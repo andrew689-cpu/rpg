@@ -1,0 +1,46 @@
+{
+  "id": "brockle",
+  "line": "brockle",
+  "log_no": 1,
+  "stage": "base",
+  "types": [
+    "flame"
+  ],
+  "archetype": "bruiser",
+  "stats": {
+    "hp": 66,
+    "power": 66,
+    "guard": 48,
+    "focus": 30,
+    "will": 42,
+    "speed": 48
+  },
+  "energy": 65,
+  "catch_pct": 12,
+  "behaviour": "wander",
+  "extra_moves": [
+    {
+      "level": 11,
+      "move": "stone.support.1"
+    }
+  ],
+  "traits": {
+    "rain": "damp_proof",
+    "dusk": "ember_dusk",
+    "default": "stoked"
+  },
+  "evolution": {
+    "level": 16,
+    "into": "sootbrock"
+  },
+  "bond_moves": [
+    {
+      "rank": 1,
+      "move": "stone.weak.focus"
+    },
+    {
+      "rank": 2,
+      "move": "gale.mid.power"
+    }
+  ]
+}

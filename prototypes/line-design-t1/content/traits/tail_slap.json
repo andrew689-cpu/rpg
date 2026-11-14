@@ -1,0 +1,12 @@
+{
+  "id": "tail_slap",
+  "effect": {
+    "kind": "retaliate",
+    "category": "power",
+    "magnitude": [
+      3,
+      4,
+      5
+    ]
+  }
+}

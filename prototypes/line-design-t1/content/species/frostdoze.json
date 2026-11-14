@@ -1,0 +1,51 @@
+{
+  "id": "frostdoze",
+  "line": "hazelpip",
+  "log_no": 8,
+  "stage": "final",
+  "types": [
+    "grove",
+    "frost"
+  ],
+  "archetype": "warden",
+  "stats": {
+    "hp": 90,
+    "power": 50,
+    "guard": 85,
+    "focus": 75,
+    "will": 120,
+    "speed": 80
+  },
+  "energy": 130,
+  "catch_pct": 12,
+  "behaviour": "shy",
+  "extra_moves": [
+    {
+      "level": 36,
+      "move": "frost.strong.focus"
+    }
+  ],
+  "traits": {
+    "cold": "snug_burrow",
+    "night": "night_forager",
+    "default": "hedge_coat"
+  },
+  "bond_moves": [
+    {
+      "rank": 2,
+      "move": "frost.mid.power"
+    },
+    {
+      "rank": 3,
+      "move": "bond_only.frost.1"
+    },
+    {
+      "rank": 4,
+      "move": "frost.finisher.focus"
+    },
+    {
+      "rank": 5,
+      "move": "signature.hazelpip"
+    }
+  ]
+}
