@@ -189,3 +189,13 @@ _Avoid_: spawn rate, encounter rate
 **Habitat patch**:
 A marked stretch of ground inside an Area (tall grass, shallows, a cave floor) where wild Creatures of matching Habitats wander.
 _Avoid_: grass, encounter zone, spawn point
+
+### Releases
+
+**Build channel**:
+What a build is for, which sets what it may contain: debug (has the debug menu and fixture saves), test (a release build that may still use placeholder Creature art) or production (store-ready, no placeholders).
+_Avoid_: build type, flavour, environment
+
+**Vertical slice**:
+The first playable cut of the game: Starter trio T1 and the Chapter 1 lines, with their Areas, up to Boss 1.
+_Avoid_: demo, MVP, alpha
