@@ -120,6 +120,7 @@ This is a **test, not a Type restriction**, so the starter trios in ticket 16 st
 - The **region record** holds only:
   - its **Boss list** (for the Bosses-beaten count and the Region map)
   - the **level-cap table**
+  *Amended 2026-11-14 by ticket 25 ("Which way do the spec's seven conflicts go?"): it also holds the **unordered set of its Areas** (ticket 18), which the per-region Region map, Restoration % and dormant-exit check need. It still holds no order list.*
 - **Boss records** (JSON, permanent IDs, ticket 09):
   - team and format
   - AI tier and Care-item uses
@@ -136,6 +137,7 @@ Walking the Area graph from the new-game state:
 1. Every barrier's flag is set somewhere reachable before the barrier.
 2. Each Boss becomes reachable, and **each Boss in a Chapter can be reached without beating the others** in it.
 3. Every Area with stages gets its stage 1 from some reachable flag before the finale.
+   *Amended 2026-11-14 by ticket 25 ("Which way do the spec's seven conflicts go?"): **the finale's own `boss_8` flag counts**, so the check reads "every Area with stages gets its stage 1 from a reachable flag", and 100% region Restoration is always possible in the postgame.*
 4. **At least 2 catchable species with a 2× edge over each Boss's theme Type** are reachable before that Boss.
 5. Wild, trainer and Area-challenge levels fit the bands above.
 6. No reachable wild Creature or gift is above the cap for the Bosses-beaten count at that point.

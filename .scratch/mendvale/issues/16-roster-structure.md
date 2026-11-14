@@ -150,6 +150,7 @@ The linter checks each species sits within ±5 of its band.
 
 - The 17 Common and Uncommon lines, plus middle forms in later Restoration stages, supply the Areas' native-species lists (ticket 12: Common or Uncommon only).
 - Evolved forms other than branch forms may appear wild, but only at Rare or Very rare and only in later Restoration stages.
+  *Amended 2026-11-14 by ticket 25 ("Which way do the spec's seven conflicts go?"): split by form. **Middle forms** may appear wild at **Uncommon or rarer** from **stage 1**, and may be native species. **Final forms** appear wild only at **Rare or Very rare** from **stage 2**, and are never native. **Branch forms** never appear wild.*
 
 ### Debut Chapters
 Three-stage lines debut only in Chapters 1–2. A later debut would meet the line already past its first evolution level.
