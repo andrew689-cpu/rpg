@@ -1,6 +1,6 @@
 # Research: Which 2D engine fits an agent-built pixel-art game for Android + iOS?
 
-Ticket: [`.scratch/project-wildling/issues/01-engine-choice.md`](../.scratch/project-wildling/issues/01-engine-choice.md)
+Ticket: [`.scratch/mendvale/issues/01-engine-choice.md`](../.scratch/mendvale/issues/01-engine-choice.md)
 Researched: 2026-11-13. Version numbers and licence terms below are as of that date.
 Method: primary sources only (official docs, licence pages, release notes, first-party repos). Every claim carries a numbered citation from the [Sources](#sources) list. Where only community or vendor-comparison data exists, the text says so. Lines marked **Analysis** are my judgement, not something a source states.
 

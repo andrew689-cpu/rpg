@@ -1,6 +1,6 @@
 # Research: Pixel art sources for Project Wildling
 
-Ticket: [`.scratch/project-wildling/issues/02-art-sources.md`](../.scratch/project-wildling/issues/02-art-sources.md)
+Ticket: [`.scratch/mendvale/issues/02-art-sources.md`](../.scratch/mendvale/issues/02-art-sources.md)
 Researched: 2026-11-13. All prices and licence texts are as shown on the cited page on that date. They can change, so re-check before you download or buy.
 
 **Question:** With $0 now and maybe a small budget later, where can Project Wildling get 2D pixel art? That covers Creature front/back sprites, overworld characters, tilesets, UI, battle effects and icons. For each source: licence terms, risk of mismatched styles, gaps in coverage, and which sources are ripped from (or imitate) commercial games.

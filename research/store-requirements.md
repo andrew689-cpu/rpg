@@ -1,6 +1,6 @@
 # Store requirements: Google Play and Apple App Store for a free hobby game
 
-Ticket: [04-store-requirements](../.scratch/project-wildling/issues/04-store-requirements.md)
+Ticket: [04-store-requirements](../.scratch/mendvale/issues/04-store-requirements.md)
 Researched: 2026-11-13. Sources: official Google (support.google.com, developer.android.com, android-developers.googleblog.com) and Apple (developer.apple.com) pages only. Each claim cites its source as `[n]`, and the numbered list is at the bottom.
 
 Assumptions: Project Wildling is free, has no ads, no IAP, no accounts, no network calls and no analytics. It is published by one individual on a personal Play account and an individual Apple account.
@@ -43,7 +43,7 @@ Assumptions: Project Wildling is free, has no ads, no IAP, no accounts, no netwo
 - [ ] Publish as an **Android App Bundle (AAB)**, required for new apps since August 2021. Google Play generates and signs the APKs. The compressed download must be ≤ 4 GB, and AAB does not support `.obb` files. Use Play Asset Delivery for large assets [6].
 - [ ] **16 KB page size:** apps targeting API 35+ must support 16 KB pages on 64-bit devices. From **2027-02-01**, updates without it can't be released. This affects any app with native `.so` code, which covers almost every game engine. AGP ≥ 8.5.1 + NDK ≥ r28 are compatible by default. Unity and Unreal have their own guides. Check with APK Analyzer or `zipalign -c -P 16` [5].
 - [ ] **Technical quality thresholds from February 2027:** games must stay under memory "bad behavior" thresholds (Anon RSS + Swap, p90; e.g. 2.25 GB foreground on 4 GB devices). The ≥ 25% DEX optimization rule applies only to games with > 50 MB of DEX. Missing them "can affect an app's visibility and publishing capabilities" [12]. A small pixel-art game should pass easily, but keep the targets in mind.
-- [ ] No minSdk floor was found in Play policy. The chosen engine sets it (feeds [ticket 01](../.scratch/project-wildling/issues/01-engine-choice.md)).
+- [ ] No minSdk floor was found in Play policy. The chosen engine sets it (feeds [ticket 01](../.scratch/mendvale/issues/01-engine-choice.md)).
 
 ### App content declarations (Play Console → App content)
 - [ ] **Privacy policy URL**, linked both on the store listing **and inside the app**, "even if your app doesn't access personal or sensitive user data" [7].
@@ -83,7 +83,7 @@ Assumptions: Project Wildling is free, has no ads, no IAP, no accounts, no netwo
 - [ ] **App Privacy ("nutrition label"):** choose "No, we do not collect data from this app" and publish [26]. "Collect" means data sent off the device and kept longer than needed to serve the request, so on-device-only data is not disclosed. **Third-party SDK behaviour counts** [36].
 - [ ] **Age rating questionnaire** is mandatory. Unrated apps can't be published [23]. The ratings are 4+, 9+, 13+, 16+ and 18+. **"Infrequent cartoon or fantasy violence" gives 9+, and "frequent" gives 13+** [23]. A turn-based creature battler will likely land at 9+ or 13+ depending on how you answer frequency.
   - The questionnaire keeps growing: social-media questions have been required since September 2026 [20]. "Shared Location" and "Dating and Relationships" arrive on **2026-11-16** and must be answered by **2027-01-12** [24]. Answer "none" for each, but answer them.
-- [ ] **App name ≤ 30 characters.** Don't put trademarked terms or popular app names in metadata or keywords [25] (feeds [ticket 06](../.scratch/project-wildling/issues/06-naming-and-branding.md)).
+- [ ] **App name ≤ 30 characters.** Don't put trademarked terms or popular app names in metadata or keywords [25] (feeds [ticket 06](../.scratch/mendvale/issues/06-naming-and-branding.md)).
 - [ ] Submit a complete build. Placeholder text and broken URLs are rejected under 2.1 [25].
 
 ### TestFlight
