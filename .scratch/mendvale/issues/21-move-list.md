@@ -173,6 +173,7 @@ The linter checks only one rule from this table: a Status sits on its 1–2 home
 ### Bond-only and signature moves
 - **Bond-only moves** (`pool: bond_only`, 20) never appear on any level-up list. They give off-type coverage and stronger side effects. A form's Bond list may use Bond-only moves and ordinary level-up moves.
 - **Signature moves** (`pool: signature`, 14): one per Starter line, at Bond rank 5 on **both** of its final branch forms (12), and one for each rare one-off (2). Each belongs to exactly one line. Rank 5 pays off with something you can only raise into.
+  *Amended 2026-11-14 by ticket 28 ("How is one evolution line designed and reviewed?"): a starter line's signature is its primary Type and may take `category: best` (the Basic move's rule), so neither final branch of a Style-axis line is favoured. `category: best` is allowed on signature moves only.*
 
 ### Multi-target and 2v2 support
 - 1 all-foes damage move per Type (10).

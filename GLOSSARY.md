@@ -91,6 +91,10 @@ _Avoid_: biome, terrain type, environment
 One of morning, day, evening or night on the in-game clock, which advances with play and can be skipped by resting.
 _Avoid_: real time, day/night cycle
 
+**Weather**:
+An Area's sky for the current in-game day: clear, rain, fog, snow or storm.
+_Avoid_: climate, conditions, field effect
+
 ### Growth
 
 **Bond**:
