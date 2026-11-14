@@ -51,6 +51,7 @@ Resolved by grilling with the human (2026-11-14). Builds on ticket 05 (pillars),
   - **Restoration adds Forage spots.** A Blighted Area has few or none, and stages 2+ add more (part of each stage's Habitat-patch changes).
   - The save stores the in-game day each spot was last picked. Regrowth is derived.
 - **Lure safety net:** resting at any Rest point while holding **zero Lures of any kind** gives **3 basic Lures**, with a line of NPC flavour. There's no cooldown, since it only fires at zero. Who gives them goes to the Story & world fog.
+  *Amended 2026-11-14 by ticket 22 ("What is Mendvale's story, and which beat sets each flag?"): the Lantern-keeper at that Rest point gives them ("Hollis asked us to keep a few spare for you.").*
 
 ### Items
 Each item's effect is built from a closed list of effect kinds in code (`heal_hp`, `cure_status`, `revive`, `restore_energy`, `lure`, `key`), so new items are data only.

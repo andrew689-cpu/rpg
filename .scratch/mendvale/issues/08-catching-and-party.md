@@ -56,6 +56,7 @@ Resolved by grilling with the human (2026-11-13). Terms are defined in `GLOSSARY
 - Rare one-off Creatures are never starters.
 - The first Boss must be beatable with every trio.
 - The story framing goes to the Story & world fog.
+  *Amended 2026-11-14 by ticket 22 ("What is Mendvale's story, and which beat sets each flag?"): the three are young Verdlings sheltering from the Blight in the home town this season; the two not picked slip off north, which is why they turn up in the wild later.*
 
 ### Party
 - **6 Creatures.** The first one leads in battle.

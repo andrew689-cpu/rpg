@@ -11,6 +11,22 @@ _Avoid_: Pokémon, monster, mon, pet
 
 ### World
 
+**Region**:
+The whole connected world of Areas the player restores; the Medium game has one, itself called Mendvale.
+_Avoid_: world, map, continent
+
+**Blight**:
+The quiet withering that crept down the vale from the soured Wellspring, leaving Areas and their Creatures muted.
+_Avoid_: corruption, plague, darkness
+
+**Wellspring**:
+The spring at the region's heart that once fed every root, and where the Blight began.
+_Avoid_: fountain, core, heart
+
+**Root**:
+A landmark's focal point: a spring once fed by the Wellspring, put to sleep by its Boss to keep it from the Blight until a Trainer proves able to wake it.
+_Avoid_: shrine, seal, node
+
 **Area**:
 A distinct place in the region (a town, route, dungeon, landmark or interior) with its own habitats, Creatures and Restoration progress.
 _Avoid_: zone, level, map
@@ -166,6 +182,7 @@ _Avoid_: specialty ball, net ball
 
 **Boss**:
 One of the ~8 major challenges on the critical path; beating one advances the story and a big Restoration stage.
+In-world name: **Steward** (plural Stewards).
 _Avoid_: gym leader, champion, trial captain
 
 **Chapter**:
@@ -217,6 +234,25 @@ _Avoid_: spawn rate, encounter rate
 **Habitat patch**:
 A marked stretch of ground inside an Area (tall grass, shallows, a cave floor) where wild Creatures of matching Habitats wander.
 _Avoid_: grass, encounter zone, spawn point
+
+### Story
+
+**Faction**:
+The misguided group that soured the Wellspring by forcing Creatures to grow, and still means to finish the job.
+In-world name: **the Yield** (members: Yield hands).
+_Avoid_: team, gang, villains, cult
+
+**Rival**:
+The player's friend from the home town who sets out the same morning and is met in battle at each new Chapter.
+_Avoid_: nemesis, opponent, competitor
+
+**Mentor**:
+The retired Trainer in the home town who sends the player north and whose old field notebook becomes the Collection log.
+_Avoid_: professor, guide, elder
+
+**Lantern-keeper**:
+The person who tends a Rest point and keeps spare Lures for a player who has run out.
+_Avoid_: nurse, attendant, caretaker
 
 ### Releases
 

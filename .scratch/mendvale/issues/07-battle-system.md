@@ -18,6 +18,7 @@ Resolved by grilling with the human (2026-11-13). Builds on ticket 03 (research 
 - **1v1** is the default.
 - **2v2** happens only in **set encounters** (some trainers, some Bosses, tag fights), never wild battles. The data model allows N Creatures per side.
 - In 2v2 the player picks both Creatures' actions, then taps the enemy sprite to target it. A move with only one valid target picks it automatically.
+  *Amended 2026-11-14 by ticket 22 ("What is Mendvale's story, and which beat sets each flag?"): a set-encounter slot may have an AI `controller` (an AI tier) instead of the player. In the tag battle the rival's slot fights from the rival's team; the player loses only when their own Party is out, and the ally's Creatures gain no XP or Bond.*
 - Each move has a target field: one foe / all foes / one ally / self / all. A move that hits all foes deals 75% to each. *(Ticket 21: only when it actually hits 2 or more targets; in 1v1 it does full damage.)*
 
 ### Types
@@ -25,6 +26,7 @@ Resolved by grilling with the human (2026-11-13). Builds on ticket 03 (research 
 - Multipliers are 2× / 1× / 0.5×, with **no immunities**. For dual types the combined multiplier is **capped at 2× and floored at 0.5×**.
 - Same-type bonus: **1.25×**.
 - A possible "Blight" type for the antagonist is left to the Story & world fog.
+  *Amended 2026-11-14 by ticket 22 ("What is Mendvale's story, and which beat sets each flag?"): there is no Blight Type; the faction uses Shade.*
 
 Starting chart:
 
