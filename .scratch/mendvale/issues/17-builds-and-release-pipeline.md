@@ -24,3 +24,5 @@ Already fixed:
 Store listings, privacy-policy hosting, recruiting testers and the trader declaration stay in the map's Quality & release fog.
 
 Added from ticket 15 (How do the Bosses and Area gating sequence the region?): the content tests include a **Boss 1 simulation gate**: 200 seeded headless battles for every starter in every trio, up to 15 starters (3,000 battles), which fail the build below a 70% win rate. The linter also walks the Area graph to check gating. Both run on the pure core and should be cheap, but they belong in the CI time budget.
+
+Added from ticket 16 (How is the Creature roster structured?): the licence ledger gets a `placeholder` column. Internal and closed-testing exports allow placeholder Creature sprites, but a **production** export must fail if any reachable species still uses a placeholder. The linter also gains roster checks (counts, bands, a name blocklist) that run in the same content gate.

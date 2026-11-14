@@ -21,3 +21,11 @@ Already fixed:
 - **Ticket 14:** item-spot and Forage-spot markers. Blighted Areas have few Forage spots, and stages 2+ add more.
 
 Placing each species in Areas waits for this ticket and the roster ticket (16). The tool used to draw Areas is ticket 19.
+
+Added from ticket 16 (How is the Creature roster structured?):
+- **Lines by debut Chapter:** 7 lines first appear in Ch 1, 5 in Ch 2, 5 in Ch 3, 4 in Ch 4 and 1 in Ch 5 or postgame. Three-stage lines debut only in Ch 1–2. Shade lines debut in Ch 2–3, Lumen in Ch 3–4, and Frost by Ch 3.
+- **Before Boss 1:** a **Gale** line and a **Flame** line must be the **two most Common species** in the Areas before Boss 1 (the Boss 1 gate's bot party uses them), and at least 2 Wild lines live there for Boss 1's team.
+- **Wild starters:** all 12 starter base forms appear **Rare in Chapter 2–3 Areas**, each matching its Habitat, at most 2 per Area.
+- **Rare one-offs:** 2 set encounters at **final-stage focal points**, one in Chapter 4 and one postgame.
+- Each species has one home Habitat kind, so the Habitat kinds list sets every species' Habitat field as well as the Habitat Lures.
+- No starter line is on a trainer or Boss team before Chapter 3, and branch forms are in no spawn table.

@@ -69,6 +69,18 @@ _Avoid_: friendship level, affection, grade, potential
 Which way a Creature has been raised along one axis (style, type, habitat or time), a needle the player can steer back and forth; it picks between two evolution branches.
 _Avoid_: alignment, personality, nature, bias
 
+**Evolution line**:
+A base species together with every species it can evolve into; each form in a line is its own species.
+_Avoid_: family, evolution tree, chain
+
+**Branch form**:
+One of the two species a branching species can evolve into, picked by its Leaning.
+_Avoid_: variant, split evolution, alternate form
+
+**Stat archetype**:
+A species' broad battle role (such as Bruiser or Bulwark), which shapes how its stats are spread.
+_Avoid_: class, role, build
+
 **Trait**:
 A Creature's visible passive ability, set by the Habitat, Time of day and weather where it was caught; it is never rolled at random.
 _Avoid_: ability, nature, personality, IV
@@ -102,6 +114,10 @@ _Avoid_: dex, Pokédex, bestiary
 **Starter**:
 The first Creature the player picks, from three offered at the start of the game.
 _Avoid_: partner, first pick
+
+**Starter trio**:
+The three Starters offered together, whose Types form a triangle where each beats the next.
+_Avoid_: starter set, starter group
 
 ### Items and money
 
