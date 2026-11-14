@@ -97,6 +97,14 @@ _Avoid_: family, evolution tree, chain
 One of the two species a branching species can evolve into, picked by its Leaning.
 _Avoid_: variant, split evolution, alternate form
 
+**Bond move**:
+A move a Creature learns by reaching a Bond rank rather than a level; each form has its own short list of them.
+_Avoid_: friendship move, egg move, tutor move
+
+**Signature move**:
+A move that belongs to exactly one evolution line, learned only at the highest Bond rank.
+_Avoid_: exclusive move, unique move, Z-move
+
 **Stat archetype**:
 A species' broad battle role (such as Bruiser or Bulwark), which shapes how its stats are spread.
 _Avoid_: class, role, build

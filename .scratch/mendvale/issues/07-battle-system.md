@@ -18,7 +18,7 @@ Resolved by grilling with the human (2026-11-13). Builds on ticket 03 (research 
 - **1v1** is the default.
 - **2v2** happens only in **set encounters** (some trainers, some Bosses, tag fights), never wild battles. The data model allows N Creatures per side.
 - In 2v2 the player picks both Creatures' actions, then taps the enemy sprite to target it. A move with only one valid target picks it automatically.
-- Each move has a target field: one foe / all foes / one ally / self / all. A move that hits all foes deals 75% to each.
+- Each move has a target field: one foe / all foes / one ally / self / all. A move that hits all foes deals 75% to each. *(Ticket 21: only when it actually hits 2 or more targets; in 1v1 it does full damage.)*
 
 ### Types
 - 10 types: **Flame, Tide, Grove, Gale, Stone, Volt, Frost, Shade, Lumen, Wild**. Every Creature has 1–2 types; every move has 1.
@@ -43,7 +43,7 @@ Starting chart:
 
 ### Stats
 - **HP, Power, Guard, Focus, Will, Speed, Energy.**
-- **Power moves** (fist icon) use Power vs Guard. **Focus moves** (spark icon) use Focus vs Will. Each move sets its own category.
+- **Power moves** (fist icon) use Power vs Guard. **Focus moves** (spark icon) use Focus vs Will. Each move sets its own category. *(Ticket 21: so does every move that deals no damage, so Style Leaning counts every move use.)*
 - Readability: colour-paired horizontal bars with numbers (Power and Guard warm, Focus and Will cool). The damage preview does the maths for the player.
 - Levels run **1–100**; the Medium credits roll around level 50–55. The stat formula is species base × level, with no random component.
 
@@ -55,14 +55,16 @@ Starting chart:
 - Trait swapping is deferred to ticket 13 (Bond).
 
 ### Moves and Energy
-- **4 equipped moves plus the free Basic move.** The Basic move has 30 power, uses the Creature's first type, gets no same-type bonus and costs no Energy.
+- **4 equipped moves plus the free Basic move.** The Basic move has 30 power, uses the Creature's first type, gets no same-type bonus and costs no Energy. *(Ticket 21: it uses whichever of the user's Power and Focus is higher, against the matching defence.)*
 - Learned moves are kept forever and can be swapped freely outside battle.
 - A single **Energy** bar per Creature. It regains **20% of max per turn** and refills after battle. Move costs run about 15% (weak) to 60% (finisher) of a typical max.
+  *Amended 2026-11-14 by ticket 21: max Energy is a **flat species value, not scaled by level** (typical about 100), and move costs are absolute numbers.*
 - No overspend penalty and no forced rest (those are Temtem's and Coromon's signature mechanics).
 
 ### Damage and randomness
 - **Ratio formula:** power × attacking stat ÷ defending stat × modifiers (type, same-type bonus, stat stages, Trait).
-- **90–100% roll.** No random crits; a move may carry a crit chance only if the % shows on its card.
+  *Amended 2026-11-14 by ticket 21 ("How is the move list structured?"): the formula gains a level term, `power × attacker level × attack ÷ defence × k × modifiers`, so a move takes the same share of an equal-level foe's HP all game long. `k` is set so that power P takes about P ÷ 3 % of HP from a neutral target (no same-type bonus, mid roll).*
+- **90–100% roll.** No random crits; a move may carry a crit chance only if the % shows on its card. *(Ticket 21: a crit does 1.5×.)*
 - Accuracy is fixed per move and shown. **No accuracy or evasion stages.**
 - Before confirming, the preview shows the **damage range as a % of the target's HP, plus effectiveness**. Any chance to inflict a status shows its %.
 
