@@ -84,6 +84,7 @@ Counting each Type of a dual-type species once:
 ### Traits through evolution
 - 2–3 Traits per species, and one of them is the **default**: 1 default plus 1–2 with a condition.
 - Trait **conditions are defined per line**. Each form may give each Trait a different or stronger effect.
+  *Amended 2026-11-14 by ticket 28 ("How is one evolution line designed and reviewed?"): conditions are time of day or weather only, and live on the new `line` record as ordered slots. Starter lines have 3 slots and no `morning` condition.*
 - A Creature keeps **which Trait it got** through evolution and branching (its "night Trait" stays its night Trait). A wild-caught evolved form uses the same condition list.
 
 ### Habitat and time
@@ -169,6 +170,7 @@ Three-stage lines debut only in Chapters 1–2. A later debut would meet the lin
   - at least 2 **Wild** lines, for Boss 1's team of 2
 - **No starter line is on a trainer or Boss team before Chapter 3.**
 - **Wild starters:** all 12 starter base forms appear **Rare in Chapter 2–3 Areas**, each in an Area matching its Habitat, at most 2 per Area, the player's own trio included.
+  *Amended 2026-11-14 by ticket 28 ("How is one evolution line designed and reviewed?"): wild starter base forms are always **level 12–15** wherever they're placed, below their evolution at 16, as a named exemption from the Area band lint. Spawn entries are written on the line record (ADR 0004).*
 - **Rare one-offs:** each is a set encounter at a **final-stage focal point**, one in Chapter 4 and one postgame. They respawn after resting (ticket 08). Neither may be Shade or Lumen if that would make it the only counter on offer.
 
 ### Names

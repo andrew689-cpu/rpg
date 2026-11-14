@@ -52,8 +52,10 @@ Starting chart:
 ### Individuals
 - **No random stat rolls**: no IVs, natures or grades.
 - Each species has **2–3 Traits**. Each Trait has a condition (Habitat, time of day or weather), plus one default Trait when no condition matches. If several match, the first listed in data wins.
+  *Amended 2026-11-14 by ticket 28 ("How is one evolution line designed and reviewed?"): a Trait slot's condition is **time of day or weather only**. A species spawns only in its home Habitat, so a Habitat condition could never vary. Habitat still matters in battle through a Trait's optional `when`.*
 - The Trait is fixed at the catch and **shown before throwing**.
 - A Trait is a passive effect built from a fixed set of effect types (e.g. "+20% Tide damage in rain", "starts battle with +1 Guard").
+  *Amended 2026-11-14 by ticket 28 ("How is one evolution line designed and reviewed?"): the closed list is 10 battle-only effect kinds (`type_damage`, `category_damage`, `resist_type`, `start_stage`, `status_immune`, `status_chance`, `energy_regen`, `low_hp_boost`, `turn_heal`, `retaliate`), one effect per Trait, each with an optional in-battle `when`.*
 - Trait swapping is deferred to ticket 13 (Bond).
 
 ### Moves and Energy
