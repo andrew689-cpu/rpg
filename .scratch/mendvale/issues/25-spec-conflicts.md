@@ -1,7 +1,7 @@
 # Which way do the spec's seven conflicts go?
 
 Type: grilling
-Status: open
+Status: claimed
 Blocked by: 24
 
 ## Question
