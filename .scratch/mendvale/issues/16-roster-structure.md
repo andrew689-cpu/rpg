@@ -194,6 +194,7 @@ Three-stage lines debut only in Chapters 1–2. A later debut would meet the lin
 - A final replaces its placeholder by dropping files at the conventional paths (ticket 09), with no data change.
 
 ### Order of work
+0. *Added 2026-11-14 by ticket 21 ("How is the move list structured?"):* the **move-list slice** (110 level-up moves and 20 Bond-only moves) comes first, because every line picks from it. Signature moves are written with their own line.
 1. **Batch 1 data:** all **12 starter lines** (the Boss 1 gate runs every starter in every trio), plus the **7 Chapter-1 lines** and Boss 1's team.
 2. **Batch 1 art, the vertical slice:** trio **T1** plus the 7 Chapter-1 lines as finals. Everything else stays a placeholder.
 3. **Batches 2–5:** data and art follow the **Chapter where each form is first seen**. Starter middle forms and the other three trios' base forms come with Chapter 2. Starter final and branch forms come with Chapter 3.

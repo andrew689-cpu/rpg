@@ -58,7 +58,7 @@ Resolved by grilling with the human (2026-11-14). Builds on ticket 05 (pillars),
 - **Ace level** is the highest level on the team. The others sit 1–3 levels below.
 - **Type identity:** most of each team shares the Boss's theme Type. **From Chapter 3 on**, each team adds **one off-type "coverage" Creature**, so a single counter-pick can't sweep it and switching pays (pillar 5). Boss 8 has a mixed team.
 - **Unthemed Types: Flame, Gale, Shade.** They are left for Area challenges, the rival and the antagonist. Shade is free to become the Blight faction's Type in the Story & world fog.
-- **Boss 5** is a pair of Menders sharing **one Boss record**: one flag, one prize, one +1 to Bosses beaten. Volt support moves suit 2v2 (one Creature charging while the other strikes).
+- **Boss 5** is a pair of Menders sharing **one Boss record**: one flag, one prize, one +1 to Bosses beaten. Volt support moves suit 2v2 (one Creature charging while the other strikes). *(Ticket 21: the charge is the Volt `empower_ally` move plus a self-or-ally `energy` move, built from data, not special code.)*
 - The player's whole Party of 6 is always allowed, whatever the Boss's team size.
 - A Boss's home Area should suit its Type (a Tide Boss by water). The World structure fog places it.
 - Losing to a Boss follows ticket 07 (money loss, immediate retry).
