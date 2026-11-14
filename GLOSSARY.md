@@ -1,11 +1,12 @@
-# Project Wildling
+# Mendvale
 
-An original 2D pixel-art Creature-collecting RPG for Android and iOS. "Project Wildling" is a placeholder title.
+An original 2D pixel-art Creature-collecting RPG for Android and iOS. "Mendvale" is both the title and the internal codename.
 
 ## Language
 
 **Creature**:
-A collectible, battle-capable being that the player can catch, raise and add to their team. Placeholder term until an in-world name is chosen.
+A collectible, battle-capable being that the player can catch, raise and add to their team.
+In-world name: **Verdling** (plural Verdlings).
 _Avoid_: Pokémon, monster, mon, pet
 
 ### World
@@ -27,7 +28,7 @@ The state an Area starts in before its first Restoration stage: muted, quiet and
 _Avoid_: corrupted, dead, ruined
 
 **Mending**:
-One optional local action that counts toward an Area's next Restoration stage, such as registering a native species, beating the local trainers or challenge, or finding a hidden site. Placeholder name.
+One optional local action that counts toward an Area's next Restoration stage, such as registering a native species, beating the local trainers or challenge, or finding a hidden site.
 _Avoid_: deed, quest, task, objective
 
 **Native species**:
@@ -74,8 +75,14 @@ _Avoid_: ability, nature, personality, IV
 
 ### Collecting
 
+**Trainer**:
+Anyone who raises and battles with Creatures, the player included.
+In-world name: **Mender**.
+_Avoid_: tamer, keeper, ranger
+
 **Lure**:
-The item a player offers a wild Creature, which it may accept and choose to join them. Placeholder name until naming is decided.
+The item a player offers a wild Creature, which it may accept and choose to join them.
+In-world name: **Offering**.
 _Avoid_: ball, capture device, trap
 
 **Party**:
@@ -83,11 +90,13 @@ The up-to-6 Creatures travelling with the player and available in battle.
 _Avoid_: squad, roster
 
 **Sanctuary**:
-The place where every Creature not in the Party lives, reachable from any Rest point. Placeholder name.
+The place where every Creature not in the Party lives, reachable from any Rest point.
+In-world name: **Haven**.
 _Avoid_: PC, box, storage, bank
 
 **Collection log**:
-The per-species record of what the player has seen, caught and discovered (where it lives, its Traits, its evolution branches). Placeholder name.
+The per-species record of what the player has seen, caught and discovered (where it lives, its Traits, its evolution branches).
+In-world name: **Almanac**.
 _Avoid_: dex, Pokédex, bestiary
 
 **Starter**:

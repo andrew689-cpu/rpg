@@ -27,3 +27,7 @@ Added from ticket 13 (How does Bond shape a Creature?):
 - The save stores `bond_points` and `needles` (`{axis: {ends, value}}`) per Creature. Bond rank and a pending evolution offer are derived, never stored, so retuning thresholds can't take a rank away.
 - Bond tuning (rank thresholds, points per battle kind, needle range and step, warning window) is global data.
 - The content linter must check that every branch is reachable (Type ends learnable, Habitat ends reachable, Style has both a Power and a Focus move before evolving), 2–4 Bond moves per species at ranks 1–5, and at most one branch point per line.
+
+Added from ticket 06 (What are the game's title and the in-world name for Creatures?):
+- Godot project name and app ID: `mendvale`, `io.github.andrew689cpu.mendvale` (permanent, the same on both stores).
+- Code and data use generic identifiers (`creature`, `trainer`, `lure`, `sanctuary`, `collection_log`, `mending`). Every in-world name (Verdling, Mender, Offering, Haven, Almanac) lives only in localisation strings, so a rename is a string change.
