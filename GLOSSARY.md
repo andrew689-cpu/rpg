@@ -232,7 +232,7 @@ How often a species spawns in a given place: Common, Uncommon, Rare or Very rare
 _Avoid_: spawn rate, encounter rate
 
 **Habitat patch**:
-A marked stretch of ground inside an Area (tall grass, shallows, a cave floor) where wild Creatures of matching Habitats wander.
+A connected stretch of ground of one Habitat kind inside an Area (tall grass, shallows, a cave floor), where wild Creatures of that Habitat wander and which they never leave.
 _Avoid_: grass, encounter zone, spawn point
 
 ### Story

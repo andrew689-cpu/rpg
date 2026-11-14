@@ -88,6 +88,13 @@ Each module has a small interface, a `README.md` stating it, and its own tests t
   2. The import log is scanned for `Error importing` and YATI's `Import finished with`, as well as `SCRIPT ERROR`.
   3. Every `.tmj` has an imported scene, and no imported map scene contains an `Image` sub-resource.
   The exact map format is ticket 23, "What exactly does an Area's `.tmj` contain?".
+- *Amended 2026-11-14 by ticket 23 ("What exactly does an Area's `.tmj` contain?"), which holds the full format:*
+  - **Layers:** `ground`, `detail`, `overhead` (drawn above actors) and `logic`, plus one hidden `stage_N` group per Restoration stage holding only the changed cells (an `erase` tile removes one). The shell copies them onto the base layers in rings; the bake precomputes the grid per stage.
+  - **Habitat patches are logic tiles, not markers:** a patch is a 4-connected run of one Habitat kind, with a bake-assigned ID.
+  - **15 marker classes**, each identified as `<area_id>.<object Name>`, permanent once released, with shared `stage_from` / `stage_until` / `flag_on` / `flag_off` fields.
+  - **Class defaults are merged by the bake** from the committed `content/maps/mendvale.tiled-project`, replacing "every field set explicitly" above; empty reference fields are lint errors.
+  - **Files:** `content/maps/<area_id>.tmj`, so the Area JSON needs no map field (replacing "Area JSON refers to its map by ID" above); tilesets in `content/maps/tilesets/`.
+  - **Import:** one shared YATI preset with a post-processor (`src/game/overworld/map_import_post.gd`) that deletes the `markers` and `logic` layers, hides the stage groups and strips physics. The shell draws actors from the bundle.
 
 ### Events and dialogue
 - NPC talk, story beats, gifts and cutscenes are **JSON arrays of steps from a closed command list** (`say`, `choice`, `set_flag`, `if_flag`, `give_item`, `give_creature`, `battle`, `move_actor`, `wait`, `heal` …), run by `EventRunner`. They emit presentation requests the same way battles emit events.

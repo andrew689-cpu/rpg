@@ -19,6 +19,7 @@ Resolved by grilling with the human (2026-11-13). Terms are defined in `GLOSSARY
 ### Encounters
 - Wild Creatures are **visible on the map**; touching one starts a 1v1 battle. There are no hidden random encounters.
 - **Up to 4 per Habitat patch.** A caught or defeated Creature is replaced after a short delay. The whole patch re-rolls when the time of day or weather changes, or when the player re-enters the Area.
+  *Amended 2026-11-14 by ticket 23 ("What exactly does an Area's `.tmj` contain?"): a patch is a connected run of map cells of one Habitat kind, and **wild Creatures never leave their patch's cells**. A curious one approaches only up to the patch's edge, and a shy one flees within it.*
 - Each species has a **behaviour** in its data:
   - **wander:** drifts around.
   - **curious:** approaches the player.
