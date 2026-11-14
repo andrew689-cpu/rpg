@@ -124,6 +124,14 @@ _Avoid_: specialty ball, net ball
 One of the ~8 major challenges on the critical path; beating one advances the story and a big Restoration stage.
 _Avoid_: gym leader, champion, trial captain
 
+**Chapter**:
+A group of Bosses on offer together, with the Areas that lead to them; the next Chapter opens once every Boss in the current one is beaten.
+_Avoid_: tier, act, stage, gym circuit
+
+**Blight barrier**:
+An obstacle on a route, such as brambles, a dried ford or a rockfall, that only an Area's first Restoration stage clears.
+_Avoid_: roadblock, gate, HM obstacle
+
 **Rest point**:
 A camp, inn or town spot where the team heals for free, the in-game clock can be skipped, and the player returns after losing.
 _Avoid_: Pokémon Center, save point, checkpoint
