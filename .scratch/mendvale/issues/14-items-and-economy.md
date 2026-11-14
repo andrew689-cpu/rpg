@@ -25,3 +25,5 @@ Added from ticket 12 (How does Restoration change an Area?): each Restoration st
 Added from ticket 13 (How does Bond shape a Creature?): **no item affects Bond rank, Leanings or Traits**. There are no Bond treats, needle re-centring items or branch-forcing items; Bond is earned only by raising the Creature.
 
 Added from ticket 06 (What are the game's title and the in-world name for Creatures?): the Lure's in-world name is **Offering**, so tiers and Habitat variants read as "<X> Offering". Item data keeps the generic `lure` kind. A currency name should fit the family of plain English words (Mender, Mending, Haven, Almanac).
+
+Added from ticket 09 (What is the technical architecture?): each item is a **JSON record** (`content/items/<id>.json`) with a permanent snake_case ID, its icon found by convention at `assets/items/<id>.png`, and its display text in strings. Item effects should be built from a **closed list of effect kinds** in code (like Mending kinds and Leaning axes), so new items need no code. Shop stock and prices are data on the shop or Area record. The save stores only the bag (item ID → count) and money.
