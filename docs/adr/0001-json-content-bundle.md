@@ -9,5 +9,6 @@ The bake doubles as the build gate: a lint error fails the build, so broken cont
 ## Consequences
 
 - Nothing typed exists until load time. `ContentDB` turns the bundle into typed GDScript classes, and the JSON Schemas plus the linter do the job the inspector would have done.
-- Content isn't editable in the Godot inspector. Maps are the exception: they stay Godot `TileMapLayer` scenes, reached through the `AreaGrid` seam.
+- Content isn't editable in the Godot inspector. Maps are drawn in Tiled and saved as `.tmj`, which is JSON too: the bake reads them straight into each Area's `AreaGrid`, and the YATI importer generates the `TileMapLayer`s that draw them. The `.tmj` is the source of truth.
+- *Amended 2026-11-14 (ticket 19, "Which tool authors Area maps, and how do they become content data?"):* maps were first kept as Godot `TileMapLayer` scenes. They moved to Tiled because Godot 4.7 stores tile data as one base64 string per layer, which agents can't read, edit or diff.
 - IDs are permanent once released. A rename goes through `content/aliases.json`, never an edit of the ID.
