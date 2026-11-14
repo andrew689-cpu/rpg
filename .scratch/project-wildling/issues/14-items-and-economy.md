@@ -7,7 +7,7 @@ Blocked by: none
 ## Question
 
 Specify the item and economy design:
-- **Currency:** one currency or several, and what it's called (or a placeholder until ticket 06).
+- **Currency:** one currency or several, and what it's called (ticket 06 left the currency name to this ticket).
 - **Income sources:** trainer rewards, selling, finds, postgame.
 - **Shops:** what each town sells, how stock grows with progress and Restoration.
 - **Item categories:** healing and Status cures, **Lure tiers and Habitat-specific Lures**, held items (if any), key items, and anything Bond- or Trait-related.
@@ -23,3 +23,5 @@ Must respect "Respect the Player's Time" (no grinding needed for money) and the 
 Added from ticket 12 (How does Restoration change an Area?): each Restoration stage may add **shop stock** in its Area, so shop growth can be keyed to stages as well as Bosses. Restoration itself never rewards money or items.
 
 Added from ticket 13 (How does Bond shape a Creature?): **no item affects Bond rank, Leanings or Traits**. There are no Bond treats, needle re-centring items or branch-forcing items; Bond is earned only by raising the Creature.
+
+Added from ticket 06 (What are the game's title and the in-world name for Creatures?): the Lure's in-world name is **Offering**, so tiers and Habitat variants read as "<X> Offering". Item data keeps the generic `lure` kind. A currency name should fit the family of plain English words (Mender, Mending, Haven, Almanac).

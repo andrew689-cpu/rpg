@@ -1,10 +1,10 @@
-# Map: Project Wildling
+# Map: Mendvale
 
 Label: wayfinder:map
 
 ## Destination
 
-A complete game-design + technical spec for **Project Wildling**, an original 2D pixel-art Creature-collecting RPG for Android and iOS, released free as a hobby project. It must be detailed enough to hand to agents for slicing into implementation tickets, with no design decisions left open.
+A complete game-design + technical spec for **Mendvale**, an original 2D pixel-art Creature-collecting RPG for Android and iOS, released free as a hobby project. It must be detailed enough to hand to agents for slicing into implementation tickets, with no design decisions left open.
 
 ## Notes
 
@@ -13,7 +13,8 @@ A complete game-design + technical spec for **Project Wildling**, an original 2D
 - **Platforms:** Android and iOS. Offline single-player first.
 - **Builder:** mostly Claude agents, with the human reviewing. Specs should break into small, independently testable modules.
 - **Art budget:** $0 for now (CC0 packs, self-drawn, generated placeholders). Art must be swappable without code changes. Revisit budget later.
-- **Vocabulary:** see `GLOSSARY.md` at the repo root. "Creature" and "Project Wildling" are placeholders until naming is decided.
+- **Vocabulary:** see `GLOSSARY.md` at the repo root. Specs and code use the generic glossary terms (Creature, Trainer, Lure, Sanctuary, Collection log); the in-world names (Verdling, Mender, Offering, Haven, Almanac) are display strings only.
+- **Names:** the title and codename are both **Mendvale** (`io.github.andrew689cpu.mendvale`). The GitHub repo stays `rpg`. The folders `pokemongame` and `.scratch/project-wildling` are due to be renamed to `mendvale` (see [What are the game's title and the in-world name for Creatures?](issues/06-naming-and-branding.md)).
 - **Skills every session should consult:** `grilling` + `domain-modeling` for grilling tickets; `prototype` for prototype tickets; `research` for research tickets; `codebase-design` for architecture tickets.
 - **Tracker:** local markdown (see `docs/agents/issue-tracker.md`). Tickets live in `issues/`; research findings live on `research/<name>` branches, pushed to `origin` (github.com/andrew689-cpu/rpg) and never merged.
 
@@ -32,6 +33,7 @@ A complete game-design + technical spec for **Project Wildling**, an original 2D
 - [How does the game feel on a touchscreen?](issues/11-controls-and-orientation.md): portrait first; floating pad plus tap-to-move; map above a control deck; battle info strip, Area-drawn scene and a thumb-arc command deck; tap to preview, tap again to confirm; 2v2 targeting by tapping a foe sprite; left-handed mirroring; gamepad and keyboard through five input actions.
 - [How does Restoration change an Area?](issues/12-restoration.md): Areas start Blighted with 3 stages; stage 1 only from story flags (one may restore several Areas), stages 2+ from K-of-M Mendings (native species caught in the Area, trainers, one Area challenge, hidden sites) that count early; stages change spawns, tiles, patches, NPCs, optional paths, shops, weather, music, never battle rules; focal point shows progress, Region map lists the next stage; save keeps facts plus highest stage, never regresses.
 - [How does Bond shape a Creature?](issues/13-bond.md): Bond = a Bond rank (0–5, earned by acting in battles, unlocks 2–4 Bond moves per form) + Leaning needles on four axes (Style, Type, Habitat, Time) the player can steer; evolution at a species level, postponable, the needle picks one of two branches, shown as silhouettes until discovered; no stat effects, no Trait swaps, no Bond items; at most one branch per line in v1.
+- [What are the game's title and the in-world name for Creatures?](issues/06-naming-and-branding.md): the title and codename are **Mendvale** (app ID `io.github.andrew689cpu.mendvale`). Creatures are **Verdlings**, players **Menders**; Offering, Haven, Almanac and Mending replace the placeholders. Code keeps generic identifiers; names live only in strings. The store subtitle is "A creature-collecting RPG". The currency and region names are left to other tickets.
 
 ## Not yet specified
 
@@ -41,7 +43,7 @@ A complete game-design + technical spec for **Project Wildling**, an original 2D
 - **World structure & maps:** towns, routes, dungeons, tile-map authoring workflow, Habitat patches. 16×16 tiles, about 11 × 12 tiles visible in portrait. From Restoration: each restorable Area needs a focal point, a tile-swap layer per stage spreading from it, 3–6 native species, its trainers, at most one Area challenge, hidden sites, and optional paths that only stages 2+ open; Rest points must be reachable in Blighted Areas too. Hangs on the Bosses and gating ticket.
 - **Audio & music:** sourcing ($0 budget), style, SFX list.
 - **Save, settings & accessibility:** beyond the architecture skeleton. Settings so far: movement scheme (floating or fixed pad), left-handed mirroring, run toggle, follower toggle, battle text auto-advance, one-tap moves, simple-list battle commands, battle animations off. Still open: colour-blind support (type colours need icons or labels too), a large-text mode, localisation (Public Pixel covers 98 languages).
-- **Quality & release:** testing strategy for agent-built code, build pipeline for Android + iOS (Mac/Xcode, AAB, 16 KB pages), licence ledger for every asset (including the Public Pixel and Tiny5 fonts), store listings (avoid child-directed look unless targeting Families), privacy-policy hosting, recruiting ≥12 Play closed testers early, trader-status declaration.
+- **Quality & release:** testing strategy for agent-built code, build pipeline for Android + iOS (Mac/Xcode, AAB, 16 KB pages), licence ledger for every asset (including the Public Pixel and Tiny5 fonts), store listings (avoid child-directed look unless targeting Families), privacy-policy hosting, recruiting ≥12 Play closed testers early, trader-status declaration. From naming: a manual USPTO, EUIPO, WIPO and store search for "Mendvale" and "Verdling" before release; the listing leads with "raised, not rolled" to stand apart from *Pokémon Pokopia*'s restore-the-habitat pitch.
 
 ## Out of scope
 
