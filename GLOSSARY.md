@@ -103,6 +103,21 @@ _Avoid_: dex, Pokédex, bestiary
 The first Creature the player picks, from three offered at the start of the game.
 _Avoid_: partner, first pick
 
+### Items and money
+
+**Money**:
+The game's single currency, earned from trainers, Bosses, finds and selling, and spent in shops.
+In-world name: **Marks**.
+_Avoid_: gold, coins, cash, Poké Dollars
+
+**Forage**:
+A Habitat-specific pickup (an herb, a berry) that grows back each in-game day in a fitting spot.
+_Avoid_: berry tree, harvest, drop
+
+**Habitat Lure**:
+A Lure that works much better on Creatures of one Habitat, sold where that Habitat lives.
+_Avoid_: specialty ball, net ball
+
 ### Progression
 
 **Boss**:
