@@ -76,9 +76,12 @@ Each module has a small interface, a `README.md` stating it, and its own tests t
 - **Lint covers:** schemas; every ID resolves; the Restoration rules from ticket 12 and the Bond rules from ticket 13; events (flags read but never set, battles that point at missing trainers); missing or orphaned string keys; the licence ledger; sprite palette and size.
 
 ### Maps
-- An Area's map is a **Godot scene** with `TileMapLayer`s (ground, detail, collision, and one Restoration tile-swap layer per stage). **Marker nodes** carry IDs for warps, Habitat patches, trainers, NPCs, hidden sites, the focal point and Rest points.
-- The core never reads the scene. A loader extracts a plain **`AreaGrid`** (walkable cells, patch cells, marker positions by ID) for the core and the scenario tests.
-- Area JSON refers to its map scene by ID. Who paints the maps, and how, stays in the World-structure fog.
+*Amended 2026-11-14 by ticket 19 ("Which tool authors Area maps, and how do they become content data?"); the original said maps were Godot scenes.*
+- An Area's map is a **Tiled 1.12 `.tmj` file**, the source of truth. It has CSV-encoded tile layers (ground, detail, a logic layer for collision and Habitat patches, and one `restore_N` tile-swap layer per Restoration stage). **Typed marker objects**, one custom class per kind in the Tiled project file, carry IDs for exits, Habitat patches, trainers, NPCs, item and Forage spots, hidden sites, Blight barriers, the focal point, Rest points and shops.
+- The core never reads a scene. `tools/bake_content` parses the `.tmj` as plain JSON into a plain **`AreaGrid`** (walkable cells, patch cells, marker positions by ID) inside `content.bundle.json`, for the core and the scenario tests.
+- For drawing, the **YATI** importer (MIT, vendored in `addons/`) generates the `TileMapLayer`s from the same `.tmj` on import. CI runs `godot --headless --import`, with multi-threaded import off. If YATI fails, a small script paints the layers at runtime with `set_cell`.
+- **Lint covers markers:** only allowed kinds; **every field set explicitly** (Tiled keeps class defaults outside the map); every ID resolves; exits pair up; one focal point; barriers clear only at stage 1; flood-fill reachability; level bands. Avoid Tiled 1.12 list properties until tested.
+- Area JSON refers to its map by ID. The importer check on macOS is ticket 20.
 
 ### Events and dialogue
 - NPC talk, story beats, gifts and cutscenes are **JSON arrays of steps from a closed command list** (`say`, `choice`, `set_flag`, `if_flag`, `give_item`, `give_creature`, `battle`, `move_actor`, `wait`, `heal` …), run by `EventRunner`. They emit presentation requests the same way battles emit events.
