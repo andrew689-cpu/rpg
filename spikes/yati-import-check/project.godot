@@ -1,0 +1,19 @@
+; Throwaway project for ticket 20 (YATI import check). Not Mendvale's real project.
+config_version=5
+
+[application]
+
+config/name="yati-check"
+config/features=PackedStringArray("4.7")
+
+[editor]
+
+import/use_multiple_threads=false
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/YATI/plugin.cfg")
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0

@@ -1,0 +1,40 @@
+[gd_scene format=4]
+
+[sub_resource type="Image" id="Image_a2qd5"]
+data = {
+"data": PackedByteArray("…elided…"),
+"format": "RGBA8",
+"height": 417,
+"mipmaps": false,
+"width": 352
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_t6jlx"]
+image = SubResource("Image_a2qd5")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oa7md"]
+texture = SubResource("ImageTexture_t6jlx")
+0:12/0 = 0
+12:8/0 = 0
+11:12/0 = 0
+
+[sub_resource type="Image" id="Image_c3xw2"]
+data = {
+"data": PackedByteArray("…elided…"),
+"format": "RGBA8",
+"height": 272,
+"mipmaps": false,
+"width": 448
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_s5tah"]
+image = SubResource("Image_c3xw2")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ni61d"]
+texture = SubResource("ImageTexture_s5tah")
+1:1/0 = 0
+
+[sub_resource type="Image" id="Image_0kd5v"]
+data = {
+"data": PackedByteArray("…elided…"),
+"format": "RGBA8",

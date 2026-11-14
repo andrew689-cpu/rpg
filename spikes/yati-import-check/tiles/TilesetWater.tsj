@@ -1,0 +1,20 @@
+{ "columns":28,
+ "grid":
+    {
+     "height":0,
+     "orientation":"orthogonal",
+     "width":0
+    },
+ "image":"TilesetWater.png",
+ "imageheight":272,
+ "imagewidth":448,
+ "margin":0,
+ "name":"TilesetWater",
+ "spacing":0,
+ "tilecount":476,
+ "tiledversion":"1.12.2",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.10"
+}
