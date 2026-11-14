@@ -36,7 +36,7 @@ Resolved by grilling with the human (2026-11-14). Builds on ticket 01 (Godot 4.7
 - **`check` workflow**, on every PR and every push to `main`, on `ubuntu-latest`:
   1. `bake_content` with the full linter (Area-graph gating, map markers, roster checks).
   2. The Boss 1 simulation gate (ticket 15) and the three gdUnit4 layers (ticket 09).
-  3. Gate on the gdUnit4 JUnit XML plus a log scan for `SCRIPT ERROR`, **never on Godot's exit code**.
+  3. Gate on the gdUnit4 JUnit XML plus a log scan for `SCRIPT ERROR`, **never on Godot's exit code**. *Added by ticket 20:* the `--import` step also gets the three import gates in ticket 09's Maps section: committed `.import` sidecars with no `valid=false`, a scan for `Error importing` and `Import finished with`, and no map scene with embedded `Image` data.
   - Time budget: **10 minutes**. The job prints its slowest gates so a creeping gate is noticed.
 - **On pushes to `main` only** (not PRs), two extra jobs:
   - a **debug APK** (Godot's debug keystore, debug menu included) kept as a workflow artifact for **14 days**, for sideloading onto the human's Android phone;
