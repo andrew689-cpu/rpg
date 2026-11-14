@@ -49,6 +49,7 @@ Resolved by grilling with the human (2026-11-13). Terms are defined in `GLOSSARY
 A stage is a data bundle that may change any of:
 1. the spawn table (per Area × stage, from ticket 08)
 2. the tile-swap layer, spreading from the Area's **focal point** (from ticket 10)
+   *Amended 2026-11-14 by ticket 23 ("What exactly does an Area's `.tmj` contain?"): each stage is a hidden change set of only the cells that change, on the ground, detail, overhead and logic layers, stacking on the stages before it. The rings are measured by Chebyshev distance from the focal point.*
 3. Habitat patches added or removed (e.g. a pond refills and a water patch appears)
 4. NPCs added, removed, or given new dialogue
 5. paths opened
