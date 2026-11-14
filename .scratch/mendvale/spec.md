@@ -2321,11 +2321,11 @@ Done in this order, as a HITL checklist (a `wizard` script) once the pipeline co
 
 ## 7. Still open
 
-These areas need deciding before the spec is complete. Each comes from the map's **Not yet specified** section and will become a ticket on the map.
+These areas need deciding before the spec is complete. Each is now an open ticket on the [map](map.md); [Reassemble the spec](issues/36-reassemble-spec.md) folds their answers in.
 
 | Area | What's settled | What's open |
 |---|---|---|
-| **Per-species design** | The roster's structure (§3): 34 lines, budgets, Type spread, archetypes, batch order. The 144-move list (§2). | Each line's species: Types, stats, moves, evolution levels, Habitat, placement. **Also undecided:** whether this belongs in the spec (one grilling ticket fixing *how* a line is designed, with the authoring of all 34 lines as content slices) or stays on the map as batches. |
+| **Per-species design** | The roster's structure (§3): 34 lines, budgets, Type spread, archetypes, batch order. The 144-move list (§2). | The **method** each line is designed by: [How is one evolution line designed and reviewed?](issues/28-line-design-method.md) (including the Trait effect list and stat numbers per archetype). Authoring the 34 lines themselves is content work against the spec (§8). |
 | **Creature art production** | Sizes, frames, palette, drawing order, the placeholder mapping and the ledger's `placeholder` column (§5). | Who draws the Creatures, the tools, the per-sprite workflow and review. |
 | **Audio and music** | Each Restoration stage may change an Area's music and ambient track (§4). | Where $0 audio comes from (licences as strict as art's), musical style, the track list and the SFX list. |
 | **Settings and accessibility** | The save skeleton and the separate `settings.json` (§6). The settings named so far (§5). English-only `tr()` strings. | Colour-blind support (Type colours need icons or labels too), a large-text mode, localisation (Public Pixel covers 98 languages), and the final settings list. |
