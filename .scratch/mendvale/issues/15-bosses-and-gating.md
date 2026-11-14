@@ -16,3 +16,5 @@ Specify progression for the Medium scale (see `GLOSSARY.md`, the answers to tick
 - How the whole sequence is expressed as data, so a second region needs no code.
 
 Already fixed: stage 1 of any Area comes only from a story flag, and one flag may restore several Areas (ticket 12); only stage 1 opens critical-path routes.
+
+Added from ticket 09 (What is the technical architecture?): Bosses, trainers and set encounters are **JSON records** with permanent IDs; story beats, gating and Boss rewards are **events** built from the closed command list (`set_flag`, `battle`, `if_flag`, `give_item` …) run by `EventRunner`, so a second region is content only. The content linter should check the sequence: every gate's flag is set somewhere reachable, and the 2–3 Bosses on offer at each point are reachable without the others.

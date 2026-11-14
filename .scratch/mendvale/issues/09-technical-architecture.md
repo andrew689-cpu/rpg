@@ -1,7 +1,7 @@
 # What is the technical architecture?
 
 Type: grilling
-Status: open
+Status: resolved
 Blocked by: 01, 07, 08
 
 ## Question
@@ -31,3 +31,106 @@ Added from ticket 13 (How does Bond shape a Creature?):
 Added from ticket 06 (What are the game's title and the in-world name for Creatures?):
 - Godot project name and app ID: `mendvale`, `io.github.andrew689cpu.mendvale` (permanent, the same on both stores).
 - Code and data use generic identifiers (`creature`, `trainer`, `lure`, `sanctuary`, `collection_log`, `mending`). Every in-world name (Verdling, Mender, Offering, Haven, Almanac) lives only in localisation strings, so a rename is a string change.
+
+## Answer
+
+Resolved by grilling with the human (2026-11-14). Builds on ticket 01 (Godot 4.7.x, typed GDScript), tickets 07, 08, 12 and 13 (rules and their data and save notes above), ticket 10 (render and art) and ticket 11 (input and layouts). Uses the generic glossary terms from `GLOSSARY.md`; in-world names live only in strings. Two decisions are recorded as ADRs: [`docs/adr/0001-json-content-bundle.md`](../../../docs/adr/0001-json-content-bundle.md) and [`docs/adr/0002-pure-core-owns-the-rules.md`](../../../docs/adr/0002-pure-core-owns-the-rules.md).
+
+### Core and shell
+- **Every game rule lives in a pure core** under `src/core/`: typed GDScript classes extending `RefCounted`, with no `Node`, scene tree, `Input` or autoload access. Content, the RNG and the clock are passed in. A lint rule fails CI if `src/core/` mentions `Node`, `get_tree`, `Input` or an autoload.
+- The **presentation shell** under `src/game/` reads core state, sends player intent, and plays the events the core returns. It holds no rules.
+- **The core owns the overworld simulation.** Grid positions and movement of the player, follower, NPCs and visible wild Creatures (wander, curious, shy) advance on discrete ticks against the `AreaGrid`. The overworld scene only interpolates sprites between cells and plays effects. Tick rate and in-game clock speed are tuning data.
+- **Illegal intents never crash.** A move with too little Energy, a switch while Snared or a step into a wall returns `Rejected{reason}` and leaves state unchanged. `assert` is reserved for invariants in debug builds.
+
+### Core modules
+
+Each module has a small interface, a `README.md` stating it, and its own tests through that interface.
+
+| Module | Interface (gist) | Hides |
+|---|---|---|
+| `content` | `ContentDB.load(bundle) -> db`; typed read-only lookups by ID; `ContentLinter.check(db) -> Array[Issue]` | parsing, schemas, cross-references, aliases |
+| `battle` | `Battle.create(setup, content, rng)`, `legal_actions(slot)`, `preview(action)` (damage range % of HP, effectiveness, catch %, status %, turn order), `resolve_turn(actions) -> Array[BattleEvent]`, `outcome()` | damage, Types, Statuses, Energy, stat stages, turn order, catch roll, N-per-side targeting |
+| `ai` | `BattleAI.choose(view, side, tier, rng) -> actions` | the Wild, Trainer and Boss tiers (and challenge mode's fourth); it sees only a read-only `BattleView` with the same information the player has |
+| `growth` | `Growth.after_battle(creatures, result, content) -> Array[GrowthEvent]` | XP split by level gap, level-ups, newly learnable moves, Bond points, needle nudges, evolution offers |
+| `world` | `Restoration.stage(area, facts, content)`, `Spawner.roll(patch, conditions, rng)`, `Clock` | K-of-M Mendings, "higher of stored and computed", weighted spawn tables, time of day |
+| `events` | `EventRunner.start(event_id)`, `step(input) -> requests` | the closed command list, flags, branching |
+| `save` | `SaveCodec.encode(state)`, `SaveCodec.decode(json) -> state`; `SaveStore` seam | the migration chain, `.bak` fallback, unknown IDs |
+| `session` | `GameSession` intent methods (`step(dir)`, `walk_to(cell)`, `tick()`, `interact()`, `start_battle(...)`, `submit_turn(...)`, `rest()`, menu intents …), each returning events | coordinates everything above; the **only writer** of save state |
+
+- **Presentation calls only `GameSession`**, plus `ContentDB` for display lookups. It never reaches the other core modules directly.
+- **`SaveStore` is the only external seam** with two adapters: a file adapter (`user://`) and an in-memory adapter for tests. Other seams stay internal until a second adapter appears.
+- `GameSession.step(dir)` returns events such as `Moved`, `Bumped`, `EncounterStarted`, `TrainerSpotted` and `Warp`. `tick()` advances wild and NPC movement and the clock.
+
+### Battle
+- **One turn in, an event list out.** Events are plain data (`MoveUsed`, `Damage{amount, effectiveness}`, `StatusApplied`, `Fainted`, `CatchAttempt{accepted}`, `XpGained` …). The battle scene plays them as text, bar animations and code effects, and skips the visuals when battle animations are off.
+- The player's side and the AI submit through the same `resolve_turn`.
+
+### Determinism
+- **All randomness comes from an injected, seeded `Rng` wrapper.** A lint rule fails CI on `randf`, `randi` or `randomize` anywhere else.
+- Each battle gets its own seed, so **setup + seed + the actions submitted** reproduce it exactly. Each spawn roll is also seeded. The per-save seed from ticket 08 stays the root.
+
+### Content
+- **JSON, one file per record**: `content/species/<id>.json`, `content/moves/<id>.json`, and likewise for Traits, items, Areas, spawn tables, trainers, set encounters and events. Each kind has a **JSON Schema**. Global tuning tables (type chart, rarity weights, Bond thresholds, XP curve, clock speed) are one JSON file each.
+- **Permanent snake_case IDs** (`grove_sprout`, `ember_bite`), separate from display names and never reused or changed after a release. The save, spawn tables, evolutions and Mendings all refer to records by ID. A rare rename goes through `content/aliases.json`. The Collection log's display number is a separate field.
+- **Baked at build time.** `tools/bake_content` (a headless Godot script) merges `content/**/*.json` into one `content.bundle.json`, running the full linter and **failing the build on any lint error**. The game and the tests read only a bundle (the real one or a fixture). The bake runs in CI before tests and export.
+- **Lint covers:** schemas; every ID resolves; the Restoration rules from ticket 12 and the Bond rules from ticket 13; events (flags read but never set, battles that point at missing trainers); missing or orphaned string keys; the licence ledger; sprite palette and size.
+
+### Maps
+- An Area's map is a **Godot scene** with `TileMapLayer`s (ground, detail, collision, and one Restoration tile-swap layer per stage). **Marker nodes** carry IDs for warps, Habitat patches, trainers, NPCs, hidden sites, the focal point and Rest points.
+- The core never reads the scene. A loader extracts a plain **`AreaGrid`** (walkable cells, patch cells, marker positions by ID) for the core and the scenario tests.
+- Area JSON refers to its map scene by ID. Who paints the maps, and how, stays in the World-structure fog.
+
+### Events and dialogue
+- NPC talk, story beats, gifts and cutscenes are **JSON arrays of steps from a closed command list** (`say`, `choice`, `set_flag`, `if_flag`, `give_item`, `give_creature`, `battle`, `move_actor`, `wait`, `heal` …), run by `EventRunner`. They emit presentation requests the same way battles emit events.
+- A new kind of step means adding a command in code. A new event is content only.
+
+### Art and strings
+- **Content records hold no asset paths.** Art is found by convention from the ID: `assets/creatures/<id>/front.png`, `back.png` and `map.png`; `assets/items/<id>.png`; and so on. A built-in placeholder is used when a file is missing, so swapping art means dropping in a file. A missing sprite is a lint **warning**, not an error.
+- The bake checks that every asset file has a row in **`assets/LICENCES.csv`** (source, licence, author, URL), and that every sprite uses only the locked 53-colour palette at the right size (64×64 battle, 16×16 map).
+- **Every player-facing string goes through `tr()`.** Keys are derived from IDs (`species.grove_sprout.name`, `move.ember_bite.desc`), and the text lives in `strings/en.csv` (Godot's CSV translation import). In-world terms are keys too (`term.creature` → "Verdling"), so a rename is a single CSV edit. Only English ships in v1.
+
+### Scenes and screens
+- **One persistent `Main` scene** owns a single `GameSession` and a **screen stack**: Title → Overworld, with Battle, menus and the Restoration sequence pushed on top. The overworld stays loaded underneath a battle, and Areas swap as child scenes of the overworld.
+- **Autoloads hold no game state:** only `Content` (read-only, loaded once), `Settings` and `Audio`.
+- **Every screen is a controller script plus one or more layout scenes.** The controller handles behaviour and the five input actions; layouts are Control nodes with anchors. Only `portrait` is built in v1; `landscape` is a reserved slot. Left-handed mirroring is a layout flag that flips horizontal anchors and the command-deck order.
+- Touch, gamepad and keyboard all reduce to the five input actions (`move(dir)`, `walkTo(tile)`, `confirm`, `back`, `menu`) before reaching a controller.
+
+### Save
+- **One slot**, as JSON in `user://` with a top-level integer `version`. **`settings.json` is separate.**
+- **Migrations:** loading runs a chain of pure functions (`v1→v2`, `v2→v3` …), each tested on its own.
+- **Atomic writes:** write `save.tmp`, then rename. The previous save is kept as `save.bak` and used if the main one fails to parse.
+- **The save holds facts only:**
+  - seed, clock, current Area, cell and facing
+  - Creature instances, each with a permanent instance id: species, level, XP, learned and equipped moves, Trait, current HP, nickname, `bond_points`, `needles`, and its place (Party slot or Sanctuary)
+  - bag, money, story flags
+  - Restoration facts, highest stage per Area, and the pending-presentation queue
+  - trainers beaten, rare one-off Creature state, Collection log entries (seen, caught, Traits and branches discovered, where-found facts)
+- **Derived values are never stored:** stats, Bond rank, current Restoration stage, pending evolution offers and spawn state are always recomputed. A test fails if any `SaveCodec` field can be computed from the others.
+- **Unknown IDs** (content removed in a patch) are kept but ignored and never crash a load.
+- **When it writes:** on OS pause (`NOTIFICATION_APPLICATION_PAUSED`), at autosave points (after battles, on Area changes, after the Restoration sequence) and on manual Save.
+- **Mid-battle resume:** a pause during battle also stores an `in_battle` record (setup + seed + actions so far), and resume replays it silently to the same turn. A replay that no longer matches (a patch changed a move) falls back to the pre-battle autosave.
+
+### Tests
+- **gdUnit4.** CI gates on its JUnit XML plus a scan of the log for `SCRIPT ERROR`, never on Godot's headless exit code.
+- **Three layers:**
+  1. **Core unit tests** through each module's interface: most of the suite, fast, with no scenes.
+  2. **Content lint** as a test (the bake's linter).
+  3. **Headless scenario tests** that boot `Main` with a fixture save, drive it only through the five input actions, and assert on `GameSession` state. Many scenarios can instead run directly on `GameSession`.
+- No screenshot or golden-image tests in v1.
+- **Developer tools:** a dev-only debug menu, left out of release exports by a Godot feature tag. It sends debug intents through `GameSession`: warp, give a Creature or item, set a flag, set the clock, add Restoration facts, start any set encounter. **Named fixture saves** in `tests/fixtures/saves/` ("before Boss 3", "Area X at stage 2") serve both scenario tests and manual playtesting.
+
+### Repo and agent rules
+- **Layout:** the Godot project (`project.godot`) at the repo root; `src/core/<module>/`, `src/game/<screen>/`, `content/`, `strings/`, `assets/`, `tests/` (mirroring `src/`), `tools/`.
+- **`AGENTS.md` rules:**
+  - Godot pinned to **4.7.x**
+  - typed GDScript only, with the `untyped_declaration` and `unsafe_*` warnings set to **error** in project settings
+  - `.uid` files are moved and deleted together with their scripts
+  - `.godot/` is never committed
+  - `src/core/` stays pure
+  - randomness only through `Rng`
+  - display text only through `tr()`
+
+### Left to other tickets
+- CI provider, export pipeline, signing and which Mac builds iOS → "How are Mendvale's Android and iOS builds made and released?"
+- Map-painting workflow → World-structure fog.
+- Languages beyond English, colour-blind support and large text → Save, settings & accessibility fog.
