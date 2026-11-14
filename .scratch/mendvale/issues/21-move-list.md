@@ -1,7 +1,7 @@
 # How is the move list structured?
 
 Type: grilling
-Status: open
+Status: claimed
 Blocked by: none
 
 ## Question
