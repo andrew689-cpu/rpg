@@ -14,7 +14,7 @@ A complete game-design + technical spec for **Mendvale**, an original 2D pixel-a
 - **Builder:** mostly Claude agents, with the human reviewing. Specs should break into small, independently testable modules.
 - **Art budget:** $0 for now (CC0 packs, self-drawn, generated placeholders). Art must be swappable without code changes. Revisit budget later.
 - **Vocabulary:** see `GLOSSARY.md` at the repo root. Specs and code use the generic glossary terms (Creature, Trainer, Lure, Sanctuary, Collection log); the in-world names (Verdling, Mender, Offering, Haven, Almanac) are display strings only.
-- **Names:** the title and codename are both **Mendvale** (`io.github.andrew689cpu.mendvale`). The GitHub repo stays `rpg`. The folders `pokemongame` and `.scratch/project-wildling` are due to be renamed to `mendvale` (see [What are the game's title and the in-world name for Creatures?](issues/06-naming-and-branding.md)).
+- **Names:** the title and codename are both **Mendvale** (`io.github.andrew689cpu.mendvale`). The GitHub repo stays `rpg`. The effort lives in `.scratch/mendvale/`; the local repo folder `pokemongame` is due to be renamed to `mendvale` (see [What are the game's title and the in-world name for Creatures?](issues/06-naming-and-branding.md)).
 - **Skills every session should consult:** `grilling` + `domain-modeling` for grilling tickets; `prototype` for prototype tickets; `research` for research tickets; `codebase-design` for architecture tickets.
 - **Tracker:** local markdown (see `docs/agents/issue-tracker.md`). Tickets live in `issues/`; research findings live on `research/<name>` branches, pushed to `origin` (github.com/andrew689-cpu/rpg) and never merged.
 
