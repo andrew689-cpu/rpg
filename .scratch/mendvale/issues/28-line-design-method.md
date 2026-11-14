@@ -1,7 +1,7 @@
 # How is one evolution line designed and reviewed?
 
 Type: grilling
-Status: open
+Status: claimed
 Blocked by: none
 
 ## Question
