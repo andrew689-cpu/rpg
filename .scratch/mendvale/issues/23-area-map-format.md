@@ -1,7 +1,7 @@
 # What exactly does an Area's `.tmj` contain?
 
 Type: grilling
-Status: open
+Status: claimed
 Blocked by: none
 
 ## Question
