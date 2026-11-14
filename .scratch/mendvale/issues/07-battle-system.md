@@ -83,6 +83,7 @@ Starting chart:
   - **Chill:** Speed halved.
   - **Fatigue:** no Energy regained.
   - **Snare:** can't switch or flee.
+    *Amended 2026-11-14 by ticket 25 ("Which way do the spec's seven conflicts go?"): Snare means **can't switch out** only. Fleeing a wild battle always works, Snared or not.*
   - **Drowsy:** skips its next turn, then immune to Drowsy for 3 turns.
 - **Stat stages** run from −2 to +2 at ±25% per step (×0.5 to ×1.5). They show as arrows on the HP bar and reset on switching or at battle end.
 

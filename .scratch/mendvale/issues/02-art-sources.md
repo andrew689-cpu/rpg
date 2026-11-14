@@ -15,6 +15,7 @@ Cover: CC0 / permissive packs (Kenney, OpenGameArt, itch.io, etc.), paid packs, 
 Findings: branch `research/art-sources`, file `research/art-sources.md`.
 
 - **Licensing:** the iOS App Store's terms conflict with CC-BY, CC-BY-SA and GPL (OpenGameArt FAQ: anti-DRM clauses). The safe set is **CC0, OGA-BY, and paid or commissioned licences that grant commercial app-store rights**. CC-BY is usable only with written permission from the artist.
+  *Amended 2026-11-14 by ticket 25 ("Which way do the spec's seven conflicts go?"): **SIL OFL is also allowed, for fonts only.** It has no anti-DRM clause. The licence text ships on an in-game Credits screen, and OFL fonts are used unmodified (a modified one must drop its Reserved Font Name).*
 - **Coverage gap: Creature battle sprites.** CC0 covers tiles, characters, UI, effects and fonts well. The only CC0 battle set found with front and back sprites is *50+ Monsters Pack 2D* (56 monsters at 64×64). No free source covers about 100 Creatures in one style.
 - **$0 plan:**
   - **Ninja Adventure** (CC0, 16×16, one consistent style) for the world, characters, UI and effects.

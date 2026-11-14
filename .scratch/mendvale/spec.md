@@ -394,7 +394,7 @@ Every pairing not listed is 1×.
 | **Poison** | loses HP each turn, increasing each turn |
 | **Chill** | Speed halved |
 | **Fatigue** | regains no Energy |
-| **Snare** | can't switch or flee |
+| **Snare** | can't switch out (fleeing a wild battle still works) |
 | **Drowsy** | skips its next turn, then immune to Drowsy for 3 turns |
 
 - **Stat stages** run from **−2 to +2 at ±25% per step** (×0.5 to ×1.5). They show as arrows on the HP bar and **reset on switching or at battle end**.
@@ -405,8 +405,7 @@ Every pairing not listed is 1×.
 
 - **Switching** uses up the turn; the incoming Creature arrives **before the opponent's move**. Snare blocks it.
 - **Items** use up the Creature's turn. Lures and Energy tonics work only in battle; the item list is in §4.
-- **Fleeing** from wild battles always works. Trainers and Bosses can't be fled. A **trainer battle can be forfeited**, losing only the reward.
-- **Conflict:** ticket 07 says fleeing a wild battle "always works" (restated by ticket 08), but ticket 07's Snare says a Snared Creature "can't switch or flee". Neither ticket says which wins.
+- **Fleeing** from wild battles always works, even while Snared. Trainers and Bosses can't be fled. A **trainer battle can be forfeited**, losing only the reward.
 - **Open:** whether a Boss battle can be forfeited is not stated (ticket 07 names only trainer battles).
 
 ### Catching in battle
@@ -784,7 +783,7 @@ One JSON file per move, `content/moves/<id>.json`:
 - **Per species it records:**
   - Seen or Caught
   - where and when it can be found (Habitat, time of day, weather), filled in as discovered
-  - Rarity tier, once seen
+  - Rarity tier **per where-found entry** (a species can have different tiers in different places), derived from content at display time and never saved
   - Traits discovered
   - evolution branches discovered (evolving records the branch)
 - **Every form is its own entry** with its own display number, a separate field from the permanent ID (see §6), so species can be inserted when growing to Large. A line's forms sit together in display order: base, then middle, then the two branch forms side by side.
@@ -793,7 +792,6 @@ One JSON file per move, `content/moves/<id>.json`:
 - **Native species registration** (caught inside that Area) is a Restoration Mending; rules in §4.
 - **Completing the log is a postgame goal.**
 - Display string: **Almanac**.
-- **Conflict:** ticket 08 has the log record a species' "Rarity tier, once seen", but ticket 16 puts Rarity only on spawn entries, never on the species, so one species can have different tiers in different Areas or stages. Which tier the log shows is unsettled.
 
 ### Bond: what it is
 *Source: [How does Bond shape a Creature?](issues/13-bond.md)*
@@ -1000,9 +998,11 @@ Counting each Type of a dual-type species once:
   | Rare | 3, plus all 12 starters |
   | Rare one-off | 2 |
 
-- The 17 Common and Uncommon lines, plus middle forms in later Restoration stages, supply the Areas' native-species lists (Common or Uncommon only, see §4).
-- Evolved forms other than branch forms may appear wild, but only at Rare or Very rare and only in later Restoration stages.
-- **Conflict:** ticket 16 has middle forms supply native-species lists, which must be Common or Uncommon (ticket 12), yet also says evolved forms appear wild only at Rare or Very rare.
+- The 17 Common and Uncommon lines, plus middle forms from stage 1, supply the Areas' native-species lists (Common or Uncommon only, see §4).
+- **Wild evolved forms, by form:**
+  - **Middle forms:** Uncommon or rarer, from stage 1; may be native species.
+  - **Final forms:** Rare or Very rare only, from stage 2; never native.
+  - **Branch forms:** never wild.
 
 ### Debut Chapters
 *Source: [How is the Creature roster structured?](issues/16-roster-structure.md)*
@@ -1137,9 +1137,9 @@ Rules:
 *Source: [How do the Bosses and Area gating sequence the region?](issues/15-bosses-and-gating.md)*
 *Source: [How is the region laid out?](issues/18-region-layout.md)*
 
-- **Each Area's final stage adds a payoff Creature**: either a rare one-off set encounter at the focal point, or a Very rare entry in that stage's spawn table. Payoff Creatures sit at the current Chapter's ace level **L**. They reuse existing species (§3).
+- **Each Area with Habitat patches gets a payoff Creature at its final stage**: either a rare one-off set encounter at the focal point, or a Very rare entry in that stage's spawn table. Payoff Creatures sit at the current Chapter's ace level **L**. They reuse existing species (§3).
 - **The 2 rare one-offs** are at `observatory` (stage 3) and `source` (stage 2, postgame); see Landmarks and the rare one-offs.
-- **Conflict:** ticket 12 gives *every* Area's final stage a payoff Creature, but ticket 18 makes towns patch-free (so no spawn-table entries) and places the only two one-off set encounters at `observatory` and `source`. Neither ticket says what a town's final stage offers as its payoff.
+- **Towns get no payoff Creature.** A town's final stage pays off through its own changes (NPCs, shop stock, music).
 - **100% region Restoration** earns a postgame acknowledgement and a cosmetic (e.g. a flower crown on the following Creature).
 - **Restoration rewards are never money or items**; the economy stays separate.
 
@@ -1285,8 +1285,7 @@ A **test, not a Type restriction**, so the Starter trios stay free (§3):
 *Source: [How is the region laid out?](issues/18-region-layout.md)*
 *Source: [Boss order comes from reachability, not a list](../../docs/adr/0003-boss-order-comes-from-reachability.md)*
 
-- The region record holds its **Boss list** (for the Bosses-beaten count and the Region map) and the **level-cap table**, and **lists its Areas**.
-- **Conflict:** ticket 15 and ADR 0003 say the region record holds *only* the Boss list and the cap table; ticket 18 adds that it lists its Areas. No amendment reconciles the two.
+- The region record holds its **Boss list** (for the Bosses-beaten count and the Region map) and the **level-cap table**, and the **unordered set of its Areas** (for the per-region Region map, Restoration % and the dormant-exit check). It holds no order list.
 - A second region is content only: Areas, barriers, Bosses and events.
 
 ### Region shape
@@ -1554,8 +1553,7 @@ All run in the content linter, the build gate (§6). The gating checks walk the 
 **Gating and Bosses:**
 1. Every barrier's flag is set somewhere reachable before the barrier.
 2. Each Boss becomes reachable, and **each Boss in a Chapter can be reached without beating the others** in it.
-3. Every Area with stages gets its stage 1 from some reachable flag before the finale.
-   - **Conflict:** `boss_8` (the finale) restores `blight_heart`, `source` and `outpost` (ticket 18, and ticket 15's own rule that a Boss flag restores its home Area), so those three only reach stage 1 *at* the finale. Neither ticket says whether "before the finale" includes the finale's own flag.
+3. Every Area with stages gets its stage 1 from a reachable flag, **the finale's own `boss_8` flag included** (it restores `blight_heart`, `source` and `outpost`), so 100% region Restoration is always possible in the postgame.
 4. **At least 2 catchable species with a 2× edge over each Boss's theme Type** are reachable before that Boss.
 5. Wild, trainer and Area-challenge levels fit the bands of each Area's derived Chapter, with the +1–2 allowance for later stages.
 6. No reachable wild Creature or gift is above the challenge-mode cap for the Bosses-beaten count at that point.
@@ -1586,12 +1584,11 @@ Reference prototypes (mock-ups to react to, not specs; where they differ from th
 *Source: [What is the technical architecture?](issues/09-technical-architecture.md)*
 
 #### Licence rules
-- **Allowed:** **CC0**, **OGA-BY**, and **paid or commissioned licences that grant commercial app-store rights**.
+- **Allowed:** **CC0**, **OGA-BY**, and **paid or commissioned licences that grant commercial app-store rights**. **SIL OFL is allowed for fonts only**: unmodified, with the licence text on an in-game Credits screen.
 - **CC-BY:** usable only with **written permission from the artist**. CC-BY, CC-BY-SA and GPL conflict with the iOS App Store's terms (anti-DRM clauses).
 - **Paid assets never go in a public repo.** The repo is public (see §6).
 - **Commission contracts** must explicitly grant app-store rights.
 - **AI art:** neither store bans AI art bundled with the game (Apple requires only owned or licensed content). Art made from prompts alone isn't copyrightable. Use AI **for ideas, or as a base that gets substantially redrawn**, never as final art.
-- **Conflict:** ticket 02 (and its map.md line, "use only CC0, OGA-BY or commercial licences") does not list the SIL OFL, but ticket 10 picks **Tiny5 (OFL)** as a game font (§5.2). The allowed list needs to state whether OFL fonts are allowed.
 
 #### Never use
 Pokémon IP and ripped assets are out of scope in any form. Specifically avoid:
@@ -1613,7 +1610,7 @@ Pokémon IP and ripped assets are out of scope in any form. Specifically avoid:
 | World tiles, characters, UI, effects | **Ninja Adventure** | CC0 | 16×16, one consistent style; also the master palette (§5.2) |
 | Placeholder Creature battle sprites | ***50+ Monsters Pack 2D*** | CC0 | 56 monsters, 64×64, front and back; the only CC0 front/back battle set found |
 | Dialogue and menu font | **Public Pixel** | CC0 | 8×8, covers 98 languages |
-| Dense battle-label font | **Tiny5** | OFL | see the Conflict above |
+| Dense battle-label font | **Tiny5** | OFL | allowed for fonts (see Allowed above) |
 | Final Creatures | **self-drawn** in **LibreSprite** or **Pixelorama** | own work | both free; Aseprite costs $19.99 |
 
 - **No free source covers ~100 Creatures in one style**, so final Creatures are self-drawn unless the budget changes. Commissions run about **$30–$60 per 64×64 sprite**, so 100 Creatures with front and back sprites would cost roughly **$6k–$12k** before animation.
@@ -1933,7 +1930,7 @@ Each module has a small interface, a `README.md` stating it, and its own tests t
 #### G. Gating, Bosses and economy (on the region walk)
 31. Every barrier's flag is set somewhere reachable before the barrier [15, ADR 0003].
 32. Each Boss becomes reachable, and each Boss in a Chapter can be reached without beating the others in it [15, ADR 0003].
-33. Every Area with stages gets its stage 1 from some reachable flag before the finale [15, ADR 0003].
+33. Every Area with stages gets its stage 1 from a reachable flag, the finale's `boss_8` flag included [15, 25, ADR 0003].
 34. At least 2 catchable species with a 2× edge over each Boss's theme Type are reachable before that Boss [15].
 35. Wild, trainer and Area-challenge levels fit the Chapter bands [15] (see 26).
 36. No reachable wild Creature or gift is above the challenge-mode level cap for the Bosses-beaten count at that point [15].
@@ -2337,16 +2334,8 @@ These areas need deciding before the spec is complete. Each comes from the map's
 | **Data gaps** | — | Where a line's shared level-up list and per-line Trait conditions live (there's a species record but no line record); the save field for a Boss rematch's once-per-day readiness; each Boss's target shopping list for the economy balance check; the full event command list; whether a missing sprite counts as a placeholder for the production gate; exits between Areas beyond the spoke and connector chains (left to map drawing). |
 | **Unverified store facts** | §6. | Whether Play's 12-tester gate is per app or per account; the exact age rating; whether iOS cloud signing needs an Admin-role API key. |
 
-### Conflicts to settle
-Places where two tickets disagree and no amendment settles them. Each is marked **Conflict:** where it appears.
-
-1. **Snare vs fleeing** (§2): fleeing a wild battle "always works" (tickets 07 and 08), but Snare means a Creature "can't switch or flee" (ticket 07).
-2. **Collection log Rarity** (§3): the log shows a species' Rarity tier "once seen" (ticket 08), but Rarity lives on spawn entries, so one species can have several tiers (ticket 16).
-3. **Evolved forms as native species** (§3): middle forms fill native-species lists, which must be Common or Uncommon (tickets 12 and 16), but evolved forms spawn wild only at Rare or Very rare (ticket 16).
-4. **Town payoff Creatures** (§4): every Area's final stage adds a payoff Creature (ticket 12), but towns have no Habitat patches and neither one-off is in a town (ticket 18).
-5. **What the region record holds** (§4): only the Boss list and the level-cap table (ticket 15, ADR 0003), but also its Areas (ticket 18).
-6. **Stage 1 "before the finale"** (§4): every Area must reach stage 1 before the finale (ticket 15), but `boss_8` itself restores `blight_heart`, `source` and `outpost` (ticket 18).
-7. **OFL fonts** (§5): the allowed art licences are CC0, OGA-BY and commercial (ticket 02), but the chosen font Tiny5 is OFL (ticket 10).
+### Conflicts settled
+The 7 conflicts found while assembling this spec were settled by [Which way do the spec's seven conflicts go?](issues/25-spec-conflicts.md) and are written above as current rules: Snare vs fleeing (§2), Collection log Rarity (§3), wild evolved forms (§3), town payoffs (§4), the region record (§4), the finale's flag (§4) and OFL fonts (§5).
 
 ## 8. Out of scope
 

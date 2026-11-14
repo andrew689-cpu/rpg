@@ -80,6 +80,7 @@ Resolved by grilling with the human (2026-11-13). Terms are defined in `GLOSSARY
   - Seen or Caught
   - where and when the species can be found (Habitat, time of day, weather), filled in as discovered
   - Rarity tier, once seen
+    *Amended 2026-11-14 by ticket 25 ("Which way do the spec's seven conflicts go?"): the tier is shown **per where-found entry** (Area, Habitat, time, weather), since a species can have different tiers in different places. It is derived from content at display time and never saved.*
   - Traits discovered
   - evolution branches discovered
 - Catching an Area's native species is one of the Restoration actions; the exact rules go to ticket 12.

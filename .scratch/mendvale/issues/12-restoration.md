@@ -63,6 +63,7 @@ Rules:
 
 ### Payoffs
 - Each Area's **final stage adds a payoff Creature**: either a rare one-off set encounter at the focal point, or a Very rare entry in that stage's spawn table.
+  *Amended 2026-11-14 by ticket 25 ("Which way do the spec's seven conflicts go?"): only **Areas with Habitat patches** get a payoff Creature. A town's final stage pays off through its own changes (NPCs, shop stock, music) and adds no Creature.*
 - **100% region Restoration** earns a postgame acknowledgement and a cosmetic (e.g. a flower crown on the following Creature).
 - Restoration rewards are **never money or items**; the economy stays separate.
 
