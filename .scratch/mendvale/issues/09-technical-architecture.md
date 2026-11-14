@@ -81,7 +81,12 @@ Each module has a small interface, a `README.md` stating it, and its own tests t
 - The core never reads a scene. `tools/bake_content` parses the `.tmj` as plain JSON into a plain **`AreaGrid`** (walkable cells, patch cells, marker positions by ID) inside `content.bundle.json`, for the core and the scenario tests.
 - For drawing, the **YATI** importer (MIT, vendored in `addons/`) generates the `TileMapLayer`s from the same `.tmj` on import. CI runs `godot --headless --import`, with multi-threaded import off. If YATI fails, a small script paints the layers at runtime with `set_cell`.
 - **Lint covers markers:** only allowed kinds; **every field set explicitly** (Tiled keeps class defaults outside the map); every ID resolves; exits pair up; one focal point; barriers clear only at stage 1; flood-fill reachability; level bands. Avoid Tiled 1.12 list properties until tested.
-- Area JSON refers to its map by ID. The importer check on macOS is ticket 20.
+- Area JSON refers to its map by ID.
+- *Added 2026-11-14 by ticket 20 ("Does the YATI importer turn a Tiled Area into Godot tile maps on the Mac, the same way every time?"):* YATI 2.2.9 imports correctly on macOS (pixel-identical to Tiled), so the `set_cell` fallback stays a contingency only. Imports are deterministic apart from Godot's random node `unique_id`s, and failures exit 0. The `check` job therefore adds three import gates:
+  1. Every asset has a committed `.import` sidecar, and none contains `valid=false`. A missing sidecar makes YATI embed the tileset pixels; a `valid=false` one silently stops the map ever re-importing.
+  2. The import log is scanned for `Error importing` and YATI's `Import finished with`, as well as `SCRIPT ERROR`.
+  3. Every `.tmj` has an imported scene, and no imported map scene contains an `Image` sub-resource.
+  The exact map format is ticket 23, "What exactly does an Area's `.tmj` contain?".
 
 ### Events and dialogue
 - NPC talk, story beats, gifts and cutscenes are **JSON arrays of steps from a closed command list** (`say`, `choice`, `set_flag`, `if_flag`, `give_item`, `give_creature`, `battle`, `move_actor`, `wait`, `heal` …), run by `EventRunner`. They emit presentation requests the same way battles emit events.
