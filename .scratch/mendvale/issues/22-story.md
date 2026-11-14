@@ -1,7 +1,7 @@
 # What is Mendvale's story, and which beat sets each flag?
 
 Type: grilling
-Status: open
+Status: claimed
 Blocked by: none
 
 ## Question
