@@ -92,6 +92,7 @@ Each module has a small interface, a `README.md` stating it, and its own tests t
 ### Events and dialogue
 - NPC talk, story beats, gifts and cutscenes are **JSON arrays of steps from a closed command list** (`say`, `choice`, `set_flag`, `if_flag`, `give_item`, `give_creature`, `battle`, `move_actor`, `wait`, `heal` …), run by `EventRunner`. They emit presentation requests the same way battles emit events.
 - A new kind of step means adding a command in code. A new event is content only.
+- *Amended 2026-11-14 by ticket 22 ("What is Mendvale's story, and which beat sets each flag?"): each slot on a set encounter's side has an optional `controller` (`player` by default, or an AI tier), so an AI ally can fight beside the player in a tag battle. The linter checks that such a side has exactly one `player` slot.*
 
 ### Art and strings
 - **Content records hold no asset paths.** Art is found by convention from the ID: `assets/creatures/<id>/front.png`, `back.png` and `map.png`; `assets/items/<id>.png`; and so on. A built-in placeholder is used when a file is missing, so swapping art means dropping in a file. A missing sprite is a lint **warning**, not an error.
