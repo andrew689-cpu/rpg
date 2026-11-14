@@ -89,7 +89,7 @@ Counting each Type of a dual-type species once:
 ### Habitat and time
 - Each species has exactly **one home Habitat kind** (the one the Habitat Lure checks) and a **set of 1–4 times of day**. The linter checks that its spawn entries fit both.
 - The forms in a line share their Habitat. In a Habitat-axis branch, each branch form takes the Habitat of its own end.
-- The Habitat kinds themselves come from ticket 18.
+- The Habitat kinds themselves come from ticket 18. *Decided 2026-11-14 by ticket 18: Meadow, Woodland, Wetland, Coast, Cavern, Crag, Snowfield, Ruins.*
 
 ### Look
 - Each species is based on a **real animal, plant or fungus that fits its Habitat**, plus one visible element of its Type.

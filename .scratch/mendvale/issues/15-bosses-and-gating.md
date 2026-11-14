@@ -39,6 +39,7 @@ Resolved by grilling with the human (2026-11-14). Builds on ticket 05 (pillars),
 - The **only critical-path gate is a Blight barrier** (brambles, a dried ford, a rockfall) cleared by an Area's **stage-1** bundle. There are no NPC roadblocks, badge checks or field moves.
 - Every Area is **Locked** (not reachable yet), **Blighted** (reachable, stage 0) or **Restored 1+**. Players walk into the next Chapter's Areas while they are still Blighted, catch and train there, and restore them by beating that Chapter's Bosses.
 - **What a Boss restores:** its flag brings **its home Area plus the 1–2 routes that led to it** to stage 1. Story-beat flags, set by events, restore any other Area, for example to open the first route after the starter pick.
+  *Amended 2026-11-14 by ticket 18 ("How is the region laid out?"): a Boss flag restores **its whole spoke** (the landmark plus every Area between it and the hub, at most 4), not just 1–2 routes. Each `chapter_N_open` flag restores the hub being left and the connector route out of it.*
 - **"Beat every Boss in the Chapter" gates:** a stage-1 trigger stays a single flag (ticket 12). After each Boss win, an event checks the others and sets a combined flag, e.g. `if_flag boss_2 and boss_3 → set_flag chapter_3_open`, with a short story beat. Chapter 4's gate needs all three Chapter-3 flags the same way.
 
 ### The Bosses
