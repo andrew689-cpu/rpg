@@ -21,3 +21,5 @@ Already fixed:
 Must respect "Respect the Player's Time" (no grinding needed for money) and the out-of-scope ruling: no monetisation. Items are data.
 
 Added from ticket 12 (How does Restoration change an Area?): each Restoration stage may add **shop stock** in its Area, so shop growth can be keyed to stages as well as Bosses. Restoration itself never rewards money or items.
+
+Added from ticket 13 (How does Bond shape a Creature?): **no item affects Bond rank, Leanings or Traits**. There are no Bond treats, needle re-centring items or branch-forcing items; Bond is earned only by raising the Creature.

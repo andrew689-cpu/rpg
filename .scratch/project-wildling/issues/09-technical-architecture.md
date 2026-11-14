@@ -20,3 +20,10 @@ Added from ticket 12 (How does Restoration change an Area?):
 - Mending kinds are a closed list in code (`register_natives`, `defeat_trainers`, `defeat_challenge`, `find_site`); new Areas need no code.
 - The save stores raw facts (registrations per Area, trainers beaten, sites found, story flags), the highest stage reached per Area, and a pending-presentation queue. On load the stage is the higher of stored and computed, so a content patch never moves it backwards.
 - A content linter must check that every Mending for stage N is completable at stage N−1, and that only stage 1 opens critical-path routes.
+
+Added from ticket 13 (How does Bond shape a Creature?):
+- Species data holds `evolution` (a `level`, plus either `into` or a `branch` with `axis`, `ends` and `into[]`) and `bond_moves[]` (`{rank, move}`). Areas hold a `default_habitat`; set encounters may override it.
+- Leaning axes are a closed list in code (`style`, `type`, `habitat`, `time`); new species need no code.
+- The save stores `bond_points` and `needles` (`{axis: {ends, value}}`) per Creature. Bond rank and a pending evolution offer are derived, never stored, so retuning thresholds can't take a rank away.
+- Bond tuning (rank thresholds, points per battle kind, needle range and step, warning window) is global data.
+- The content linter must check that every branch is reachable (Type ends learnable, Habitat ends reachable, Style has both a Power and a Focus move before evolving), 2–4 Bond moves per species at ranks 1–5, and at most one branch point per line.

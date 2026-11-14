@@ -57,8 +57,16 @@ _Avoid_: real time, day/night cycle
 ### Growth
 
 **Bond**:
-The visible record of how a Creature has been raised, which steers its evolution branch and the extra moves it learns.
+The visible record of how a Creature has been raised, made of its Bond rank and its Leanings; it steers the evolution branch and the extra moves it learns, and never its stats.
 _Avoid_: friendship, affection, happiness, loyalty
+
+**Bond rank**:
+How much a Creature has been raised: a level that only grows, earned by acting in battles.
+_Avoid_: friendship level, affection, grade, potential
+
+**Leaning**:
+Which way a Creature has been raised along one axis (style, type, habitat or time), a needle the player can steer back and forth; it picks between two evolution branches.
+_Avoid_: alignment, personality, nature, bias
 
 **Trait**:
 A Creature's visible passive ability, set by the Habitat, Time of day and weather where it was caught; it is never rolled at random.
