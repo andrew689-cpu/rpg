@@ -40,6 +40,7 @@ Resolved by grilling with the human (2026-11-13). Terms are defined in `GLOSSARY
 
 ### Mending kinds
 - **Registering native species.** Each Area lists **3–6 native species**, Common or Uncommon only, never Very rare. A species is registered for that Area when it is **caught inside that Area**, at the moment of the catch, once per species per Area. Registration is **permanent**: releasing the Creature later doesn't undo it, and a release never earns anything. Evolved forms don't stand in for the listed species. Catches elsewhere don't count.
+  *Amended 2026-11-14 by ticket 18 ("How is the region laid out?"): only Areas with Habitat patches list 3–6 native species. Towns have no patches, so they list none and have no `register_natives` Mending. Towns have 1–2 stages; only the home town and interiors have 0.*
 - **Beating local trainers.** One counted Mending per group of trainers.
 - **The Area challenge.** At most **one per Area**: a stronger set encounter (a veteran trainer, a strong wild Creature, or a 2v2 pair), visible on the map from the start, showing a recommended level, retryable, never on the critical path. Postgame repeats go through the Boss-rematch system, not here.
 - **Hidden sites.** Interactable spots (a choked spring, a buried seed cache, a cracked shrine), found by exploring with what the player already has. **No field-move or ability gates in v1**; the data has an optional condition (story flag or Party species) for later. A path opened by one stage may lead to a site that counts toward the next.

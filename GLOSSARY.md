@@ -12,8 +12,24 @@ _Avoid_: Pokémon, monster, mon, pet
 ### World
 
 **Area**:
-A distinct place in the region (a town, route or dungeon) with its own habitats, Creatures and Restoration progress.
+A distinct place in the region (a town, route, dungeon, landmark or interior) with its own habitats, Creatures and Restoration progress.
 _Avoid_: zone, level, map
+
+**Hub town**:
+The town at the start of a Chapter, from which one spoke leads to each of that Chapter's Bosses and a barred route leads on to the next Chapter.
+_Avoid_: central town, crossroads
+
+**Spoke**:
+The short chain of Areas leading from a hub town to one Boss's landmark.
+_Avoid_: branch, path, arm
+
+**Landmark**:
+A small, special Area at the end of a spoke where a Boss (or a rare one-off) waits, shaped by its Type.
+_Avoid_: arena, gym, boss room
+
+**Interior**:
+An indoor Area (a house, shop or inn) that belongs to an outdoor parent Area and is never Blighted.
+_Avoid_: room, building, sub-area
 
 **Restoration**:
 How healed an Area is, which only ever moves forward and is visible in the world itself.
@@ -50,6 +66,10 @@ _Avoid_: center, origin, heart
 **Habitat**:
 The kind of terrain, time of day and weather a Creature belongs to, which decides where and when it can be found.
 _Avoid_: biome, spawn zone
+
+**Habitat kind**:
+One of the named terrain kinds (Meadow, Woodland, Wetland, Coast, Cavern, Crag, Snowfield, Ruins); every species has exactly one as its home.
+_Avoid_: biome, terrain type, environment
 
 **Time of day**:
 One of morning, day, evening or night on the in-game clock, which advances with play and can be skipped by resting.
