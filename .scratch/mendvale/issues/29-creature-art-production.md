@@ -1,7 +1,7 @@
 # Who draws the Creatures, and how is each sprite made and reviewed?
 
 Type: grilling
-Status: open
+Status: claimed
 Blocked by: none
 
 ## Question
